@@ -1,0 +1,39 @@
+cc_binary {
+name: "multi-touch-viewer",
+              srcs: [
+                      "./src/multi-touch-viewer.c",
+              "./src/util.c",
+              "./src/window.c",
+              "ivi-application-protocol.c",
+              ],
+              cflags: [
+                      "-Wno-missing-field-initializers",
+              ],
+
+              shared_libs: [
+                      "libweston",
+
+              "libcutils",
+              "liblog",
+              "libEGL",
+              "libGLESv2",
+              "libGLESv1_CM",
+              "libui",
+              "libutils",
+              "libwayland-egl",
+              ],
+              static_libs: [
+                      "libwayland_client",
+              "libshared",
+              ],
+              include_dirs: [
+                      "hos/third_party/wayland-ivi-extension-1.10.90-r1/ivi-layermanagement-api/ilmClient/include/",
+              "hos/third_party/wayland-ivi-extension-1.10.90-r1/ivi-layermanagement-api/ilmCommon/include/",
+              "hos/third_party/wayland-ivi-extension-1.10.90-r1/ivi-layermanagement-api/ilmControl/include/",
+              "hos/third_party/wayland-1.18.91/src/",
+              "hos/third_party/wayland-ivi-extension-1.10.90-r1/include/",
+              "hos/third_party/wayland-1.18.91/egl/",
+              "hos/third_party/wayland-ivi-extension-1.10.90-r1/ivi-layermanagement-examples/multi-touch-viewer/include/",
+              ],
+}
+
