@@ -11,5 +11,7 @@ cd ${BUILD_DIR}
 
 #cmake ..
 #cmake -DCMAKE_TOOLCHAIN_FILE="/opt/native-linux-x64-4.1.10.5-Release/build/cmake/ohos.toolchain.cmake"  ..
-cmake -DCMAKE_TOOLCHAIN_FILE="/opt/native-linux-x64-5.1.0.107-Release/build/cmake/ohos.toolchain.cmake" ..
+cmake -DCMAKE_TOOLCHAIN_FILE="/opt/native-linux-x64-5.1.0.107-Release/build/cmake/ohos.toolchain.cmake" \
+      -DOHOS_ARCH=armeabi-v7a \
+      ..
 make
