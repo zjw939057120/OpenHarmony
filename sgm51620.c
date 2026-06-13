@@ -164,7 +164,7 @@ float adc_convert_to_temp(int16_t raw_data) {
 }
 
 int main(void) {
-  printf("SGM51620R ADC 四通道读取 Demo (Hardware SPI via /dev/spidev)\n");
+  printf("SGM51620R ADC 四通道读取 Demo (Hardware SPI via /dev/spidev4.1) %s\n",__TIME__);
   printf("=============================================================\n");
 
   // 1. 初始化SPI

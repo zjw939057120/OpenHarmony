@@ -23,20 +23,20 @@ adb root
 @REM AI11_A	SGM4591XTS24G	270
 @REM AI11_B	SGM4591XTS24G	271
 @REM AI11_C	SGM4591XTS24G	?
-adb shell "echo 284 > /sys/class/gpio/export"
-adb shell "echo 285 > /sys/class/gpio/export"
-adb shell "echo 286 > /sys/class/gpio/export"
+adb shell "echo 261 > /sys/class/gpio/export"
+adb shell "echo 262 > /sys/class/gpio/export"
+adb shell "echo 263 > /sys/class/gpio/export"
 
-adb shell "echo out > /sys/class/gpio/gpio284/direction"
-adb shell "echo out > /sys/class/gpio/gpio285/direction"
-adb shell "echo out > /sys/class/gpio/gpio286/direction"
+adb shell "echo out > /sys/class/gpio/gpio261/direction"
+adb shell "echo out > /sys/class/gpio/gpio262/direction"
+adb shell "echo out > /sys/class/gpio/gpio263/direction"
 
-adb shell "echo 0 > /sys/class/gpio/gpio284/value"
-adb shell "echo 1 > /sys/class/gpio/gpio285/value"
-adb shell "echo 1 > /sys/class/gpio/gpio286/value"
+adb shell "echo 0 > /sys/class/gpio/gpio261/value"
+adb shell "echo 1 > /sys/class/gpio/gpio262/value"
+adb shell "echo 1 > /sys/class/gpio/gpio263/value"
 
 
-
+adb shell rm /data/sgm51242
 adb push .\build\sgm51242 /data
 adb shell chmod 777 /data/sgm51242
 adb shell /data/sgm51242
