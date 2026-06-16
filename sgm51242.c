@@ -6,7 +6,8 @@
 #include <stdint.h>
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
-
+//外部参考电压
+#define VREF_EXT 4.5f
 #define SPI_DEVICE "/dev/spidev4.0"
 
 int spi_fd = -1;
@@ -56,11 +57,14 @@ void adc_switch_channel(int ch) {
     write_reg(0x06, 0x00FF & ~(1 << ch));   // 关闭 INx 内部下拉
     write_reg(0x02, 0x0200 | (1 << ch));   // 连续转换模式 + 选择通道x
     usleep(20000); // 20ms 等待稳定（通道切换必须等！）
+    sleep(1);
 }
 
 // 读取当前通道ADC值 (12位)
 uint16_t adc_read(void) {
-    return spi_xfer(0x0000) & 0x0FFF;
+    uint16_t val = spi_xfer(0x0000) & 0x0FFF;
+    printf("RAW=%d\n", val);
+    return val;
 }
 
 // 芯片初始化
@@ -71,14 +75,17 @@ int sgm51242_init(void) {
     spi_xfer(0x7DAC);
     usleep(300000);
 
+
+    // 禁用内部2.5V参考电压
+    write_reg(0x0B, 0x0000);
     // 启用内部2.5V参考电压
-    write_reg(0x0B, 0x0200);
-    uint16_t vref = read_reg(0x0B);
-    if (!(vref & 0x0200)) {
-        printf("错误: 内部参考电压启用失败!\n");
-        return -1;
-    }
-    printf("内部2.5V参考电压已启用\n");
+    // write_reg(0x0B, 0x0200);
+    // uint16_t vref = read_reg(0x0B);
+    // if (!(vref & 0x0200)) {
+    //     printf("错误: 内部参考电压启用失败!\n");
+    //     return -1;
+    // }
+    // printf("内部2.5V参考电压已启用\n");
     return 0;
 }
 
@@ -103,10 +110,11 @@ int main(int argc, char *argv[]) {
         for (int ch = 0; ch < 8; ch++) {
             adc_switch_channel(ch);
             uint16_t val = adc_read_avg(5); // 5次平均
-            float v = (float)val / 4095.0f * 2.5f;
+            float v = (float)val / 4095.0f * VREF_EXT;
             const char *status = (val < 10) ? "接地/低电平" :
-                                 (val > 4085) ? "接近VREF" : "正常";
+                                 (val > 4085) ? "接近VREF_EXT" : "正常";
             printf("  IN%d    %4d       %.3f      %s\n", ch, val, v, status);
+            fflush(stdout);
         }
         printf("============================================\n");
     } else if (argc == 2) {
@@ -120,8 +128,8 @@ int main(int argc, char *argv[]) {
         printf("持续监控 IN%d (Ctrl+C 退出)\n", ch);
         while (1) {
             uint16_t val = adc_read_avg(5);
-            float v = (float)val / 4095.0f * 2.5f;
-            printf("\r  IN%d: ADC=%4d  电压=%.3fV   ", ch, val, v);
+            float v = (float)val / 4095.0f * VREF_EXT;
+            printf("IN%d: ADC=%4d  电压=%.3fV   \n", ch, val, v);
             fflush(stdout);
             usleep(200000);
         }
@@ -132,8 +140,9 @@ int main(int argc, char *argv[]) {
         printf("校准模式 IN%d (请接入已知电压)\n", ch);
         for (int i = 0; i < 10; i++) {
             uint16_t val = adc_read();
-            float v = (float)val / 4095.0f * 2.5f;
+            float v = (float)val / 4095.0f * VREF_EXT;
             printf("  RAW=0x%04X  ADC=%4d  V=%.3fV\n", val, val, v);
+            fflush(stdout);
             usleep(100000);
         }
     }
