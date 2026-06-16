@@ -6,6 +6,19 @@
 #include <stdint.h>
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
+
+/* ---------- 寄存器地址定义 ---------- */
+#define REG_NOP             0x00
+#define REG_ADC_SEQ         0x02
+#define REG_ADC_CTRL        0x03
+#define REG_ADC_PIN_CFG     0x04
+#define REG_PULL_DOWN       0x06
+#define REG_READBACK        0x07
+#define REG_PD_REF_CTRL     0x0B
+
+/* ---------- 软件复位字 ---------- */
+#define SW_RESET_WORD       0x7DAC      /* 软件复位指令 */
+
 //外部参考电压
 #define VREF_EXT 4.5f
 #define SPI_DEVICE "/dev/spidev4.0"
@@ -43,20 +56,32 @@ void write_reg(uint16_t addr, uint16_t val) {
 }
 
 uint16_t read_reg(uint16_t addr) {
-    spi_xfer((0x07 << 11) | (1 << 6) | (addr << 2));
-    uint16_t val = spi_xfer(0x0000);
-    // 【关键】读完立即关闭读回模式，否则ADC数据会错乱！
-    spi_xfer((0x07 << 11) | 0x0000);
+    /* 设置回读模式 */
+    write_reg(REG_READBACK, (uint16_t)(addr & 0x0F));
+    /* 发送一次 NOP 读取数据 */
+    uint16_t val = spi_xfer(0x0000) & 0x0FFF;
+    /* 清除回读模式 */
+    write_reg(REG_READBACK, 0x0000);
+    /* 再发送一次 NOP 让芯片退出回读模式 */
     spi_xfer(0x0000);
     return val;
 }
 
 // 切换ADC通道，等待内部MUX和采样电容稳定
 void adc_switch_channel(int ch) {
-    write_reg(0x04, 1 << ch);              // INx 配置为ADC输入
-    write_reg(0x06, 0x00FF & ~(1 << ch));   // 关闭 INx 内部下拉
-    write_reg(0x02, 0x0200 | (1 << ch));   // 连续转换模式 + 选择通道x
+    /* 4) 引脚配置: 全部 8 个通道配置为 ADC 输入
+     *    REG_ADC_PIN_CFG (0x04): D[7:0] 分别对应 IN7~IN0
+     *    1 = 配置为 ADC 输入, 0 = 通用数字 IO
+     */
+    write_reg(REG_ADC_PIN_CFG, 0x00FF);
+    /* 5) 关闭下拉电阻以减少干扰
+     *    REG_PULL_DOWN (0x06): D[7:0] 对应 IN7~IN0, 1=启用下拉
+     *    默认 0x0FF=全部下拉, 设置 0 全部关闭
+     */
+    write_reg(REG_PULL_DOWN, 0x0000);
+    write_reg(REG_ADC_SEQ, 0x0200 | (1 << ch));   // 连续转换模式 + 选择通道x
     usleep(20000); // 20ms 等待稳定（通道切换必须等！）
+    /* 等待内部配置稳定 */
     sleep(1);
 }
 
@@ -69,18 +94,17 @@ uint16_t adc_read(void) {
 
 // 芯片初始化
 int sgm51242_init(void) {
-    if (spi_init() < 0) return -1;
 
     // 软件复位
     spi_xfer(0x7DAC);
     usleep(300000);
 
 
-    // 禁用内部2.5V参考电压
-    write_reg(0x0B, 0x0000);
+    /* 使用外部参考电压: REFON=0 */
+    write_reg(REG_PD_REF_CTRL, 0x0000);
     // 启用内部2.5V参考电压
-    // write_reg(0x0B, 0x0200);
-    // uint16_t vref = read_reg(0x0B);
+    // write_reg(REG_PD_REF_CTRL, 0x0200);
+    // uint16_t vref = read_reg(REG_PD_REF_CTRL);
     // if (!(vref & 0x0200)) {
     //     printf("错误: 内部参考电压启用失败!\n");
     //     return -1;
@@ -92,22 +116,25 @@ int sgm51242_init(void) {
 // 多次采样取平均值 (消除噪声)
 uint16_t adc_read_avg(int samples) {
     uint32_t sum = 0;
+    adc_read();// 读取一次，避免初始值影响
     for (int i = 0; i < samples; i++) {
         sum += adc_read();
         usleep(5000); // 5ms间隔
     }
-    return (uint16_t)(sum / samples);
+    return (uint16_t)(sum / samples - 1);
 }
 
 int main(int argc, char *argv[]) {
-    if (sgm51242_init() < 0) return -1;
+    if (spi_init() < 0) return -1;
 
     if (argc == 1) {
         // 无参数：扫描全部8通道
         printf("\n============================================\n");
         printf("  通道   ADC值      电压(V)    状态\n");
         printf("============================================\n");
+        while (1) {
         for (int ch = 0; ch < 8; ch++) {
+            if (sgm51242_init() < 0) return -1;
             adc_switch_channel(ch);
             uint16_t val = adc_read_avg(5); // 5次平均
             float v = (float)val / 4095.0f * VREF_EXT;
@@ -117,7 +144,9 @@ int main(int argc, char *argv[]) {
             fflush(stdout);
         }
         printf("============================================\n");
+        }
     } else if (argc == 2) {
+        if (sgm51242_init() < 0) return -1;
         // 一个参数：持续监控指定通道
         int ch = atoi(argv[1]);
         if (ch < 0 || ch > 7) {
@@ -134,6 +163,7 @@ int main(int argc, char *argv[]) {
             usleep(200000);
         }
     } else if (argc == 3 && strcmp(argv[1], "cal") == 0) {
+        if (sgm51242_init() < 0) return -1;
         // cal <通道> : 校准模式，将INx接已知电压
         int ch = atoi(argv[2]);
         adc_switch_channel(ch);
