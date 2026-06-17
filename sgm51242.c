@@ -20,7 +20,7 @@
 #define SW_RESET_WORD       0x7DAC      /* 软件复位指令 */
 
 //外部参考电压
-#define VREF_EXT 4.5f
+#define VREF_EXT 4.48f
 #define SPI_DEVICE "/dev/spidev4.0"
 
 int spi_fd = -1;
