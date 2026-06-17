@@ -79,6 +79,9 @@ void adc_switch_channel(int ch) {
      *    默认 0x0FF=全部下拉, 设置 0 全部关闭
      */
     write_reg(REG_PULL_DOWN, 0x0000);
+    /* 6) 配置 Sequence 寄存器为自动扫描所有 8 通道
+     *    REG_ADC_SEQ (0x02): D[7:0] 对应 IN7~IN0 的转换使能
+     */
     write_reg(REG_ADC_SEQ, 0x0200 | (1 << ch));   // 连续转换模式 + 选择通道x
     usleep(20000); // 20ms 等待稳定（通道切换必须等！）
     /* 等待内部配置稳定 */
@@ -117,11 +120,18 @@ int sgm51242_init(void) {
 uint16_t adc_read_avg(int samples) {
     uint32_t sum = 0;
     adc_read();// 读取一次，避免初始值影响
+    usleep(5000); // 5ms间隔
     for (int i = 0; i < samples; i++) {
         sum += adc_read();
         usleep(5000); // 5ms间隔
     }
-    return (uint16_t)(sum / samples - 1);
+    return (uint16_t)(sum / samples);
+}
+
+uint16_t adc_read_one() {
+  adc_read();   // 读取一次，避免初始值影响
+  usleep(5000); // 5ms间隔
+  return adc_read();
 }
 
 int main(int argc, char *argv[]) {
@@ -136,7 +146,7 @@ int main(int argc, char *argv[]) {
         for (int ch = 0; ch < 8; ch++) {
             if (sgm51242_init() < 0) return -1;
             adc_switch_channel(ch);
-            uint16_t val = adc_read_avg(5); // 5次平均
+            uint16_t val = adc_read_one();
             float v = (float)val / 4095.0f * VREF_EXT;
             const char *status = (val < 10) ? "接地/低电平" :
                                  (val > 4085) ? "接近VREF_EXT" : "正常";
@@ -156,7 +166,7 @@ int main(int argc, char *argv[]) {
         adc_switch_channel(ch);
         printf("持续监控 IN%d (Ctrl+C 退出)\n", ch);
         while (1) {
-            uint16_t val = adc_read_avg(5);
+            uint16_t val = adc_read_one();
             float v = (float)val / 4095.0f * VREF_EXT;
             printf("IN%d: ADC=%4d  电压=%.3fV   \n", ch, val, v);
             fflush(stdout);

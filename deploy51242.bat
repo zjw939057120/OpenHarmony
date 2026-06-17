@@ -31,8 +31,8 @@ adb shell "echo out > /sys/class/gpio/gpio261/direction"
 adb shell "echo out > /sys/class/gpio/gpio262/direction"
 adb shell "echo out > /sys/class/gpio/gpio263/direction"
 
-adb shell "echo 0 > /sys/class/gpio/gpio261/value"
-adb shell "echo 1 > /sys/class/gpio/gpio262/value"
+adb shell "echo 1 > /sys/class/gpio/gpio261/value"
+adb shell "echo 0 > /sys/class/gpio/gpio262/value"
 adb shell "echo 1 > /sys/class/gpio/gpio263/value"
 
 
