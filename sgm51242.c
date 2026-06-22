@@ -29,7 +29,7 @@ uint32_t spi_speed = 100000;
 int spi_init(void) {
     spi_fd = open(SPI_DEVICE, O_RDWR);
     if (spi_fd < 0) { perror("无法打开SPI设备"); return -1; }
-    uint8_t mode = SPI_MODE_2;
+    uint8_t mode = SPI_MODE_1;
     uint8_t bits = 8;
     ioctl(spi_fd, SPI_IOC_WR_MODE, &mode);
     ioctl(spi_fd, SPI_IOC_WR_BITS_PER_WORD, &bits);
@@ -84,8 +84,6 @@ void adc_switch_channel(int ch) {
      */
     write_reg(REG_ADC_SEQ, 0x0200 | (1 << ch));   // 连续转换模式 + 选择通道x
     usleep(20000); // 20ms 等待稳定（通道切换必须等！）
-    /* 等待内部配置稳定 */
-    sleep(1);
 }
 
 // 读取当前通道ADC值 (12位)
@@ -100,7 +98,7 @@ int sgm51242_init(void) {
 
     // 软件复位
     spi_xfer(0x7DAC);
-    usleep(300000);
+    usleep(30000);// 等待30ms，确保复位完成
 
 
     /* 使用外部参考电压: REFON=0 */
