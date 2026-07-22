@@ -1,0 +1,9 @@
+import("//build/lite/config/component/lite_component.gni")
+
+config("public") {
+    include_dirs = []
+}
+
+group("gd") {
+    deps = [ "gd32f4xx/sdk:gd32f4xx_sdk" ]
+}

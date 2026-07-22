@@ -1,0 +1,22 @@
+{
+  "product_name": "gd32f470",
+  "type": "mini",
+  "version": "3.0",
+  "target_cpu": "arm",
+  "device_company": "my_company",
+  "device_build_path": "device/board/my_company/gd32f470",
+  "board": "gd32f470",
+  "kernel_type": "liteos_m",
+  "kernel_version": "3.0.0",
+  "subsystems": [ 
+	{
+        "subsystem": "kernel",
+        "components": [
+          { "component": "liteos_m", "features":[] }
+        ]
+    }
+  ],
+  "product_adapter_dir": "",
+  "third_party_dir": "//third_party"
+}
+

@@ -1,0 +1,2 @@
+#orsource "shields/Kconfig.liteos_m.defconfig.shields"
+#orsource "shields/Kconfig.liteos_m.shields"

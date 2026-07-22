@@ -1,0 +1,4 @@
+config SOC
+    string
+    default "gd32f4xx"
+    depends on SOC_GD32F4xx

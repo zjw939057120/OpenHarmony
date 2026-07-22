@@ -1,0 +1,6 @@
+if SOC_SERIES_GD32F4xx
+rsource "Kconfig.liteos_m.defconfig.gd32f4xx"
+config SOC_SERIES
+    string
+    default "gd32f4xx"
+endif

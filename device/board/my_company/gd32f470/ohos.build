@@ -1,0 +1,10 @@
+{
+  "subsystem": "device_gd32f470",
+  "parts": {
+    "device_gd32f470": {
+      "module_list": [
+        "//device/board/my_company/gd32f470/liteos_m:gd32f470"
+      ]
+    }
+  }
+}

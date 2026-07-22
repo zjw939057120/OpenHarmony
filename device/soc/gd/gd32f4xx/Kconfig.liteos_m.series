@@ -1,0 +1,7 @@
+config SOC_SERIES_GD32F4xx
+    bool "GDMicroelectronics GD32F4xx series"
+    select ARCH_ARM
+    select SOC_COMPANY_GDMICROELECTRONICS
+    select CPU_CORTEX_M4
+    help
+        Enable support for GDMicroelectronics GD32F4xx series

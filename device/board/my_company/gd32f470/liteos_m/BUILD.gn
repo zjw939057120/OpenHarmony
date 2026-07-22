@@ -1,0 +1,32 @@
+import("//kernel/liteos_m/liteos.gni")
+module_name = "gd32f470"
+kernel_module(module_name) {
+    sources = [
+        "startup.S",
+ 
+        # driver
+        "driver/system_gd32f4xx.c",
+        "driver/systick.c",
+        "driver/uart_drv.c",
+        "driver/wdg_drv.c",
+        "driver/rtc_drv.c",
+
+        # shell
+        "third_party/shell/shell_cmd_list.c",
+        "third_party/shell/shell_core.c",
+        "third_party/shell/shell_port.c",
+        "third_party/shell/shell_companion.c",
+        "third_party/shell/shell_ext.c",
+
+        "libc/dprintf.c",
+        "libc/dstring.c",
+        "common/common_time.c",
+        "kernel/los_shell_cmd.c",
+        "main.c",
+    ]
+    deps = [
+        "//device/soc/gd/gd32f4xx/sdk:gd32f4xx_sdk",
+    ]
+    visibility += [ "${root_build_dir}/*" ]
+}
+

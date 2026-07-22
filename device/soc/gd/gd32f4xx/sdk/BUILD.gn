@@ -1,0 +1,51 @@
+import("//kernel/liteos_m/liteos.gni")
+
+module_name = "gd32f4xx_sdk"
+
+kernel_module(module_name) {
+  asmflags = board_asmflags
+  sources = [
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_adc.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_can.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_crc.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_ctc.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_dac.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_dbg.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_dci.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_dma.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_enet.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_exmc.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_exti.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_fmc.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_fwdgt.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_gpio.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_i2c.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_ipa.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_iref.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_misc.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_pmu.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_rcu.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_rtc.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_sdio.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_spi.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_syscfg.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_timer.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_tli.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_trng.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_usart.c",
+    "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_wwdgt.c",
+  ]
+  visibility += [ "//device/board/my_company:*" ]
+  visibility += [ "//device/board/my_company/gd32f470:*" ]
+  visibility += [ "//device/board/my_company/gd32f470/liteos_m:*" ]
+  visibility += [ "//device/board/my_company/gd32f470/liteos_m/board:*" ]
+}
+
+#指定全局头文件搜索路径
+config("public") {
+    include_dirs = [
+        "Drivers/GD32F4xx_standard_peripheral/Include",
+        "Drivers/CMSIS/GD/GD32F4xx/Include",
+        "Drivers/CMSIS",
+    ]
+}

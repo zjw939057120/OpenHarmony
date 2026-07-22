@@ -1,0 +1,7 @@
+config SOC_COMPANY_GDMICROELECTRONICS
+    bool
+if SOC_COMPANY_GDMICROELECTRONICS
+config SOC_COMPANY
+    default "gd"
+rsource "*/Kconfig.liteos_m.soc"
+endif # SOC_COMPANY_GDMICROELECTRONICS

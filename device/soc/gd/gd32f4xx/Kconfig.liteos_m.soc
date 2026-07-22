@@ -1,0 +1,6 @@
+choice
+    prompt "GDMicroelectronics GD32F4xx series SoC"
+    depends on SOC_SERIES_GD32F4xx
+config SOC_GD32F470
+    bool "SoC GD32F470"
+endchoice
