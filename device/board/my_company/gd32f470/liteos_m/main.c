@@ -21,36 +21,25 @@
 #include "shell_port.h"
 #include "rtc_drv.h"
 #include "wdg_drv.h"
-
-#define LED_GPIO_RCU_CLOCK	RCU_GPIOD
-#define LED_GPIO_PORT		GPIOD
-#define LED_GPIO_PIN		GPIO_PIN_7
-
-static inline void init_led(void)
-{
-	rcu_periph_clock_enable(LED_GPIO_RCU_CLOCK);
-	gpio_mode_set(LED_GPIO_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, LED_GPIO_PIN);
-	gpio_output_options_set(LED_GPIO_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, LED_GPIO_PIN);
-}
-
-static inline void led_on(void)
-{
-	gpio_bit_reset(LED_GPIO_PORT, LED_GPIO_PIN);
-}
-
-static inline void led_off(void)
-{
-	gpio_bit_set(LED_GPIO_PORT, LED_GPIO_PIN);
-}
+#include "gpio.h"
 
 static void *thread_main_task(unsigned int arg)
 {
-	init_led();
+	init_led(0);
+	init_led(1);
+	init_led(2);
+	init_led(3);
 
 	while(1) {
-		led_on();
+		led_on(0);
+		led_on(1);
+		led_on(2);
+		led_on(3);
         LOS_TaskDelay(1000);
-		led_off();
+		led_off(0);
+		led_off(1);
+		led_off(2);
+		led_off(3);
         LOS_TaskDelay(1000);
 	}
 

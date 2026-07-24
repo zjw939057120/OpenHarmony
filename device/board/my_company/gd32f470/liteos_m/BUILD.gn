@@ -23,6 +23,7 @@ kernel_module(module_name) {
         "common/common_time.c",
         "kernel/los_shell_cmd.c",
         "main.c",
+        "gpio.c",
     ]
     deps = [
         "//device/soc/gd/gd32f4xx/sdk:gd32f4xx_sdk",
