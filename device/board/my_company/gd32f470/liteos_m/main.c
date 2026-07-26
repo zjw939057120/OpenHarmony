@@ -21,26 +21,23 @@
 #include "shell_port.h"
 #include "rtc_drv.h"
 #include "wdg_drv.h"
-#include "gpio.h"
+#include "periph_led.h"
+#include "periph_uart.h"
 
 static void *thread_main_task(unsigned int arg)
 {
-	init_led(0);
-	init_led(1);
-	init_led(2);
-	init_led(3);
-
 	while(1) {
-		led_on(0);
-		led_on(1);
-		led_on(2);
-		led_on(3);
-        LOS_TaskDelay(1000);
-		led_off(0);
-		led_off(1);
-		led_off(2);
-		led_off(3);
-        LOS_TaskDelay(1000);
+		led_on(RS485_1_LED_INDEX,true);
+		led_on(RS485_2_LED_INDEX,true);
+		led_on(RS485_3_LED_INDEX,true);
+		led_on(RUNSTA_LED_INDEX,true);
+        LOS_TaskDelay(500);
+		
+		led_on(RS485_1_LED_INDEX,false);
+		led_on(RS485_2_LED_INDEX,false);
+		led_on(RS485_3_LED_INDEX,false);
+		led_on(RUNSTA_LED_INDEX,false);
+        LOS_TaskDelay(500);
 	}
 
     return NULL;
@@ -49,6 +46,8 @@ static void *thread_main_task(unsigned int arg)
 int main(void)
 {
 	systick_config();
+	init_periph_led();
+	init_periph_uart();
 	uartInit();
 
 	if (LOS_KernelInit() != LOS_OK) {
