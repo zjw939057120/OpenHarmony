@@ -28,15 +28,9 @@ static void *thread_main_task(unsigned int arg)
 {
 	while(1) {
 		printf("Hello, World!\r\n\r\n");
-		led_on(RS485_1_LED_INDEX);
-		led_on(RS485_2_LED_INDEX);
-		led_on(RS485_3_LED_INDEX);
 		led_on(RUNSTA_LED_INDEX);
         LOS_TaskDelay(500);
-		
-		led_off(RS485_1_LED_INDEX);
-		led_off(RS485_2_LED_INDEX);
-		led_off(RS485_3_LED_INDEX);
+
 		led_off(RUNSTA_LED_INDEX);
         LOS_TaskDelay(500);
 	}

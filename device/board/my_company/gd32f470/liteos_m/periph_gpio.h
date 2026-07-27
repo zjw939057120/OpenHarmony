@@ -62,7 +62,11 @@ void led_off(uint8_t index);
 
 void rs485_en_init(uint8_t index);
 
-void rs485_en(uint8_t index, bool en);
+void rs485_1_en(bool high);
+
+void rs485_2_en(bool high);
+
+void rs485_3_en(bool high);
 
 void init_periph_led();
 

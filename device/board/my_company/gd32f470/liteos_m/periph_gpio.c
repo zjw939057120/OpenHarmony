@@ -56,7 +56,37 @@ void rs485_en_init(uint8_t index)
 	gpio_bit_reset(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
-void rs485_en(uint8_t index, bool en)
+void rs485_1_en(bool high)
 {
-	en == true ? gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin) : gpio_bit_reset(gpio_list[index].gpio, gpio_list[index].pin);
+	if (high == true) {
+		gpio_bit_set(gpio_list[RS485_1_EN_INDEX].gpio, gpio_list[RS485_1_EN_INDEX].pin);
+		led_on(RS485_1_LED_INDEX);
+	} else {
+		gpio_bit_reset(gpio_list[RS485_1_EN_INDEX].gpio, gpio_list[RS485_1_EN_INDEX].pin);
+		led_off(RS485_1_LED_INDEX);
+	}
 }
+
+void rs485_2_en(bool high)
+{
+	if (high == true) {
+		gpio_bit_set(gpio_list[RS485_2_EN_INDEX].gpio, gpio_list[RS485_2_EN_INDEX].pin);
+		led_on(RS485_2_LED_INDEX);
+	} else {
+		gpio_bit_reset(gpio_list[RS485_2_EN_INDEX].gpio, gpio_list[RS485_2_EN_INDEX].pin);
+		led_off(RS485_2_LED_INDEX);
+	}
+}
+
+void rs485_3_en(bool high)
+{
+	if (high == true) {
+		gpio_bit_set(gpio_list[RS485_3_EN_INDEX].gpio, gpio_list[RS485_3_EN_INDEX].pin);
+		led_on(RS485_3_LED_INDEX);
+	} else {
+		gpio_bit_reset(gpio_list[RS485_3_EN_INDEX].gpio, gpio_list[RS485_3_EN_INDEX].pin);
+		led_off(RS485_3_LED_INDEX);
+	}
+}
+
+
