@@ -6,40 +6,16 @@
 #include "los_task.h"
 #include "los_event.h"
 #include "gd32f4xx.h"
-#include "periph_led.h"
+#include "periph_gpio.h"
 #include "periph_uart.h"
 
 
-gpio_t en_list[4] = {
-	{RS485_1_EN_GPIO_RCU_CLOCK, RS485_1_EN_GPIO_PORT, RS485_1_EN_GPIO_PIN},
-	{RS485_2_EN_GPIO_RCU_CLOCK, RS485_2_EN_GPIO_PORT, RS485_2_EN_GPIO_PIN},
-	{RS485_3_EN_GPIO_RCU_CLOCK, RS485_3_EN_GPIO_PORT, RS485_3_EN_GPIO_PIN},
-};
-
-void init_rs485_en(uint8_t index)
-{
-	rcu_periph_clock_enable(en_list[index].periph);
-	gpio_mode_set(en_list[index].gpio, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, en_list[index].pin);
-	gpio_output_options_set(en_list[index].gpio, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, en_list[index].pin);
-	//接收模式
-	gpio_bit_reset(en_list[index].gpio, en_list[index].pin);
-}
-
-void rs485_en(uint8_t index, bool en)
-{
-	en == true ? gpio_bit_set(en_list[index].gpio, en_list[index].pin) : gpio_bit_reset(en_list[index].gpio, en_list[index].pin);
-}
-
 void init_periph_uart(){
-	init_rs485_en(RS485_1_EN_INDEX);
-	init_rs485_en(RS485_2_EN_INDEX);
-	init_rs485_en(RS485_3_EN_INDEX);
-	init_rs485_com_1();
-	init_rs485_com_2();
-	// init_rs485_com_3();
+	// rs485_com_1_init();
+	// rs485_com_2_init();
 }
 
-void init_rs485_com_1()
+void rs485_com_1_init()
 {
 	/* enable GPIO clock */
 	rcu_periph_clock_enable(RS485_1_COM_RCU_GPIO_CLOCK);
@@ -60,7 +36,7 @@ void init_rs485_com_1()
 
 	/* USART configure */
 	usart_deinit(RS485_1_COM_NR);
-	usart_baudrate_set( RS485_1_COM_NR, 115200U);
+	usart_baudrate_set( RS485_1_COM_NR, 9600U);
 	usart_receive_config( RS485_1_COM_NR, USART_RECEIVE_ENABLE);
 	usart_transmit_config( RS485_1_COM_NR, USART_TRANSMIT_ENABLE);
 	usart_enable(RS485_1_COM_NR);
@@ -68,7 +44,7 @@ void init_rs485_com_1()
 	rs485_com_1_RxIrqRegister();
 }
 
-void init_rs485_com_2()
+void rs485_com_2_init()
 {
 	/* enable GPIO clock */
 	rcu_periph_clock_enable(RS485_2_COM_RCU_GPIO_CLOCK);
@@ -89,14 +65,14 @@ void init_rs485_com_2()
 
 	/* USART configure */
 	usart_deinit(RS485_2_COM_NR);
-	usart_baudrate_set( RS485_2_COM_NR, 115200U);
+	usart_baudrate_set( RS485_2_COM_NR, 9600U);
 	usart_receive_config( RS485_2_COM_NR, USART_RECEIVE_ENABLE);
 	usart_transmit_config( RS485_2_COM_NR, USART_TRANSMIT_ENABLE);
 	usart_enable(RS485_2_COM_NR);
 
 	rs485_com_2_RxIrqRegister();
 }
-void init_rs485_com_3()
+void rs485_com_3_init()
 {
 	/* enable GPIO clock */
 	rcu_periph_clock_enable(RS485_3_COM_RCU_GPIO_CLOCK);
@@ -117,7 +93,7 @@ void init_rs485_com_3()
 
 	/* USART configure */
 	usart_deinit(RS485_3_COM_NR);
-	usart_baudrate_set( RS485_3_COM_NR, 115200U);
+	usart_baudrate_set( RS485_3_COM_NR, 9600U);
 	usart_receive_config( RS485_3_COM_NR, USART_RECEIVE_ENABLE);
 	usart_transmit_config( RS485_3_COM_NR, USART_TRANSMIT_ENABLE);
 	usart_enable(RS485_3_COM_NR);

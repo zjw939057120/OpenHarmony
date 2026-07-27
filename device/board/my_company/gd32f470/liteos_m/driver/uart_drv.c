@@ -24,8 +24,8 @@
 #include "gd32f4xx.h"
 #include "uart_drv.h"
 #include "shell_port.h"
-
-#define CONFIG_CONSOLE_UART				3
+#include "periph_gpio.h"
+#include "periph_uart.h"
 
 #if (CONFIG_CONSOLE_UART == 0)
 #define UART_NR 				USART0
@@ -45,54 +45,54 @@
 
 #elif (CONFIG_CONSOLE_UART == 1)
 // RS485_1_COM USART0 PB6,PB7,AP7
-#define UART_NR 				USART0
+#define UART_NR 				RS485_1_COM_NR
 /* uart clock */
-#define UART_RCU_GPIO_CLOCK		RCU_GPIOB
-#define UART_RCU_UART_CLOCK 	RCU_USART0
+#define UART_RCU_GPIO_CLOCK		RS485_1_COM_RCU_GPIO_CLOCK
+#define UART_RCU_UART_CLOCK 	RS485_1_COM_RCU_UART_CLOCK
 /* uart tx */
-#define UART_TX_GPIO			GPIOB
-#define UART_TX_GPIO_PIN 		GPIO_PIN_6
+#define UART_TX_GPIO			RS485_1_COM_TX_GPIO
+#define UART_TX_GPIO_PIN 		RS485_1_COM_TX_GPIO_PIN
 #define UART_TX_GPIO_AF 		GPIO_AF_7
 /* uart rx */
-#define UART_RX_GPIO			GPIOB
-#define UART_RX_GPIO_PIN 		GPIO_PIN_7
-#define UART_RX_GPIO_AF 		GPIO_AF_7
+#define UART_RX_GPIO			RS485_1_COM_RX_GPIO
+#define UART_RX_GPIO_PIN 		RS485_1_COM_RX_GPIO_PIN
+#define UART_RX_GPIO_AF 		RS485_1_COM_RX_GPIO_AF
 /* uart irq */
-#define UART_IRQ_NR				USART0_IRQn
+#define UART_IRQ_NR				RS485_1_COM_IRQ_NR
 
 #elif (CONFIG_CONSOLE_UART == 2)
 // RS485_2_COM USART2 PB10,PB11,AP7
-#define UART_NR 				USART2
+#define UART_NR 				RS485_2_COM_NR
 /* uart clock */
-#define UART_RCU_GPIO_CLOCK		RCU_GPIOB
-#define UART_RCU_UART_CLOCK 	RCU_USART2
+#define UART_RCU_GPIO_CLOCK		RS485_2_COM_RCU_GPIO_CLOCK
+#define UART_RCU_UART_CLOCK 	RS485_2_COM_RCU_UART_CLOCK
 /* uart tx */
-#define UART_TX_GPIO			GPIOB
-#define UART_TX_GPIO_PIN 		GPIO_PIN_10
+#define UART_TX_GPIO			RS485_2_COM_TX_GPIO
+#define UART_TX_GPIO_PIN 		RS485_2_COM_TX_GPIO_PIN
 #define UART_TX_GPIO_AF 		GPIO_AF_7
 /* uart rx */
-#define UART_RX_GPIO			GPIOC
-#define UART_RX_GPIO_PIN 		GPIO_PIN_11
-#define UART_RX_GPIO_AF 		GPIO_AF_7
+#define UART_RX_GPIO			RS485_2_COM_RX_GPIO
+#define UART_RX_GPIO_PIN 		RS485_2_COM_RX_GPIO_PIN
+#define UART_RX_GPIO_AF 		RS485_2_COM_RX_GPIO_AF
 /* uart irq */
-#define UART_IRQ_NR				USART2_IRQn
+#define UART_IRQ_NR				RS485_2_COM_IRQ_NR
 
 #elif (CONFIG_CONSOLE_UART == 3)
 //RS485_3_COM PC6,PC7,AF8
-#define UART_NR 				USART5
+#define UART_NR 				RS485_3_COM_NR
 /* uart clock */
-#define UART_RCU_GPIO_CLOCK		RCU_GPIOC
-#define UART_RCU_UART_CLOCK 	RCU_USART5
+#define UART_RCU_GPIO_CLOCK		RS485_3_COM_RCU_GPIO_CLOCK
+#define UART_RCU_UART_CLOCK 	RS485_3_COM_RCU_UART_CLOCK
 /* uart tx */
-#define UART_TX_GPIO			GPIOC
-#define UART_TX_GPIO_PIN 		GPIO_PIN_6
-#define UART_TX_GPIO_AF 		GPIO_AF_8
+#define UART_TX_GPIO			RS485_3_COM_TX_GPIO
+#define UART_TX_GPIO_PIN 		RS485_3_COM_TX_GPIO_PIN
+#define UART_TX_GPIO_AF 		RS485_3_COM_TX_GPIO_AF
 /* uart rx */
-#define UART_RX_GPIO			GPIOC
-#define UART_RX_GPIO_PIN 		GPIO_PIN_7
-#define UART_RX_GPIO_AF 		GPIO_AF_8
+#define UART_RX_GPIO			RS485_3_COM_RX_GPIO
+#define UART_RX_GPIO_PIN 		RS485_3_COM_RX_GPIO_PIN
+#define UART_RX_GPIO_AF 		RS485_3_COM_RX_GPIO_AF
 /* uart irq */
-#define UART_IRQ_NR				USART5_IRQn
+#define UART_IRQ_NR				RS485_3_COM_IRQ_NR
 #endif
 
 
@@ -222,7 +222,7 @@ void uartInit(void)
 
 	/* USART configure */
 	usart_deinit(UART_NR);
-	usart_baudrate_set(UART_NR, 115200U);
+	usart_baudrate_set(UART_NR, 9600U);
 	usart_receive_config(UART_NR, USART_RECEIVE_ENABLE);
 	usart_transmit_config(UART_NR, USART_TRANSMIT_ENABLE);
 	usart_enable(UART_NR);

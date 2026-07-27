@@ -1,5 +1,5 @@
-#ifndef _PERIPH_LED_H_
-#define _PERIPH_LED_H_
+#ifndef _PERIPH_GPIO_H_
+#define _PERIPH_GPIO_H_
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -32,6 +32,21 @@
 #define RUNSTA_LED_GPIO_PORT		GPIOA
 #define RUNSTA_LED_GPIO_PIN			GPIO_PIN_9
 
+// RS485_1_EN PB9
+#define RS485_1_EN_INDEX            4U
+#define RS485_1_EN_GPIO_RCU_CLOCK   RCU_GPIOB
+#define RS485_1_EN_GPIO_PORT        GPIOB
+#define RS485_1_EN_GPIO_PIN			GPIO_PIN_9
+// RS485_2_EN PB8
+#define RS485_2_EN_INDEX            5U
+#define RS485_2_EN_GPIO_RCU_CLOCK   RCU_GPIOB
+#define RS485_2_EN_GPIO_PORT        GPIOB
+#define RS485_2_EN_GPIO_PIN			GPIO_PIN_8
+// RS485_3_EN PD7
+#define RS485_3_EN_INDEX            6U
+#define RS485_3_EN_GPIO_RCU_CLOCK   RCU_GPIOD
+#define RS485_3_EN_GPIO_PORT        GPIOD
+#define RS485_3_EN_GPIO_PIN			GPIO_PIN_7
 
 typedef struct {
     rcu_periph_enum periph;
@@ -39,11 +54,19 @@ typedef struct {
     uint32_t pin;
 } gpio_t;
 
-void init_led(uint8_t index);
+void led_init(uint8_t index);
 
-void led_on(uint8_t index, bool on);
+void led_on(uint8_t index);
+
+void led_off(uint8_t index);
+
+void rs485_en_init(uint8_t index);
+
+void rs485_en(uint8_t index, bool en);
 
 void init_periph_led();
+
+void init_periph_rs485_en();
 
 
 #endif

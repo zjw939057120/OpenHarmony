@@ -21,22 +21,23 @@
 #include "shell_port.h"
 #include "rtc_drv.h"
 #include "wdg_drv.h"
-#include "periph_led.h"
+#include "periph_gpio.h"
 #include "periph_uart.h"
 
 static void *thread_main_task(unsigned int arg)
 {
 	while(1) {
-		led_on(RS485_1_LED_INDEX,true);
-		led_on(RS485_2_LED_INDEX,true);
-		led_on(RS485_3_LED_INDEX,true);
-		led_on(RUNSTA_LED_INDEX,true);
+		printf("%s \n",__func__);
+		led_on(RS485_1_LED_INDEX);
+		led_on(RS485_2_LED_INDEX);
+		led_on(RS485_3_LED_INDEX);
+		led_on(RUNSTA_LED_INDEX);
         LOS_TaskDelay(500);
 		
-		led_on(RS485_1_LED_INDEX,false);
-		led_on(RS485_2_LED_INDEX,false);
-		led_on(RS485_3_LED_INDEX,false);
-		led_on(RUNSTA_LED_INDEX,false);
+		led_off(RS485_1_LED_INDEX);
+		led_off(RS485_2_LED_INDEX);
+		led_off(RS485_3_LED_INDEX);
+		led_off(RUNSTA_LED_INDEX);
         LOS_TaskDelay(500);
 	}
 
@@ -46,7 +47,11 @@ static void *thread_main_task(unsigned int arg)
 int main(void)
 {
 	systick_config();
+	// 初始化LED
 	init_periph_led();
+	// 初始化RS485使能引脚
+	init_periph_rs485_en();
+	// 初始化UART
 	init_periph_uart();
 	uartInit();
 

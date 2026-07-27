@@ -17,6 +17,8 @@
 #ifndef _UART_DRV_H_
 #define _UART_DRV_H_
 
+#define CONFIG_CONSOLE_UART				3
+
 extern int uartPuts(const char *s);
 extern int uartGetc(char *c);
 

@@ -22,7 +22,7 @@ kernel_module(module_name) {
         "libc/dstring.c",
         "common/common_time.c",
         "kernel/los_shell_cmd.c",
-        "periph_led.c",
+        "periph_gpio.c",
         "periph_uart.c",
         "main.c"
     ]

@@ -11,23 +11,6 @@
 #include "rtc_drv.h"
 #include "wdg_drv.h"
 
-// RS485_1_EN PB9
-#define RS485_1_EN_INDEX                  0U
-#define RS485_1_EN_GPIO_RCU_CLOCK         RCU_GPIOB
-#define RS485_1_EN_GPIO_PORT              GPIOB
-#define RS485_1_EN_GPIO_PIN				  GPIO_PIN_9
-// RS485_2_EN PB8
-#define RS485_2_EN_INDEX                  1U
-#define RS485_2_EN_GPIO_RCU_CLOCK         RCU_GPIOB
-#define RS485_2_EN_GPIO_PORT              GPIOB
-#define RS485_2_EN_GPIO_PIN				  GPIO_PIN_8
-// RS485_3_EN PD7
-#define RS485_3_EN_INDEX                  2U
-#define RS485_3_EN_GPIO_RCU_CLOCK         RCU_GPIOD
-#define RS485_3_EN_GPIO_PORT              GPIOD
-#define RS485_3_EN_GPIO_PIN				  GPIO_PIN_7
-
-
 // RS485_1_COM USART0 PB6,PB7,AP7
 #define RS485_1_COM_NR 				USART0
 /* uart clock */
@@ -43,7 +26,6 @@
 #define RS485_1_COM_RX_GPIO_AF 		GPIO_AF_7
 /* uart irq */
 #define RS485_1_COM_IRQ_NR				USART0_IRQn
-
 
 
 // RS485_2_COM USART2 PB10,PB11,AP7
@@ -63,7 +45,6 @@
 #define RS485_2_COM_IRQ_NR				USART2_IRQn
 
 
-
 //RS485_3_COM PC6,PC7,AF8
 #define RS485_3_COM_NR 				USART5
 /* uart clock */
@@ -80,18 +61,14 @@
 /* uart irq */
 #define RS485_3_COM_IRQ_NR				USART5_IRQn
 
-void init_rs485_en(uint8_t index);
-
-void rs485_en(uint8_t index, bool en);
 
 void init_periph_uart();
 
+void rs485_com_1_init();
 
-void init_rs485_com_1();
+void rs485_com_2_init();
 
-void init_rs485_com_2();
-
-void init_rs485_com_3();
+void rs485_com_3_init();
 
 void rs485_com_1_RxIrqRegister();
 
