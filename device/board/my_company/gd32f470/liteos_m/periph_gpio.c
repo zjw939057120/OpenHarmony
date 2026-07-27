@@ -45,10 +45,6 @@ void init_periph_rs485_en(){
 	rs485_en_init(RS485_1_EN_INDEX);
 	rs485_en_init(RS485_2_EN_INDEX);
 	rs485_en_init(RS485_3_EN_INDEX);
-	
-	rs485_en(RS485_1_EN_INDEX, true);
-	rs485_en(RS485_2_EN_INDEX, true);
-	rs485_en(RS485_3_EN_INDEX, true);
 }
 
 void rs485_en_init(uint8_t index)

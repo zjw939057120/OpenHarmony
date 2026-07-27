@@ -27,7 +27,7 @@
 static void *thread_main_task(unsigned int arg)
 {
 	while(1) {
-		printf("%s\n\r", __func__);
+		printf("Hello, World!\r\n\r\n");
 		led_on(RS485_1_LED_INDEX);
 		led_on(RS485_2_LED_INDEX);
 		led_on(RS485_3_LED_INDEX);

@@ -157,8 +157,6 @@ static void _uartPutc(char c)
 
 static void uartPutc(char c)
 {
-	if (c == '\n')
-		_uartPutc('\r');
 	_uartPutc(c);
 }
 
@@ -167,10 +165,14 @@ int uartPuts(const char *s)
 	if (!txTask_is_inited) {
 		unsigned int intSave;
 		intSave = LOS_IntLock();
+		// 切换到发送模式
+		rs485_en(RS485_3_EN_INDEX, true);
 		while (*s) {
 			uartPutc(*s);
 			s++;
 		}
+		// 切换到接收模式
+		rs485_en(RS485_3_EN_INDEX, false);
 		LOS_IntRestore(intSave);
 	} else {
 		unsigned int intSave;
@@ -179,10 +181,14 @@ int uartPuts(const char *s)
 			if (ringbuffer_write(&tx_ringbuffer, *s) < 0) {
 				const char *msg = "** ringbuffer_write: 'tx' buffer is full\n";
 				const char *p = msg;
+				// 切换到发送模式
+				rs485_en(RS485_3_EN_INDEX, true);
 				while (*p) {
 					uartPutc(*p);
 					p++;
 				}
+				// 切换到接收模式
+				rs485_en(RS485_3_EN_INDEX, false);
 				break;
 			}
 			s++;
@@ -275,8 +281,12 @@ static void *thread_uart_tx(unsigned int arg)
 	while (1) {
 		if (LOS_SemPend(g_tx_semId, LOS_WAIT_FOREVER) == LOS_OK) {
             char c;
+			// 切换到发送模式
+			rs485_en(RS485_3_EN_INDEX, true);
 			while (ringbuffer_read(&tx_ringbuffer, &c) == 0)
 				uartPutc(c);
+			// 切换到接收模式
+			rs485_en(RS485_3_EN_INDEX, false);
 		}
 	}
 	return NULL;
