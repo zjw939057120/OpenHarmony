@@ -1,7 +1,7 @@
 #include "periph_gpio.h"
 #include "periph_uart.h"
 
-gpio_t gpio_list[4] = {
+gpio_t gpio_list[] = {
 	//LED
 	{RS485_1_LED_GPIO_RCU_CLOCK, RS485_1_LED_GPIO_PORT, RS485_1_LED_GPIO_PIN},
 	{RS485_2_LED_GPIO_RCU_CLOCK, RS485_2_LED_GPIO_PORT, RS485_2_LED_GPIO_PIN},
@@ -45,6 +45,7 @@ void init_periph_rs485_en(){
 	rs485_en_init(RS485_1_EN_INDEX);
 	rs485_en_init(RS485_2_EN_INDEX);
 	rs485_en_init(RS485_3_EN_INDEX);
+	
 	rs485_en(RS485_1_EN_INDEX, true);
 	rs485_en(RS485_2_EN_INDEX, true);
 	rs485_en(RS485_3_EN_INDEX, true);

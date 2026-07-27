@@ -63,21 +63,11 @@
 #endif
 
 #if defined (GD32F470)
-/* CONFIG_SYS_CLOCK */
-#if defined(CONFIG_SYS_CLOCK)
-#if (CONFIG_SYS_CLOCK == 240000000)
-#define __SYSTEM_CLOCK_240M_PLL_25M_HXTAL (uint32_t)(240000000)
-#elif (CONFIG_SYS_CLOCK == 200000000)
-#define __SYSTEM_CLOCK_200M_PLL_25M_HXTAL (uint32_t)(200000000)
-#else
-#error "Unsurpport system clock, check 'CONFIG_SYS_CLOCK' in file 'config.gni'"
-#endif
-
-/* use demo default */
-#else
 //#define __SYSTEM_CLOCK_240M_PLL_IRC16M          (uint32_t)(240000000)
-//#define __SYSTEM_CLOCK_240M_PLL_8M_HXTAL        (uint32_t)(240000000)
-#define __SYSTEM_CLOCK_240M_PLL_25M_HXTAL         (uint32_t)(240000000)
+#if (HXTAL_VALUE == 8000000)
+#define __SYSTEM_CLOCK_240M_PLL_8M_HXTAL        (uint32_t)(240000000)
+#elif (HXTAL_VALUE == 25000000)
+#define __SYSTEM_CLOCK_240M_PLL_25M_HXTAL        (uint32_t)(240000000)
 #endif
 #endif
 

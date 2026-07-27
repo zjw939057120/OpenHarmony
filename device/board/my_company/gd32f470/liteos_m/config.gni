@@ -49,6 +49,7 @@ board_cflags = [
     "-fdata-sections",
     "-ffunction-sections",
     "-DGD32F470",
+    "-DHXTAL_VALUE=8000000",
 ]
 board_cflags += board_opt_flags
 

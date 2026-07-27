@@ -11,8 +11,9 @@
 
 
 void init_periph_uart(){
-	// rs485_com_1_init();
-	// rs485_com_2_init();
+	rs485_com_1_init();
+	rs485_com_2_init();
+	rs485_com_3_init();
 }
 
 void rs485_com_1_init()
