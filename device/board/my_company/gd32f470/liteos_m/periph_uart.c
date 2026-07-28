@@ -106,7 +106,7 @@ void rs485_com_1_RxIrqRegister(void)
 {
 	uint32_t ret = LOS_HwiCreate(RS485_1_COM_IRQ_NR, OS_HWI_PRIO_LOWEST, 0, (HWI_PROC_FUNC)rs485_com_1_ReceiveHandler, 0);
 	if (ret != LOS_OK) {
-        // printf("** uartRxIrqRegister failed, ret = 0x\n", ret);
+        printf("%s failed! ret = 0x%x\r\n", __func__, ret);
         return;
     }
 
@@ -118,7 +118,7 @@ void rs485_com_2_RxIrqRegister(void)
 {
 	uint32_t ret = LOS_HwiCreate(RS485_2_COM_IRQ_NR, OS_HWI_PRIO_LOWEST, 0, (HWI_PROC_FUNC)rs485_com_2_ReceiveHandler, 0);
 	if (ret != LOS_OK) {
-        // printf("** uartRxIrqRegister failed, ret = 0x%x\n", ret);
+        printf("%s failed! ret = 0x%x\r\n", __func__, ret);
         return;
     }
 
@@ -130,7 +130,7 @@ void rs485_com_3_RxIrqRegister(void)
 {
 	uint32_t ret = LOS_HwiCreate(RS485_3_COM_IRQ_NR, OS_HWI_PRIO_LOWEST, 0, (HWI_PROC_FUNC)rs485_com_3_ReceiveHandler, 0);
 	if (ret != LOS_OK) {
-        // printf("** uartRxIrqRegister failed, ret = 0x%x\n", ret);
+        printf("%s failed! ret = 0x%x\r\n", __func__, ret);
         return;
     }
 

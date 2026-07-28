@@ -27,12 +27,14 @@
 static void *thread_main_task(unsigned int arg)
 {
 	while(1) {
-		printf("Hello, World!\r\n\r\n");
 		led_on(RUNSTA_LED_INDEX);
-        LOS_TaskDelay(500);
-
+        LOS_TaskDelay(200);
 		led_off(RUNSTA_LED_INDEX);
-        LOS_TaskDelay(500);
+        LOS_TaskDelay(200);
+		led_on(RUNSTA_LED_INDEX);
+        LOS_TaskDelay(200);
+		led_off(RUNSTA_LED_INDEX);
+		LOS_TaskDelay(1000);
 	}
 
     return NULL;
@@ -40,20 +42,24 @@ static void *thread_main_task(unsigned int arg)
 
 int main(void)
 {
+	// 初始化SysTick
 	systick_config();
-	// 初始化LED
-	init_periph_led();
-	// 初始化RS485使能引脚
-	init_periph_rs485_en();
+	// 初始化UART
+	uartInit();
+	// 初始化GPIO
+	init_periph_gpio();
 	// 初始化UART
 	init_periph_uart();
-	uartInit();
 
 	if (LOS_KernelInit() != LOS_OK) {
 		return -1;
 	}
 
+	// 初始化按键
+	init_periph_key();
+	// 初始化看门狗
 	initWatchDog();
+	// 初始化RTC
 	initRtc();
 
 #if IS_ENABLED(LOSCFG_SHELL)
@@ -70,7 +76,7 @@ int main(void)
 
 	initUartTxTask();
 	uartRxIrqRegister();
-
+		
 	UINT32 mainTaskID;
 	TSK_INIT_PARAM_S stTask = {
 		.pfnTaskEntry = thread_main_task,
