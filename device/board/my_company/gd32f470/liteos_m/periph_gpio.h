@@ -11,7 +11,7 @@
 #include "rtc_drv.h"
 #include "wdg_drv.h"
 
-// LED灯定义
+// RS485_1_LED~RS485_3_LED LED灯定义
 // RS485_1_LED PA10
 #define RS485_1_LED_INDEX           0U
 #define RS485_1_LED_GPIO_CLK        RCU_GPIOA
@@ -27,13 +27,15 @@
 #define RS485_3_LED_GPIO_CLK        RCU_GPIOA
 #define RS485_3_LED_GPIO_PORT		GPIOA
 #define RS485_3_LED_PIN				GPIO_PIN_11
+
+// RUNSTA_LED LED灯定义
 // RUNSTA_LED PA9
 #define RUNSTA_LED_INDEX            3U
 #define RUNSTA_LED_GPIO_CLK         RCU_GPIOA
 #define RUNSTA_LED_GPIO_PORT		GPIOA
 #define RUNSTA_LED_PIN				GPIO_PIN_9
 
-// RS485使能引脚定义
+// RS485_1_EN~RS485_3_EN使能引脚定义
 // RS485_1_EN PB9
 #define RS485_1_EN_INDEX            4U
 #define RS485_1_EN_GPIO_CLK         RCU_GPIOB
@@ -50,7 +52,7 @@
 #define RS485_3_EN_GPIO_PORT        GPIOD
 #define RS485_3_EN_GPIO_PIN			GPIO_PIN_7
 
-// 按键定义
+// USER_KEY按键定义
 // USER_KEY PA12
 #define USER_KEY_INDEX              7U
 #define USER_KEY_PIN                GPIO_PIN_12
@@ -61,7 +63,7 @@
 #define USER_KEY_EXTI_PIN_SOURCE    EXTI_SOURCE_PIN12
 #define USER_KEY_EXTI_IRQn          EXTI10_15_IRQn
 
-//DO引脚定义
+//DO1~DO3引脚定义
 //DO1 PB1
 #define DO1_INDEX                   8U
 #define DO1_PIN		                GPIO_PIN_1
@@ -77,6 +79,39 @@
 #define DO3_PIN		                GPIO_PIN_5
 #define DO3_GPIO_CLK         	    RCU_GPIOA
 #define DO3_GPIO_PORT		        GPIOA
+
+//DI1~DI6引脚定义
+//DI1 PF7
+#define DI1_INDEX                   11U
+#define DI1_PIN		                GPIO_PIN_7
+#define DI1_GPIO_CLK         	    RCU_GPIOF
+#define DI1_GPIO_PORT		        GPIOF
+//DI2 PE6
+#define DI2_INDEX                   12U
+#define DI2_PIN		                GPIO_PIN_6
+#define DI2_GPIO_CLK         	    RCU_GPIOE
+#define DI2_GPIO_PORT		        GPIOE
+//DI3 PE5
+#define DI3_INDEX                   13U
+#define DI3_PIN		                GPIO_PIN_5
+#define DI3_GPIO_CLK         	    RCU_GPIOE
+#define DI3_GPIO_PORT		        GPIOE
+//DI4 PE4
+#define DI4_INDEX                   14U
+#define DI4_PIN		                GPIO_PIN_4
+#define DI4_GPIO_CLK         	    RCU_GPIOE
+#define DI4_GPIO_PORT		        GPIOE
+//DI5 PE3
+#define DI5_INDEX                   15U
+#define DI5_PIN		                GPIO_PIN_3
+#define DI5_GPIO_CLK         	    RCU_GPIOE
+#define DI5_GPIO_PORT		        GPIOE
+//DI6 PE2
+#define DI6_INDEX                   16U
+#define DI6_PIN		                GPIO_PIN_2
+#define DI6_GPIO_CLK         	    RCU_GPIOE
+#define DI6_GPIO_PORT		        GPIOE
+
 
 
 typedef struct {
@@ -100,7 +135,11 @@ void do_init(uint8_t index);
 
 void do_on(uint8_t index);
 
-void do_off(uint8_t index);
+void do_off(uint8_t index);\
+
+void di_init(uint8_t index);
+
+uint8_t di_read(uint8_t index);
 
 void rs485_en_init(uint8_t index);
 
@@ -111,6 +150,10 @@ void rs485_2_en(bool high);
 void rs485_3_en(bool high);
 
 void init_periph_led();
+
+void init_periph_do();
+
+void init_periph_di();
 
 void init_periph_rs485_en();
 

@@ -22,9 +22,11 @@ kernel_module(module_name) {
         "libc/dstring.c",
         "common/common_time.c",
         "kernel/los_shell_cmd.c",
+        "main.c",
         "periph_gpio.c",
         "periph_uart.c",
-        "main.c"
+        "main_task.c",
+        "di_task.c"
     ]
     deps = [
         "//device/soc/gd/gd32f4xx/sdk:gd32f4xx_sdk",

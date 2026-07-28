@@ -26,6 +26,13 @@ const gpio_t gpio_list[] = {
     [DO1_INDEX] = {DO1_GPIO_CLK, DO1_GPIO_PORT, DO1_PIN},
     [DO2_INDEX] = {DO2_GPIO_CLK, DO2_GPIO_PORT, DO2_PIN},
     [DO3_INDEX] = {DO3_GPIO_CLK, DO3_GPIO_PORT, DO3_PIN},
+	//DI引脚
+    [DI1_INDEX] = {DI1_GPIO_CLK, DI1_GPIO_PORT, DI1_PIN},
+    [DI2_INDEX] = {DI2_GPIO_CLK, DI2_GPIO_PORT, DI2_PIN},
+    [DI3_INDEX] = {DI3_GPIO_CLK, DI3_GPIO_PORT, DI3_PIN},
+    [DI4_INDEX] = {DI4_GPIO_CLK, DI4_GPIO_PORT, DI4_PIN},
+    [DI5_INDEX] = {DI5_GPIO_CLK, DI5_GPIO_PORT, DI5_PIN},
+    [DI6_INDEX] = {DI6_GPIO_CLK, DI6_GPIO_PORT, DI6_PIN},
 };
 
 void init_periph_gpio()
@@ -33,6 +40,7 @@ void init_periph_gpio()
 	init_periph_led();
 	init_periph_rs485_en();
 	init_periph_do();
+	init_periph_di();
 }
 
 void led_init(uint8_t index)
@@ -83,6 +91,18 @@ void do_off(uint8_t index)
 	gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
+void di_init(uint8_t index)
+{
+	rcu_periph_clock_enable(gpio_list[index].rcu);
+	gpio_mode_set(gpio_list[index].gpio, GPIO_MODE_INPUT, GPIO_PUPD_NONE, gpio_list[index].pin);
+}
+
+uint8_t di_read(uint8_t index)
+{
+	//读取DI引脚状态
+	return gpio_input_bit_get(gpio_list[index].gpio, gpio_list[index].pin);
+}
+
 void init_periph_led(){
 	led_init(RS485_1_LED_INDEX);
 	led_init(RS485_2_LED_INDEX);
@@ -94,6 +114,12 @@ void init_periph_do(){
 	do_init(DO1_INDEX);
 	do_init(DO2_INDEX);
 	do_init(DO3_INDEX);
+}
+
+void init_periph_di(){
+	di_init(DI1_INDEX);
+	di_init(DI2_INDEX);
+	di_init(DI3_INDEX);
 }
 
 void init_periph_rs485_en(){

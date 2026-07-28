@@ -23,52 +23,35 @@
 #include "wdg_drv.h"
 #include "periph_gpio.h"
 #include "periph_uart.h"
-#include "main_task.h"
-#include "di_task.h"
 
-int main(void)
+static void *thread_di_task(unsigned int arg)
 {
-	// 初始化SysTick
-	systick_config();
-	// 初始化UART
-	uartInit();
-	// 初始化GPIO
-	init_periph_gpio();
-	// 初始化UART
-	init_periph_uart();
+	while(1) {
+		uint8_t di1 = di_read(DI1_INDEX);
+		uint8_t di2 = di_read(DI2_INDEX);
+		uint8_t di3 = di_read(DI3_INDEX);
+		uint8_t di4 = di_read(DI4_INDEX);
+		uint8_t di5 = di_read(DI5_INDEX);
+		uint8_t di6 = di_read(DI6_INDEX);
+		
+		printf("di1: %d, di2: %d, di3: %d, di4: %d, di5: %d, di6: %d\r\n", di1, di2, di3, di4, di5, di6);	
+		LOS_TaskDelay(1000);
+	}
 
-	if (LOS_KernelInit() != LOS_OK) {
+    return NULL;
+}
+
+UINT32 di_task_init(void)
+{
+	UINT32 diTaskID;
+	TSK_INIT_PARAM_S stTask = {
+		.pfnTaskEntry = thread_di_task,
+		.uwStackSize = 0x1000,
+		.pcName = "diTask",
+		.usTaskPrio = 6,
+	};
+	if (LOS_TaskCreate(&diTaskID, &stTask) != LOS_OK) {
 		return -1;
 	}
-
-	// 初始化按键
-	init_periph_key();
-	// 初始化看门狗
-	initWatchDog();
-	// 初始化RTC
-	initRtc();
-
-#if IS_ENABLED(LOSCFG_SHELL)
-#if IS_ENABLED(CONFIG_USE_LETTER_SHELL)
-	initLetterShell();
-#else
-	extern unsigned int LosShellInit(void);
-	unsigned int ret = LosShellInit();
-	if (ret != LOS_OK) {
-		printf("LosShellInit failed! ERROR: 0x%x\n", ret);
-	}
-#endif
-#endif
-
-	initUartTxTask();
-	uartRxIrqRegister();
-	
-	// 初始化主任务
-	main_task_init();
-	// 初始化DI任务
-	di_task_init();
-
-	LOS_Start();
-
-    return 0;
+	return diTaskID;
 }
