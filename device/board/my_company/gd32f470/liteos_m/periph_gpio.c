@@ -10,24 +10,29 @@
 #include "periph_uart.h"
 
 
-gpio_t gpio_list[] = {
-	//LED
-	{RS485_1_LED_GPIO_RCU_CLOCK, RS485_1_LED_GPIO_PORT, RS485_1_LED_GPIO_PIN},
-	{RS485_2_LED_GPIO_RCU_CLOCK, RS485_2_LED_GPIO_PORT, RS485_2_LED_GPIO_PIN},
-	{RS485_3_LED_GPIO_RCU_CLOCK, RS485_3_LED_GPIO_PORT, RS485_3_LED_GPIO_PIN},
-	{RUNSTA_LED_GPIO_RCU_CLOCK, RUNSTA_LED_GPIO_PORT, RUNSTA_LED_GPIO_PIN},
-	//USER_KEY
-	{USER_KEY_GPIO_CLK, USER_KEY_GPIO_PORT, USER_KEY_PIN},
-	//RS485_EN
-	{RS485_1_EN_GPIO_RCU_CLOCK, RS485_1_EN_GPIO_PORT, RS485_1_EN_GPIO_PIN},
-	{RS485_2_EN_GPIO_RCU_CLOCK, RS485_2_EN_GPIO_PORT, RS485_2_EN_GPIO_PIN},
-	{RS485_3_EN_GPIO_RCU_CLOCK, RS485_3_EN_GPIO_PORT, RS485_3_EN_GPIO_PIN},
+const gpio_t gpio_list[] = {
+	//LED灯
+    [RS485_1_LED_INDEX] = {RS485_1_LED_GPIO_CLK, RS485_1_LED_GPIO_PORT, RS485_1_LED_PIN},
+    [RS485_2_LED_INDEX] = {RS485_2_LED_GPIO_CLK, RS485_2_LED_GPIO_PORT, RS485_2_LED_PIN},
+    [RS485_3_LED_INDEX] = {RS485_3_LED_GPIO_CLK, RS485_3_LED_GPIO_PORT, RS485_3_LED_PIN},
+    [RUNSTA_LED_INDEX]  = {RUNSTA_LED_GPIO_CLK, RUNSTA_LED_GPIO_PORT, RUNSTA_LED_PIN},
+	//RS485使能引脚
+    [RS485_1_EN_INDEX]  = {RS485_1_EN_GPIO_CLK, RS485_1_EN_GPIO_PORT, RS485_1_EN_GPIO_PIN},
+    [RS485_2_EN_INDEX]  = {RS485_2_EN_GPIO_CLK, RS485_2_EN_GPIO_PORT, RS485_2_EN_GPIO_PIN},
+    [RS485_3_EN_INDEX]  = {RS485_3_EN_GPIO_CLK, RS485_3_EN_GPIO_PORT, RS485_3_EN_GPIO_PIN},
+	//USER_KEY按键
+    [USER_KEY_INDEX]    = {USER_KEY_GPIO_CLK, USER_KEY_GPIO_PORT, USER_KEY_PIN},
+	//DO引脚
+    [DO1_INDEX] = {DO1_GPIO_CLK, DO1_GPIO_PORT, DO1_PIN},
+    [DO2_INDEX] = {DO2_GPIO_CLK, DO2_GPIO_PORT, DO2_PIN},
+    [DO3_INDEX] = {DO3_GPIO_CLK, DO3_GPIO_PORT, DO3_PIN},
 };
 
 void init_periph_gpio()
 {
 	init_periph_led();
 	init_periph_rs485_en();
+	init_periph_do();
 }
 
 void led_init(uint8_t index)
@@ -35,7 +40,7 @@ void led_init(uint8_t index)
 	rcu_periph_clock_enable(gpio_list[index].rcu);
 	gpio_mode_set(gpio_list[index].gpio, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, gpio_list[index].pin);
 	gpio_output_options_set(gpio_list[index].gpio, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, gpio_list[index].pin);
-	//熄灭LED
+	//默认关闭
 	gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
@@ -51,11 +56,44 @@ void led_off(uint8_t index)
 	gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
+void gpio_toggle(uint8_t index)
+{
+	//切换GPIO引脚状态
+	gpio_bit_toggle(gpio_list[index].gpio, gpio_list[index].pin);
+}
+
+void do_init(uint8_t index)
+{
+	rcu_periph_clock_enable(gpio_list[index].rcu);
+	gpio_mode_set(gpio_list[index].gpio, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, gpio_list[index].pin);
+	gpio_output_options_set(gpio_list[index].gpio, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, gpio_list[index].pin);
+	//默认关闭
+	gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin);
+}
+
+void do_on(uint8_t index)
+{
+	//打开DO继电器
+	gpio_bit_reset(gpio_list[index].gpio, gpio_list[index].pin);
+}
+
+void do_off(uint8_t index)
+{
+	//关闭DO继电器
+	gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin);
+}
+
 void init_periph_led(){
 	led_init(RS485_1_LED_INDEX);
 	led_init(RS485_2_LED_INDEX);
 	led_init(RS485_3_LED_INDEX);
 	led_init(RUNSTA_LED_INDEX);
+}
+
+void init_periph_do(){
+	do_init(DO1_INDEX);
+	do_init(DO2_INDEX);
+	do_init(DO3_INDEX);
 }
 
 void init_periph_rs485_en(){
@@ -69,7 +107,7 @@ void rs485_en_init(uint8_t index)
 	rcu_periph_clock_enable(gpio_list[index].rcu);
 	gpio_mode_set(gpio_list[index].gpio, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, gpio_list[index].pin);
 	gpio_output_options_set(gpio_list[index].gpio, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, gpio_list[index].pin);
-	//接收模式
+	//默认接收模式
 	gpio_bit_reset(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
@@ -132,10 +170,24 @@ void init_periph_key()
     exti_interrupt_flag_clear(USER_KEY_EXTI_LINE);
 }
 
+//DO继电器切换
+uint8_t do_toggle = 1;
+
 void EXTI10_15_IRQHandler(void)
 {
     if(RESET != exti_interrupt_flag_get(USER_KEY_EXTI_LINE)) {
-	printf("%s:%d\r\n" ,__func__ ,__LINE__);
-    }
+	// printf("%s:%d\r\n" ,__func__ ,__LINE__);
+	if (do_toggle == 1) {
+		//切换DO1继电器
+		gpio_toggle(DO1_INDEX);
+	} else if (do_toggle == 2) {
+		//切换DO2继电器
+		gpio_toggle(DO2_INDEX);
+	} else if (do_toggle == 3) {
+		//切换DO3继电器
+		gpio_toggle(DO3_INDEX);
+	}
+	do_toggle > 3 ? do_toggle = 1 : do_toggle++;
+	}
     exti_interrupt_flag_clear(USER_KEY_EXTI_LINE);
 }

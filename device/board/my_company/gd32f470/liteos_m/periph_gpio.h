@@ -11,52 +11,73 @@
 #include "rtc_drv.h"
 #include "wdg_drv.h"
 
+// LED灯定义
 // RS485_1_LED PA10
 #define RS485_1_LED_INDEX           0U
-#define RS485_1_LED_GPIO_RCU_CLOCK	RCU_GPIOA
+#define RS485_1_LED_GPIO_CLK        RCU_GPIOA
 #define RS485_1_LED_GPIO_PORT		GPIOA
-#define RS485_1_LED_GPIO_PIN		GPIO_PIN_10
+#define RS485_1_LED_PIN				GPIO_PIN_10
 // RS485_2_LED PC8
 #define RS485_2_LED_INDEX           1U
-#define RS485_2_LED_GPIO_RCU_CLOCK	RCU_GPIOC
+#define RS485_2_LED_GPIO_CLK        RCU_GPIOC
 #define RS485_2_LED_GPIO_PORT		GPIOC
-#define RS485_2_LED_GPIO_PIN		GPIO_PIN_8
+#define RS485_2_LED_PIN				GPIO_PIN_8
 // RS485_3_LED PA11
 #define RS485_3_LED_INDEX           2U
-#define RS485_3_LED_GPIO_RCU_CLOCK	RCU_GPIOA
+#define RS485_3_LED_GPIO_CLK        RCU_GPIOA
 #define RS485_3_LED_GPIO_PORT		GPIOA
-#define RS485_3_LED_GPIO_PIN		GPIO_PIN_11
+#define RS485_3_LED_PIN				GPIO_PIN_11
 // RUNSTA_LED PA9
 #define RUNSTA_LED_INDEX            3U
-#define RUNSTA_LED_GPIO_RCU_CLOCK	RCU_GPIOA
+#define RUNSTA_LED_GPIO_CLK         RCU_GPIOA
 #define RUNSTA_LED_GPIO_PORT		GPIOA
-#define RUNSTA_LED_GPIO_PIN			GPIO_PIN_9
+#define RUNSTA_LED_PIN				GPIO_PIN_9
 
-// USER_KEY PA12
-#define USER_KEY_INDEX                   4U
-#define USER_KEY_PIN                     GPIO_PIN_12
-#define USER_KEY_GPIO_PORT               GPIOA
-#define USER_KEY_GPIO_CLK                RCU_GPIOA
-#define USER_KEY_EXTI_LINE               EXTI_12
-#define USER_KEY_EXTI_PORT_SOURCE        EXTI_SOURCE_GPIOA
-#define USER_KEY_EXTI_PIN_SOURCE         EXTI_SOURCE_PIN12
-#define USER_KEY_EXTI_IRQn               EXTI10_15_IRQn
-
+// RS485使能引脚定义
 // RS485_1_EN PB9
-#define RS485_1_EN_INDEX            5U
-#define RS485_1_EN_GPIO_RCU_CLOCK   RCU_GPIOB
+#define RS485_1_EN_INDEX            4U
+#define RS485_1_EN_GPIO_CLK         RCU_GPIOB
 #define RS485_1_EN_GPIO_PORT        GPIOB
 #define RS485_1_EN_GPIO_PIN			GPIO_PIN_9
 // RS485_2_EN PB8
-#define RS485_2_EN_INDEX            6U
-#define RS485_2_EN_GPIO_RCU_CLOCK   RCU_GPIOB
+#define RS485_2_EN_INDEX            5U
+#define RS485_2_EN_GPIO_CLK         RCU_GPIOB
 #define RS485_2_EN_GPIO_PORT        GPIOB
 #define RS485_2_EN_GPIO_PIN			GPIO_PIN_8
 // RS485_3_EN PD7
-#define RS485_3_EN_INDEX            7U
-#define RS485_3_EN_GPIO_RCU_CLOCK   RCU_GPIOD
+#define RS485_3_EN_INDEX            6U
+#define RS485_3_EN_GPIO_CLK         RCU_GPIOD
 #define RS485_3_EN_GPIO_PORT        GPIOD
 #define RS485_3_EN_GPIO_PIN			GPIO_PIN_7
+
+// 按键定义
+// USER_KEY PA12
+#define USER_KEY_INDEX              7U
+#define USER_KEY_PIN                GPIO_PIN_12
+#define USER_KEY_GPIO_PORT          GPIOA
+#define USER_KEY_GPIO_CLK           RCU_GPIOA
+#define USER_KEY_EXTI_LINE          EXTI_12
+#define USER_KEY_EXTI_PORT_SOURCE   EXTI_SOURCE_GPIOA
+#define USER_KEY_EXTI_PIN_SOURCE    EXTI_SOURCE_PIN12
+#define USER_KEY_EXTI_IRQn          EXTI10_15_IRQn
+
+//DO引脚定义
+//DO1 PB1
+#define DO1_INDEX                   8U
+#define DO1_PIN		                GPIO_PIN_1
+#define DO1_GPIO_CLK         	    RCU_GPIOB
+#define DO1_GPIO_PORT		        GPIOB
+//DO2 PA6
+#define DO2_INDEX                   9U
+#define DO2_PIN		                GPIO_PIN_6
+#define DO2_GPIO_CLK         	    RCU_GPIOA
+#define DO2_GPIO_PORT		        GPIOA
+//DO3 PA5
+#define DO3_INDEX                   10U
+#define DO3_PIN		                GPIO_PIN_5
+#define DO3_GPIO_CLK         	    RCU_GPIOA
+#define DO3_GPIO_PORT		        GPIOA
+
 
 typedef struct {
     rcu_periph_enum rcu;
@@ -72,6 +93,14 @@ void led_init(uint8_t index);
 void led_on(uint8_t index);
 
 void led_off(uint8_t index);
+
+void gpio_toggle(uint8_t index);
+
+void do_init(uint8_t index);
+
+void do_on(uint8_t index);
+
+void do_off(uint8_t index);
 
 void rs485_en_init(uint8_t index);
 
