@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 #include <stdio.h>
-#include "systick.h"
+#include <string.h>
+#include "los_arch_interrupt.h"
+#include "los_interrupt.h"
+#include "los_sem.h"
 #include "los_task.h"
+#include "los_event.h"
 #include "gd32f4xx.h"
-#include "uart_drv.h"
-#include "shell_port.h"
-#include "rtc_drv.h"
-#include "wdg_drv.h"
 #include "periph_gpio.h"
 #include "periph_uart.h"
 

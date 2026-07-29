@@ -2,14 +2,9 @@
 #define _PERIPH_GPIO_H_
 
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
-#include "systick.h"
-#include "los_task.h"
 #include "gd32f4xx.h"
-#include "uart_drv.h"
-#include "shell_port.h"
-#include "rtc_drv.h"
-#include "wdg_drv.h"
 
 // RS485_1_LED~RS485_3_LED LED灯定义
 // RS485_1_LED PA10
@@ -122,6 +117,10 @@ typedef struct {
 
 
 void init_periph_gpio();
+
+void gpio_high(uint8_t index);
+
+void gpio_low(uint8_t index);
 
 void led_init(uint8_t index);
 

@@ -2,14 +2,9 @@
 #define _PERIPH_UART_H_
 
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
-#include "systick.h"
-#include "los_task.h"
 #include "gd32f4xx.h"
-#include "uart_drv.h"
-#include "shell_port.h"
-#include "rtc_drv.h"
-#include "wdg_drv.h"
 
 // RS485_1_COM USART0 PB6,PB7,AP7
 #define RS485_1_COM_NR 				USART0

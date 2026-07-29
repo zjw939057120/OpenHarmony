@@ -26,7 +26,8 @@ kernel_module(module_name) {
         "periph_gpio.c",
         "periph_uart.c",
         "main_task.c",
-        "di_task.c"
+        "di_task.c",
+        "periph_spi.c"
     ]
     deps = [
         "//device/soc/gd/gd32f4xx/sdk:gd32f4xx_sdk",

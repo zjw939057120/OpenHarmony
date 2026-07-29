@@ -33,8 +33,8 @@ static void *thread_di_task(unsigned int arg)
 		uint8_t di4 = di_read(DI4_INDEX);
 		uint8_t di5 = di_read(DI5_INDEX);
 		uint8_t di6 = di_read(DI6_INDEX);
-		
-		printf("di1: %d, di2: %d, di3: %d, di4: %d, di5: %d, di6: %d\r\n", di1, di2, di3, di4, di5, di6);	
+		uint8_t di = di1 | (di2  << 1) | (di3 << 2) | (di4 << 3) | (di5 << 4) | (di6 << 5);
+		printf("di: %d\r\n", di);
 		LOS_TaskDelay(1000);
 	}
 

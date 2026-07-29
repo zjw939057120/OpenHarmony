@@ -26,27 +26,34 @@
 #include "main_task.h"
 #include "di_task.h"
 
+void init_hw(void)
+{
+	// 初始化GPIO
+	init_periph_gpio();
+	// 初始化按键
+	init_periph_key();
+	// 初始化UART
+	init_periph_uart();
+	
+}
+
 int main(void)
 {
 	// 初始化SysTick
 	systick_config();
 	// 初始化UART
 	uartInit();
-	// 初始化GPIO
-	init_periph_gpio();
-	// 初始化UART
-	init_periph_uart();
 
 	if (LOS_KernelInit() != LOS_OK) {
 		return -1;
 	}
 
-	// 初始化按键
-	init_periph_key();
 	// 初始化看门狗
 	initWatchDog();
 	// 初始化RTC
 	initRtc();
+	// 初始化硬件
+	init_hw();
 
 #if IS_ENABLED(LOSCFG_SHELL)
 #if IS_ENABLED(CONFIG_USE_LETTER_SHELL)
