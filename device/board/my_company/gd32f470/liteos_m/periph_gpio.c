@@ -7,6 +7,7 @@
 #include "los_event.h"
 #include "gd32f4xx.h"
 #include "periph_gpio.h"
+#include "periph_uart.h"
 
 
 const gpio_t gpio_list[] = {
@@ -42,43 +43,31 @@ void init_periph_gpio()
 	init_periph_di();
 }
 
-void gpio_high(uint8_t index)
-{
-	//将GPIO引脚设置为高电平
-	GPIO_BOP(gpio_list[index].gpio) = (uint32_t)gpio_list[index].pin;
-}
-
-void gpio_low(uint8_t index)
-{
-	//将GPIO引脚设置为低电平
-	GPIO_BC(gpio_list[index].gpio) = (uint32_t)gpio_list[index].pin;
-}
-
 void led_init(uint8_t index)
 {
 	rcu_periph_clock_enable(gpio_list[index].rcu);
 	gpio_mode_set(gpio_list[index].gpio, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, gpio_list[index].pin);
 	gpio_output_options_set(gpio_list[index].gpio, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, gpio_list[index].pin);
-	//默认关闭LED
-	gpio_low(index);
+	//默认关闭
+	gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
 void led_on(uint8_t index)
 {
 	//点亮LED
-	gpio_low(index);
+	gpio_bit_reset(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
 void led_off(uint8_t index)
 {
 	//熄灭LED
-	gpio_high(index);
+	gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
 void gpio_toggle(uint8_t index)
 {
 	//切换GPIO引脚状态
-	GPIO_TG(gpio_list[index].gpio);
+	gpio_bit_toggle(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
 void do_init(uint8_t index)
@@ -86,20 +75,20 @@ void do_init(uint8_t index)
 	rcu_periph_clock_enable(gpio_list[index].rcu);
 	gpio_mode_set(gpio_list[index].gpio, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, gpio_list[index].pin);
 	gpio_output_options_set(gpio_list[index].gpio, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, gpio_list[index].pin);
-	//默认关闭DO继电器
-	gpio_high(index);
+	//默认关闭
+	gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
 void do_on(uint8_t index)
 {
 	//打开DO继电器
-	gpio_low(index);
+	gpio_bit_reset(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
 void do_off(uint8_t index)
 {
 	//关闭DO继电器
-	gpio_high(index);
+	gpio_bit_set(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
 void di_init(uint8_t index)
@@ -145,19 +134,19 @@ void rs485_en_init(uint8_t index)
 	gpio_mode_set(gpio_list[index].gpio, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, gpio_list[index].pin);
 	gpio_output_options_set(gpio_list[index].gpio, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, gpio_list[index].pin);
 	//默认接收模式
-	gpio_low(index);
+	gpio_bit_reset(gpio_list[index].gpio, gpio_list[index].pin);
 }
 
 void rs485_1_en(bool high)
 {
 	if (high == true) {
 		//发送模式
-		gpio_high(index);
+		gpio_bit_set(gpio_list[RS485_1_EN_INDEX].gpio, gpio_list[RS485_1_EN_INDEX].pin);
 		led_on(RS485_1_LED_INDEX);
 	} else {
 		//接收模式
 		led_off(RS485_1_LED_INDEX);
-		gpio_low(index);
+		gpio_bit_reset(gpio_list[RS485_1_EN_INDEX].gpio, gpio_list[RS485_1_EN_INDEX].pin);
 	}
 }
 
@@ -165,12 +154,12 @@ void rs485_2_en(bool high)
 {
 	if (high == true) {
 		//发送模式
-		gpio_high(index);
+		gpio_bit_set(gpio_list[RS485_2_EN_INDEX].gpio, gpio_list[RS485_2_EN_INDEX].pin);
 		led_on(RS485_2_LED_INDEX);
 	} else {
 		//接收模式
 		led_off(RS485_2_LED_INDEX);
-		gpio_low(index);
+		gpio_bit_reset(gpio_list[RS485_2_EN_INDEX].gpio, gpio_list[RS485_2_EN_INDEX].pin);
 	}
 }
 
@@ -178,12 +167,12 @@ void rs485_3_en(bool high)
 {
 	if (high == true) {
 		//发送模式
-		gpio_high(index);
+		gpio_bit_set(gpio_list[RS485_3_EN_INDEX].gpio, gpio_list[RS485_3_EN_INDEX].pin);
 		led_on(RS485_3_LED_INDEX);
 	} else {
 		//接收模式
 		led_off(RS485_3_LED_INDEX);
-		gpio_low(index);
+		gpio_bit_reset(gpio_list[RS485_3_EN_INDEX].gpio, gpio_list[RS485_3_EN_INDEX].pin);
 	}
 }
 
