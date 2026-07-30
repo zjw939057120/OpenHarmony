@@ -18,6 +18,10 @@ kernel_module(module_name) {
         "third_party/shell/shell_companion.c",
         "third_party/shell/shell_ext.c",
 
+        #RTT
+        "third_party/RTT/SEGGER_RTT_printf.c",
+        "third_party/RTT/SEGGER_RTT.c",
+
         "libc/dprintf.c",
         "libc/dstring.c",
         "common/common_time.c",

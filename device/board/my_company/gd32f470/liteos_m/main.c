@@ -21,6 +21,7 @@
 #include "shell_port.h"
 #include "rtc_drv.h"
 #include "wdg_drv.h"
+#include "main.h"
 #include "periph_gpio.h"
 #include "periph_uart.h"
 #include "main_task.h"
@@ -37,6 +38,8 @@ void init_hw(void)
 
 int main(void)
 {
+	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_TRIM);
+    SEGGER_RTT_WriteString(0, "SEGGER Real-Time-Terminal Sample\r\n");
 	// 初始化SysTick
 	systick_config();
 	// 初始化UART
