@@ -6,6 +6,5 @@
 #include "los_task.h"
 #include "los_event.h"
 #include "gd32f4xx.h"
-#include "periph_gpio.h"
-#include "periph_spi.h"
+#include "utils.h"
 

@@ -29,11 +29,18 @@
 
 void init_hw(void)
 {
-	// 初始化GPIO
-	init_periph_gpio();
 	// 初始化UART
 	init_periph_uart();
-	
+}
+
+void init_bsp(void)
+{
+	// 初始化GPIO
+	init_periph_gpio();
+	// 初始化按键
+	init_periph_key();
+	// 初始化SPI2
+    // periph_spi_flash_init();
 }
 
 int main(void)
@@ -51,12 +58,12 @@ int main(void)
 		return -1;
 	}
 
-	// 初始化按键
-	init_periph_key();
 	// 初始化看门狗
 	initWatchDog();
 	// 初始化RTC
 	initRtc();
+	// 初始化bsp
+	init_bsp();
 
 #if IS_ENABLED(LOSCFG_SHELL)
 #if IS_ENABLED(CONFIG_USE_LETTER_SHELL)

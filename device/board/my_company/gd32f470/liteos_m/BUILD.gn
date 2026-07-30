@@ -10,6 +10,11 @@ kernel_module(module_name) {
         "driver/uart_drv.c",
         "driver/wdg_drv.c",
         "driver/rtc_drv.c",
+        
+        #norflash
+        "driver/norflash/bsp_w25qxx.c",
+        "driver/norflash/data_test.c",
+        "driver/norflash/w25qxx.c",
 
         # shell
         "third_party/shell/shell_cmd_list.c",
@@ -31,7 +36,7 @@ kernel_module(module_name) {
         "periph_uart.c",
         "main_task.c",
         "di_task.c",
-        "periph_spi.c"
+        "periph_spi_flash.c"
     ]
     deps = [
         "//device/soc/gd/gd32f4xx/sdk:gd32f4xx_sdk",
