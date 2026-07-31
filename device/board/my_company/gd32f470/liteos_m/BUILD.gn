@@ -10,6 +10,7 @@ kernel_module(module_name) {
         "driver/uart_drv.c",
         "driver/wdg_drv.c",
         "driver/rtc_drv.c",
+        "driver/dwt_drv.c",
         
         #norflash
         "driver/norflash/bsp_w25qxx.c",

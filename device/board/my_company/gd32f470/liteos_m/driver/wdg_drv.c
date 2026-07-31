@@ -25,7 +25,7 @@ static void *thread_wdg_task(unsigned int arg)
 {
 	while (1) {
 		fwdgt_counter_reload(); //喂狗操作
-        LOS_TaskDelay(300);
+        LOS_TaskDelay(3000);
 	}
     return NULL;
 }
@@ -40,7 +40,7 @@ void initWatchDog(void)
 		log_warning("** rcu_osci_stab_wait timeout!\n");
 
 	fwdgt_write_enable();
-	fwdgt_config(1500, FWDGT_PSC_DIV64); //重装载值: 范围0-4095, 超时时间=(reload_value/500) 秒
+	fwdgt_config(1500, FWDGT_PSC_DIV256); //重装载值: 范围0-4095, reload_value = (目标时间 × 时钟频率) / 预分频值
 	fwdgt_write_disable();
 	fwdgt_enable();
 

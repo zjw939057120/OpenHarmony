@@ -29,6 +29,8 @@
 
 void init_hw(void)
 {
+	// 初始化DWT
+	DWT_Init();
 	// 初始化UART
 	init_periph_uart();
 }
