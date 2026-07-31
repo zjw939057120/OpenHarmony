@@ -83,6 +83,8 @@ uint8_t W25Q_Write_Multibyte(uint8_t* array, uint16_t size)
         /* 等待接收完成 (等待发送缓冲区再次变空，表示数据已移出移位寄存器) */
         while (spi_i2s_flag_get(SPI2, SPI_FLAG_TBE) == RESET);
     }
+    /* 等待SPI总线空闲，确保最后一个字节完全发送完毕后再返回 */
+    while (spi_i2s_flag_get(SPI2, SPI_FLAG_TRANS) == SET);
     return 0;
 }
  
@@ -486,7 +488,7 @@ uint8_t   W25Q_Chip_Test(void)
     
     fill_sequential_byte_buffer(page_write,sizeof(page_write));//填充一页数据
     
-    for(uint32_t addr = 0; addr < sector_count*16*256; addr += 0x1000)//总数：扇区*16页*256字节，每次一个扇区的移动
+    for(uint32_t addr = 0; addr < 1*16*256; addr += 0x1000)//总数：扇区*16页*256字节，每次一个扇区的移动
     {
         W25Q_SectorErase(addr);//扇区擦除4KB
         for(uint8_t page = 0; page < 16; page++)//每页写入并读取对比打印

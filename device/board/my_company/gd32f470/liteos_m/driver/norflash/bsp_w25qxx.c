@@ -25,6 +25,7 @@ void SPI_Flash_Config()
     gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, GPIO_PIN_10|GPIO_PIN_11| GPIO_PIN_12);
 
     /* SPI2_CS(PD2) GPIO pin configuration */
+    rcu_periph_clock_enable(RCU_GPIOD);
     gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_2);
     gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_2);
 

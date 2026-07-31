@@ -11,8 +11,8 @@
 
 void periph_spi_flash_init(void);
 
-void spi_flash_read_test(void);
+void spi_flash_test_1(void);
 
-void spi_flash_write_test(void);
+void spi_flash_test_2(void);
 
 #endif
