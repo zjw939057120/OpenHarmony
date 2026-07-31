@@ -21,8 +21,7 @@
 #include "los_task.h"
 #include "los_event.h"
 #include "gd32f4xx.h"
-#include "periph_gpio.h"
-#include "periph_uart.h"
+#include "main_task.h"
 
 static void *thread_main_task(unsigned int arg)
 {

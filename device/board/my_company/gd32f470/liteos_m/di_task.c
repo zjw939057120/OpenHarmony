@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 #include <stdio.h>
-#include "systick.h"
+#include <string.h>
+#include "los_arch_interrupt.h"
+#include "los_interrupt.h"
+#include "los_sem.h"
 #include "los_task.h"
+#include "los_event.h"
 #include "gd32f4xx.h"
-#include "uart_drv.h"
-#include "shell_port.h"
-#include "rtc_drv.h"
-#include "wdg_drv.h"
-#include "periph_gpio.h"
-#include "periph_uart.h"
+#include "di_task.h"
 
 static void *thread_di_task(unsigned int arg)
 {
@@ -34,8 +33,8 @@ static void *thread_di_task(unsigned int arg)
 		uint8_t di5 = di_read(DI5_INDEX);
 		uint8_t di6 = di_read(DI6_INDEX);
 		uint8_t di = di1 | (di2  << 1) | (di3 << 2) | (di4 << 3) | (di5 << 4) | (di6 << 5);
-		printf("di: %d\r\n", di);
-		LOS_TaskDelay(1000);
+		SEGGER_RTT_printf(0, "di: %d\r\n", di);
+		LOS_TaskDelay(5000);
 	}
 
     return NULL;

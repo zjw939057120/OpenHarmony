@@ -12,7 +12,6 @@
 #include "bsp_w25qxx.h"
 #include "w25qxx.h"
 #include "data_test.h"
-#include "los_task.h"
 
 uint32_t w25q_sector_count;
 uint32_t w25q_use_4_byte_addr;
@@ -342,7 +341,7 @@ uint8_t  W25Q_WaitForWriteEnd(void)
         }
         timeout--;
         
-        LOS_TaskDelay(2);
+        DWT_DelayMs(2);
  
     }while(reg_status_1 & STATUS_1_WIP_Flag); 
 

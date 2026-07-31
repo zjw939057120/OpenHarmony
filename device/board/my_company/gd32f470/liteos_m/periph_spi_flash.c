@@ -13,18 +13,18 @@
 void periph_spi_flash_init(void)
 {
     SPI_Flash_Config();
-    if(W25Q_Init() == 0)
-    {
-       SEGGER_RTT_printf(0, "W25Q_GetSectorCount %d \r\n", W25Q_Get_SectorCount()); 
-    }
-    else
-    {
-       SEGGER_RTT_printf(0, "W25Q_Init Error \r\n");   
-    }
-    uint16_t id = W25Q_ReadDeviceID();
-    SEGGER_RTT_printf(0, "W25Q_ReadDeviceID 0x%x \r\n", id);
-    spi_flash_write_test();
-    spi_flash_read_test();
+   //  if(W25Q_Init() == 0)
+   //  {
+   //     SEGGER_RTT_printf(0, "W25Q_GetSectorCount %d \r\n", W25Q_Get_SectorCount()); 
+   //  }
+   //  else
+   //  {
+   //     SEGGER_RTT_printf(0, "W25Q_Init Error \r\n");   
+   //  }
+   //  uint16_t id = W25Q_ReadDeviceID();
+   //  SEGGER_RTT_printf(0, "W25Q_ReadDeviceID 0x%x \r\n", id);
+   //  spi_flash_write_test();
+   //  spi_flash_read_test();
 }
 
 void spi_flash_read_test(void)

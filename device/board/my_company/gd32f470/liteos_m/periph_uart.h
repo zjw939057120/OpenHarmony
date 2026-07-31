@@ -63,19 +63,8 @@ void rs485_com_1_init();
 
 void rs485_com_2_init();
 
-void rs485_com_3_init();
-
 void rs485_com_1_RxIrqRegister();
 
 void rs485_com_2_RxIrqRegister();
-
-void rs485_com_3_RxIrqRegister();
-
-void rs485_com_1_ReceiveHandler(void);
-
-void rs485_com_2_ReceiveHandler(void);
-
-void rs485_com_3_ReceiveHandler(void);
-
 
 #endif

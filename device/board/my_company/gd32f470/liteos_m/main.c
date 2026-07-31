@@ -31,18 +31,18 @@ void init_hw(void)
 {
 	// 初始化DWT
 	DWT_Init();
-	// 初始化UART
-	init_periph_uart();
+	// 初始化GPIO
+	init_periph_gpio();
+	// 初始化SPI_FLASH
+    periph_spi_flash_init();
 }
 
 void init_bsp(void)
 {
-	// 初始化GPIO
-	init_periph_gpio();
 	// 初始化按键
 	init_periph_key();
-	// 初始化SPI2
-    // periph_spi_flash_init();
+	// 初始化UART
+	init_periph_uart();
 }
 
 int main(void)
