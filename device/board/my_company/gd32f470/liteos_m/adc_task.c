@@ -41,8 +41,8 @@ while(1) {
     // 再读一次，这次读出来的才是当前通道的真实数据
     adc_value = tlc2543_read_adc(channel);
     
-    // 将 12位 ADC 值转换为实际电压 (参考电压 4.5V)
-    voltage = ((float)adc_value / 4095.0f) * 4.5f;
+    // 将 12位 ADC 值转换为实际电压 (参考电压 4.55V)
+    voltage = ((float)adc_value / 4095.0f) * 4.55f;
     
     printf("ADC Channel %d: Raw: %d | Voltage: %.3f V\r\n", channel, adc_value, voltage);
 
