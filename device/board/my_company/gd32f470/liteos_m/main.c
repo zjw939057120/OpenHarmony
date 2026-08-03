@@ -53,7 +53,7 @@ void init_task(void)
 	// 初始化DI任务
 	di_task_init();
 	// 初始化ADC任务
-	// adc_task_init();
+	adc_task_init();
 	// 初始化DAC任务
 	dac_task_init();
 }

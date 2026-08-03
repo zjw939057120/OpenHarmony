@@ -77,15 +77,20 @@ static void *thread_dac_task(unsigned int arg)
     // 初始化SPI_DAC
     ad5318_spi_init();
     uint8_t channel = 0;
-    uint16_t data = 1023 / 2;
+    uint16_t data = 0;
     while(1) {
+        data = 1023 / 2;
+        ad5318_write_dac(channel, data);
+        printf("DAC Channel %d set to %u\r\n", channel, data);
+        LOS_TaskDelay(2000); // 2秒延时
+        data = 1023;
         ad5318_write_dac(channel, data);
         printf("DAC Channel %d set to %u\r\n", channel, data);
         channel++;
         if(channel > 7) {
             channel = 0;
         }
-        LOS_TaskDelay(1000); // 1秒延时
+        LOS_TaskDelay(2000); // 2秒延时
     }
     return NULL;
 }
