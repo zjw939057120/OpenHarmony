@@ -26,6 +26,7 @@
 #include "periph_uart.h"
 #include "main_task.h"
 #include "di_task.h"
+#include "adc_task.h"
 
 void init_hw(void)
 {
@@ -35,6 +36,8 @@ void init_hw(void)
 	init_periph_gpio();
 	// 初始化SPI_FLASH
     periph_spi_flash_init();
+	// 初始化SPI_ADC
+	tlc2543_spi_init();
 }
 
 void init_bsp(void)
@@ -86,6 +89,8 @@ int main(void)
 	main_task_init();
 	// 初始化DI任务
 	di_task_init();
+	// 初始化ADC任务
+	adc_task_init();
 
 	LOS_Start();
 

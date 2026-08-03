@@ -41,15 +41,15 @@ static void *thread_main_task(unsigned int arg)
 
 UINT32 main_task_init(void)
 {
-	UINT32 mainTaskID;
+	UINT32 taskID;
 	TSK_INIT_PARAM_S stTask = {
 		.pfnTaskEntry = thread_main_task,
 		.uwStackSize = 0x1000,
 		.pcName = "mainTask",
 		.usTaskPrio = 6,
 	};
-	if (LOS_TaskCreate(&mainTaskID, &stTask) != LOS_OK) {
+	if (LOS_TaskCreate(&taskID, &stTask) != LOS_OK) {
 		return -1;
 	}
-	return mainTaskID;
+	return taskID;
 }

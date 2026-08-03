@@ -42,15 +42,15 @@ static void *thread_di_task(unsigned int arg)
 
 UINT32 di_task_init(void)
 {
-	UINT32 diTaskID;
+	UINT32 taskID;
 	TSK_INIT_PARAM_S stTask = {
 		.pfnTaskEntry = thread_di_task,
 		.uwStackSize = 0x1000,
 		.pcName = "diTask",
 		.usTaskPrio = 6,
 	};
-	if (LOS_TaskCreate(&diTaskID, &stTask) != LOS_OK) {
+	if (LOS_TaskCreate(&taskID, &stTask) != LOS_OK) {
 		return -1;
 	}
-	return diTaskID;
+	return taskID;
 }

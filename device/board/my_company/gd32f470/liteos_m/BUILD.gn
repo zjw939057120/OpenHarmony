@@ -37,7 +37,9 @@ kernel_module(module_name) {
         "periph_uart.c",
         "main_task.c",
         "di_task.c",
-        "periph_spi_flash.c"
+        "adc_task.c",
+        "periph_spi_flash.c",
+        "periph_spi_adc.c",
     ]
     deps = [
         "//device/soc/gd/gd32f4xx/sdk:gd32f4xx_sdk",
