@@ -145,6 +145,7 @@ void rs485_1_en(bool high)
 		led_on(RS485_1_LED_INDEX);
 	} else {
 		//接收模式
+		while (usart_flag_get(RS485_1_COM_NR, USART_FLAG_TC) == RESET);
 		led_off(RS485_1_LED_INDEX);
 		gpio_bit_reset(gpio_list[RS485_1_EN_INDEX].gpio, gpio_list[RS485_1_EN_INDEX].pin);
 	}
@@ -158,6 +159,7 @@ void rs485_2_en(bool high)
 		led_on(RS485_2_LED_INDEX);
 	} else {
 		//接收模式
+		while (usart_flag_get(RS485_2_COM_NR, USART_FLAG_TC) == RESET);
 		led_off(RS485_2_LED_INDEX);
 		gpio_bit_reset(gpio_list[RS485_2_EN_INDEX].gpio, gpio_list[RS485_2_EN_INDEX].pin);
 	}
@@ -171,6 +173,7 @@ void rs485_3_en(bool high)
 		led_on(RS485_3_LED_INDEX);
 	} else {
 		//接收模式
+		while (usart_flag_get(RS485_3_COM_NR, USART_FLAG_TC) == RESET);
 		led_off(RS485_3_LED_INDEX);
 		gpio_bit_reset(gpio_list[RS485_3_EN_INDEX].gpio, gpio_list[RS485_3_EN_INDEX].pin);
 	}
