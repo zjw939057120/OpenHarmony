@@ -36,16 +36,26 @@ void init_hw(void)
 	init_periph_gpio();
 	// 初始化SPI_FLASH
     periph_spi_flash_init();
-	// 初始化SPI_ADC
-	tlc2543_spi_init();
 }
 
-void init_bsp(void)
+void init_hwi(void)
 {
 	// 初始化按键
 	init_periph_key();
 	// 初始化UART
 	init_periph_uart();
+}
+
+void init_task(void)
+{
+	// 初始化主任务
+	main_task_init();
+	// 初始化DI任务
+	di_task_init();
+	// 初始化ADC任务
+	// adc_task_init();
+	// 初始化DAC任务
+	dac_task_init();
 }
 
 int main(void)
@@ -67,8 +77,8 @@ int main(void)
 	initWatchDog();
 	// 初始化RTC
 	initRtc();
-	// 初始化bsp
-	init_bsp();
+	// 初始化HWI
+	init_hwi();
 
 #if IS_ENABLED(LOSCFG_SHELL)
 #if IS_ENABLED(CONFIG_USE_LETTER_SHELL)
@@ -84,13 +94,9 @@ int main(void)
 
 	initUartTxTask();
 	uartRxIrqRegister();
-	
-	// 初始化主任务
-	main_task_init();
-	// 初始化DI任务
-	di_task_init();
-	// 初始化ADC任务
-	adc_task_init();
+
+	// 初始化任务
+	init_task();
 
 	LOS_Start();
 

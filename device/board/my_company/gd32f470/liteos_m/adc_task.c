@@ -71,3 +71,36 @@ UINT32 adc_task_init(void)
 	}
 	return taskID;
 }
+
+static void *thread_dac_task(unsigned int arg)
+{
+    // 初始化SPI_DAC
+    ad5318_spi_init();
+    uint8_t channel = 0;
+    uint16_t data = 1023 / 2;
+    while(1) {
+        ad5318_write_dac(channel, data);
+        printf("DAC Channel %d set to %u\r\n", channel, data);
+        channel++;
+        if(channel > 7) {
+            channel = 0;
+        }
+        LOS_TaskDelay(1000); // 1秒延时
+    }
+    return NULL;
+}
+
+UINT32 dac_task_init(void)
+{
+	UINT32 taskID;
+	TSK_INIT_PARAM_S stTask = {
+		.pfnTaskEntry = thread_dac_task,
+		.uwStackSize = 0x1000,
+		.pcName = "dacTask",
+		.usTaskPrio = 6,
+	};
+	if (LOS_TaskCreate(&taskID, &stTask) != LOS_OK) {
+		return -1;
+	}
+	return taskID;
+}
