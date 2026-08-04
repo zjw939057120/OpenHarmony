@@ -5,9 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "gd32f4xx.h"
-#include "utils.h"
-#include "driver/norflash/bsp_w25qxx.h"
-#include "driver/norflash/w25qxx.h"
+
 
 void periph_spi_flash_init(void);
 

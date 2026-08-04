@@ -21,9 +21,8 @@
 #include "shell_port.h"
 #include "rtc_drv.h"
 #include "wdg_drv.h"
+#include "utils.h"
 #include "main.h"
-#include "periph_gpio.h"
-#include "periph_uart.h"
 #include "main_task.h"
 #include "di_task.h"
 #include "adc_task.h"
@@ -44,6 +43,8 @@ void init_hwi(void)
 	init_periph_key();
 	// 初始化UART
 	init_periph_uart();
+	// 初始化以太网
+    periph_ethernet_init();
 }
 
 void init_task(void)

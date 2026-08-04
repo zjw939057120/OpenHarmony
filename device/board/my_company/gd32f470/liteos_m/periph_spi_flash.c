@@ -1,13 +1,9 @@
-#include <stdio.h>
-#include <string.h>
-#include "los_arch_interrupt.h"
-#include "los_interrupt.h"
-#include "los_sem.h"
 #include "los_task.h"
-#include "los_event.h"
 #include "gd32f4xx.h"
 #include "utils.h"
 #include "periph_spi_flash.h"
+#include "driver/norflash/bsp_w25qxx.h"
+#include "driver/norflash/w25qxx.h"
 
 
 void periph_spi_flash_init(void)

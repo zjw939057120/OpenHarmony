@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "gd32f4xx.h"
-#include "utils.h"
+
 
 // TLC2543 片选引脚 (PF11)
 #define TLC2543_CS_LOW()    gpio_bit_reset(GPIOF, GPIO_PIN_11)

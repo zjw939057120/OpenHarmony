@@ -40,6 +40,7 @@ kernel_module(module_name) {
         "adc_task.c",
         "periph_spi_flash.c",
         "periph_spi_adc.c",
+        "periph_ethernet.c",
     ]
     deps = [
         "//device/soc/gd/gd32f4xx/sdk:gd32f4xx_sdk",

@@ -5,7 +5,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "gd32f4xx.h"
-#include "utils.h"
 
 
 UINT32 main_task_init();

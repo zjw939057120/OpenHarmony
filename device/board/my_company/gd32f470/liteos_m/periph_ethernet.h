@@ -1,5 +1,5 @@
-#ifndef _ADC_TASK_H_
-#define _ADC_TASK_H_
+#ifndef _PERIPH_ETHNET_H_
+#define _PERIPH_ETHNET_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -7,6 +7,7 @@
 #include "gd32f4xx.h"
 
 
-UINT32 adc_task_init();
+void periph_ethernet_init(void);
+
 
 #endif

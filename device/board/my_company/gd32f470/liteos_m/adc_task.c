@@ -13,16 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <stdio.h>
-#include <string.h>
-#include "los_arch_interrupt.h"
-#include "los_interrupt.h"
-#include "los_sem.h"
 #include "los_task.h"
-#include "los_event.h"
 #include "gd32f4xx.h"
-#include "main_task.h"
-#include "periph_spi_adc.h"
+#include "utils.h"
+#include "adc_task.h"
 
 static void *thread_adc_task(unsigned int arg)
 {

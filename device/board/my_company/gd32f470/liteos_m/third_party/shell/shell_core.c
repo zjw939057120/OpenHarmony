@@ -94,7 +94,7 @@ static const char *shellText[] =
         " ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝\r\n"             
         "\r\n"
         "Build:       "__DATE__" "__TIME__"\r\n"
-        "Version:     OpenHarmony 6.0.1\r\n"
+        "Version:     OpenHarmony-6.1-LTS\r\n"
         "Copyright:   (c) 2020-2026 OpenHarmony Community\r\n",
 #endif
     [SHELL_TEXT_CMD_TOO_LONG] = 
