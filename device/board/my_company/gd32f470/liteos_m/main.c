@@ -29,6 +29,7 @@
 
 void init_hw(void)
 {
+	SEGGER_RTT_printf(0, "init_hw\n");
 	// 初始化DWT
 	DWT_Init();
 	// 初始化GPIO
@@ -39,6 +40,7 @@ void init_hw(void)
 
 void init_hwi(void)
 {
+	SEGGER_RTT_printf(0, "init_hwi\n");
 	// 初始化按键
 	init_periph_key();
 	// 初始化UART
@@ -47,8 +49,16 @@ void init_hwi(void)
     periph_ethernet_init();
 }
 
+void init_queue(void)
+{
+	SEGGER_RTT_printf(0, "init_queue\n");
+	// 初始化Modbus RTU任务队列
+    modbus_rtu_queue_init();
+}
+
 void init_task(void)
 {
+	SEGGER_RTT_printf(0, "init_task\n");
 	// 初始化主任务
 	main_task_init();
 	// 初始化DI任务
@@ -57,6 +67,10 @@ void init_task(void)
 	adc_task_init();
 	// 初始化DAC任务
 	dac_task_init();
+	// 初始化Modbus RTU任务1
+	modbus_rtu_task_1_init();
+	// 初始化Modbus RTU任务2
+	modbus_rtu_task_2_init();
 }
 
 int main(void)
@@ -78,6 +92,8 @@ int main(void)
 	initWatchDog();
 	// 初始化RTC
 	initRtc();
+	// 初始化队列
+	init_queue();
 	// 初始化HWI
 	init_hwi();
 

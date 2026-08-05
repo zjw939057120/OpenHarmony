@@ -187,7 +187,7 @@ void init_periph_key()
 
     gpio_mode_set(USER_KEY_GPIO_PORT, GPIO_MODE_INPUT, GPIO_PUPD_NONE, USER_KEY_PIN);
     /* enable and set key EXTI interrupt priority */
-    uint32_t ret = LOS_HwiCreate(USER_KEY_EXTI_IRQn, 2U, 0, EXTI10_15_IRQHandler, NULL);
+    UINT32 ret = LOS_HwiCreate(USER_KEY_EXTI_IRQn, 2U, 0, EXTI10_15_IRQHandler, NULL);
     if (ret != LOS_OK) {
         printf("%s failed! ret = 0x%x\r\n", __func__, ret);
     }

@@ -99,6 +99,7 @@ UINT32 dac_task_init(void)
 		.usTaskPrio = 6,
 	};
 	if (LOS_TaskCreate(&taskID, &stTask) != LOS_OK) {
+        printf("** LOS_TaskCreate dacTask failed!\n");
 		return -1;
 	}
 	return taskID;

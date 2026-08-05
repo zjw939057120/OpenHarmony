@@ -16,36 +16,17 @@
 #include "los_task.h"
 #include "gd32f4xx.h"
 #include "utils.h"
-#include "main_task.h"
+#include "message_queue.h"
 
-static void *thread_main_task(unsigned int arg)
-{
-	while(1) {
-		led_on(RUNSTA_LED_INDEX);
-        LOS_TaskDelay(200);
-		led_off(RUNSTA_LED_INDEX);
-        LOS_TaskDelay(200);
-		led_on(RUNSTA_LED_INDEX);
-        LOS_TaskDelay(200);
-		led_off(RUNSTA_LED_INDEX);
-		LOS_TaskDelay(1000);
-	}
 
-    return NULL;
+UINT32 messageQueueNew(CHAR *queueName,UINT16 len,UINT32 *queueID,UINT32 flags,UINT16 maxMsgSize){
+	return LOS_QueueCreate(queueName,len,queueID,flags,maxMsgSize);
 }
 
-UINT32 main_task_init(void)
-{
-	UINT32 taskID;
-	TSK_INIT_PARAM_S stTask = {
-		.pfnTaskEntry = thread_main_task,
-		.uwStackSize = 0x1000,
-		.pcName = "mainTask",
-		.usTaskPrio = 6,
-	};
-	if (LOS_TaskCreate(&taskID, &stTask) != LOS_OK) {
-        printf("** LOS_TaskCreate mainTask failed!\n");
-		return -1;
-	}
-	return taskID;
+UINT32 messageQueuePut(UINT32 queueID,VOID *bufferAddr,UINT32 *bufferSize){
+	return LOS_QueueWriteCopy(queueID,bufferAddr,bufferSize,LOS_NO_WAIT);
+}
+
+UINT32 messageQueueGet(UINT32 queueID,VOID *bufferAddr,UINT32 *bufferSize){
+	return LOS_QueueReadCopy(queueID,bufferAddr,bufferSize,LOS_WAIT_FOREVER);
 }
