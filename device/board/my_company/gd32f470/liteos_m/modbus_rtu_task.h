@@ -6,8 +6,8 @@
 #include <stdbool.h>
 #include "gd32f4xx.h"
 
-extern UINT32 rs485_1_queue_id;
-extern UINT32 rs485_2_queue_id;
+extern UINT32 queueID_1;
+extern UINT32 queueID_2;
 
 UINT32 modbus_rtu_queue_init();
 

@@ -17,24 +17,24 @@
 #include "gd32f4xx.h"
 #include "utils.h"
 #include "modbus_rtu_task.h"
-#include "message_queue.h"
+#include "los_queue.h"
 
 
-UINT32 rs485_1_queue_id = 0;
-UINT32 rs485_2_queue_id = 0;
+UINT32 queueID_1 = 0;
+UINT32 queueID_2 = 0;
 
 UINT32 modbus_rtu_queue_init()
 {
 	UINT32 ret = 0;
-    ret = messageQueueNew("rs485_1_queue", MESSAGE_QUEUE_MAX_COUNT, &rs485_1_queue_id, 0, MESSAGE_QUEUE_MAX_SIZE);
+    ret = LOS_QueueCreate("Q1", QUEUE_MAX_LEN, &queueID_1, 0, QUEUE_MAX_NODE_SIZE);
     if(ret != LOS_OK) {
-        printf("** messageQueueNew rs485_1_queue failed!\n");
+        printf("** LOS_QueueCreate Q1 failed!\n");
         return ret;
     }
 
-    ret = messageQueueNew("rs485_2_queue", MESSAGE_QUEUE_MAX_COUNT, &rs485_2_queue_id, 0, MESSAGE_QUEUE_MAX_SIZE);
+    ret = LOS_QueueCreate("Q2", QUEUE_MAX_LEN, &queueID_2, 0, QUEUE_MAX_NODE_SIZE);
     if(ret != LOS_OK) {
-        printf("** messageQueueNew rs485_2_queue failed!\n");
+        printf("** LOS_QueueCreate Q2 failed!\n");
         return ret;
     }
     return ret;
@@ -42,33 +42,33 @@ UINT32 modbus_rtu_queue_init()
 
 static void *thread_modbus_rtu_task_1(unsigned int arg)
 {
-	UINT8 rs485_com_1_queue_buf[MESSAGE_QUEUE_MAX_SIZE] = {0};
-	UINT32 rs485_com_1_queue_size = 0;
+	UINT8 buf[QUEUE_MAX_NODE_SIZE] = {0};
+	UINT32 len = 0;
 	while(1) {
-		rs485_com_1_queue_size = MESSAGE_QUEUE_MAX_SIZE;
-		// UINT32 ret = messageQueueGet(rs485_1_queue_id, rs485_com_1_queue_buf, rs485_com_1_queue_size);
-		// if(ret != LOS_OK) {
-		// 	printf("** messageQueueGet rs485_1_queue_id = %d, ret = 0x%x\n",rs485_1_queue_id, ret);
-		// }
+		len = QUEUE_MAX_NODE_SIZE;
+		UINT32 ret = LOS_QueueReadCopy(queueID_1, buf, &len,LOS_WAIT_FOREVER);
+		buf[len] = '\0';
+		if(ret != LOS_OK) {
+			printf("** LOS_QueueReadCopy queueID_1 = %d, ret = 0x%x\n",queueID_1, ret);
+		}
 		// process data
-		// printf("rs485_com_1_queue_buf: %s\n", rs485_com_1_queue_buf);
-		LOS_TaskDelay(1000);
+		printf("buf: %s, len = %d\n", buf,len);
 	}
 }
 
 static void *thread_modbus_rtu_task_2(unsigned int arg)
 {
-	UINT8 rs485_com_2_queue_buf[MESSAGE_QUEUE_MAX_SIZE] = {0};
-	UINT32 rs485_com_2_queue_size = 0;
+	UINT8 buf[QUEUE_MAX_NODE_SIZE] = {"ABCD"};
+	UINT32 len = 0;
 	while(1) {
-		// rs485_com_2_queue_size = MESSAGE_QUEUE_MAX_SIZE;
-		// UINT32 ret = messageQueueGet(rs485_2_queue_id, rs485_com_2_queue_buf, rs485_com_2_queue_size);
-		// if(ret != LOS_OK) {
-		// 	printf("** messageQueueGet rs485_2_queue_id = %d, ret = 0x%x\n",rs485_2_queue_id, ret);
-		// }
+		len = QUEUE_MAX_NODE_SIZE;
+		UINT32 ret = LOS_QueueReadCopy(queueID_2, buf, &len,LOS_WAIT_FOREVER);
+		buf[len] = '\0';
+		if(ret != LOS_OK) {
+			printf("** LOS_QueueReadCopy queueID_2 = %d, ret = 0x%x\n",queueID_2, ret);
+		}
 		// process data
-		// printf("rs485_com_2_queue_buf: %s\n", rs485_com_2_queue_buf);
-		LOS_TaskDelay(1000);
+		printf("buf: %s, len = %d\n", buf,len);
 	}
 }
 

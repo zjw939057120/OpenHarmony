@@ -8,15 +8,15 @@
 #include "gd32f4xx.h"
 #include "periph_gpio.h"
 #include "periph_uart.h"
-#include "message_queue.h"
 #include "modbus_rtu_task.h"
+#include "los_queue.h"
 
 
 // rs485_com_1 receive buffer
-UINT8 rs485_com_1_recv_buf[MESSAGE_QUEUE_MAX_SIZE] = {0};
+UINT8 rs485_com_1_recv_buf[QUEUE_MAX_NODE_SIZE] = {0};
 UINT8 rs485_com_1_recv_buf_index = 0;
 // rs485_com_2 receive buffer
-UINT8 rs485_com_2_recv_buf[MESSAGE_QUEUE_MAX_SIZE] = {0};
+UINT8 rs485_com_2_recv_buf[QUEUE_MAX_NODE_SIZE] = {0};
 UINT8 rs485_com_2_recv_buf_index = 0;
 
 void init_periph_uart(){
@@ -89,7 +89,7 @@ void rs485_com_1_ReceiveHandler(void)
 		/* receive data */
 		rs485_com_1_recv_buf[rs485_com_1_recv_buf_index] = (char)usart_data_receive(RS485_1_COM_NR);
 		// check index overflow
-		if(rs485_com_1_recv_buf_index >= MESSAGE_QUEUE_MAX_SIZE) {
+		if(rs485_com_1_recv_buf_index >= QUEUE_MAX_NODE_SIZE) {
 			rs485_com_1_recv_buf_index = 0;
 		}else {
 			rs485_com_1_recv_buf_index++;	
@@ -99,17 +99,21 @@ void rs485_com_1_ReceiveHandler(void)
 		usart_interrupt_flag_clear(RS485_1_COM_NR, USART_INT_FLAG_RBNE);
 		usart_flag_clear(RS485_1_COM_NR, USART_FLAG_RBNE);
 	} else if (RESET != usart_flag_get(RS485_1_COM_NR, USART_FLAG_IDLE)) {
+		// 处理接收数据
+		// 清除IDLE标志位
 		usart_flag_get(RS485_1_COM_NR, USART_FLAG_IDLE);
 		usart_data_receive(RS485_1_COM_NR);
+		//截断字符串
 		rs485_com_1_recv_buf[rs485_com_1_recv_buf_index] = '\0';
 
-		SEGGER_RTT_printf(0, "rs485_com_1_recv_buf = %s, queue_id = 0x%x\n", rs485_com_1_recv_buf,rs485_1_queue_id);
+		SEGGER_RTT_printf(0, "rs485_com_1_recv_buf = %s, queue_id = 0x%x\n", rs485_com_1_recv_buf,queueID_1);
 		// put data to queue
-		UINT32 bufferSize = MESSAGE_QUEUE_MAX_SIZE;
-		UINT32 ret = messageQueuePut(rs485_1_queue_id, (VOID *)rs485_com_1_recv_buf, &bufferSize);
+		UINT32 ret = LOS_QueueWriteCopy(queueID_1, rs485_com_1_recv_buf, rs485_com_1_recv_buf_index,0);
 		if(ret != LOS_OK) {
-			printf("** messageQueuePut failed! queue_id = 0x%x, ret = 0x%x\n",rs485_1_queue_id, ret);
+			printf("** LOS_QueueWriteCopy failed! queue_id = 0x%x, ret = 0x%x\n",queueID_1, ret);
 		}
+		// 清空接收缓冲区
+		memset(rs485_com_1_recv_buf, 0, QUEUE_MAX_NODE_SIZE);
 		rs485_com_1_recv_buf_index = 0;
 	}
 
@@ -138,7 +142,7 @@ void rs485_com_2_ReceiveHandler(void)
 		/* receive data */
 		rs485_com_2_recv_buf[rs485_com_2_recv_buf_index] = (char)usart_data_receive(RS485_2_COM_NR);
 		// check index overflow
-		if(rs485_com_2_recv_buf_index >= MESSAGE_QUEUE_MAX_SIZE) {
+		if(rs485_com_2_recv_buf_index >= QUEUE_MAX_NODE_SIZE) {
 			rs485_com_2_recv_buf_index = 0;
 		}else {
 			rs485_com_2_recv_buf_index++;	
@@ -148,17 +152,21 @@ void rs485_com_2_ReceiveHandler(void)
 		usart_interrupt_flag_clear(RS485_2_COM_NR, USART_INT_FLAG_RBNE);
 		usart_flag_clear(RS485_2_COM_NR, USART_FLAG_RBNE);
 	} else if (RESET != usart_flag_get(RS485_2_COM_NR, USART_FLAG_IDLE)) {
+		// 处理接收数据
+		// 清除IDLE标志位
 		usart_flag_get(RS485_2_COM_NR, USART_FLAG_IDLE);
 		usart_data_receive(RS485_2_COM_NR);
+		//截断字符串
 		rs485_com_2_recv_buf[rs485_com_2_recv_buf_index] = '\0';
 
-		SEGGER_RTT_printf(0, "rs485_com_2_recv_buf = %s, queue_id = 0x%x\n", rs485_com_2_recv_buf,rs485_2_queue_id);
+		SEGGER_RTT_printf(0, "rs485_com_2_recv_buf = %s, queue_id = 0x%x\n", rs485_com_2_recv_buf,queueID_2);
 		// put data to queue
-		UINT32 bufferSize = MESSAGE_QUEUE_MAX_SIZE;
-		UINT32 ret = messageQueuePut(rs485_2_queue_id, (VOID *)rs485_com_2_recv_buf, &bufferSize);
+		UINT32 ret = LOS_QueueWriteCopy(queueID_2, rs485_com_2_recv_buf, rs485_com_2_recv_buf_index,0);
 		if(ret != LOS_OK) {
-			printf("** messageQueuePut failed! queue_id = 0x%x, ret = 0x%x\n",rs485_2_queue_id, ret);
+			printf("** LOS_QueueWriteCopy failed! queue_id = 0x%x, ret = 0x%x\n",queueID_2, ret);
 		}
+		// 清空接收缓冲区
+		memset(rs485_com_2_recv_buf, 0, QUEUE_MAX_NODE_SIZE);
 		rs485_com_2_recv_buf_index = 0;
 	}
 
