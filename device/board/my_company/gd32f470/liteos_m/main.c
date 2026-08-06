@@ -52,8 +52,8 @@ void init_hwi(void)
 void init_queue(void)
 {
 	SEGGER_RTT_printf(0, "init_queue\n");
-	// 初始化Modbus RTU任务队列
-    modbus_rtu_queue_init();
+	// 初始化RS485接收队列
+    rs485_recv_queue_init();
 }
 
 void init_task(void)
@@ -67,10 +67,12 @@ void init_task(void)
 	adc_task_init();
 	// 初始化DAC任务
 	dac_task_init();
-	// 初始化Modbus RTU任务1
-	modbus_rtu_task_1_init();
-	// 初始化Modbus RTU任务2
-	modbus_rtu_task_2_init();
+	// 初始化RS485_1接收任务
+	rs485_1_recv_task_init();
+	// 初始化RS485_2接收任务
+	rs485_2_recv_task_init();
+	// 初始化RS485_2发送任务
+	rs485_2_send_task_init();
 }
 
 int main(void)

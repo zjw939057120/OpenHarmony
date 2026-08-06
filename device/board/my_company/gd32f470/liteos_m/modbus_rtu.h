@@ -50,5 +50,17 @@ uint16_t modbus_crc16(const uint8_t *data, uint16_t len);
  */
 uint16_t modbus_rtu_build_read_response(uint8_t slave_id, const uint16_t *reg_data, 
                                         uint16_t reg_count, uint8_t *out_buf, uint16_t buf_size);
-                                        
+
+/**
+ * @brief 构造 Modbus RTU 读保持寄存器(0x03)的请求帧
+ * @param slave_id 从站地址
+ * @param start_addr 起始寄存器地址
+ * @param quantity 读取寄存器数量
+ * @param out_buf 输出缓冲区指针
+ * @param buf_size 缓冲区大小
+ * @return 成功返回请求帧的总字节数(固定为8)，失败返回 0
+ */
+uint16_t modbus_rtu_build_read_request(uint8_t slave_id, uint16_t start_addr, 
+                                       uint16_t quantity, uint8_t *out_buf, uint16_t buf_size);
+        
 #endif // MODBUS_RTU_H

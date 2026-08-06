@@ -97,3 +97,26 @@ uint16_t modbus_rtu_build_read_response(uint8_t slave_id, const uint16_t *reg_da
 
     return total_len;
 }
+
+uint16_t modbus_rtu_build_read_request(uint8_t slave_id, uint16_t start_addr, 
+                                       uint16_t quantity, uint8_t *out_buf, uint16_t buf_size) {
+    // 读请求帧固定长度为 8 字节
+    if (!out_buf || buf_size < 8) {
+        return 0; 
+    }
+
+    // 1. 填充固定字段
+    out_buf[0] = slave_id;
+    out_buf[1] = MB_FUNC_READ_HOLDING_REGISTERS;
+    out_buf[2] = (uint8_t)(start_addr >> 8);   // 起始地址高字节
+    out_buf[3] = (uint8_t)(start_addr & 0xFF); // 起始地址低字节
+    out_buf[4] = (uint8_t)(quantity >> 8);     // 数量高字节
+    out_buf[5] = (uint8_t)(quantity & 0xFF);   // 数量低字节
+
+    // 2. 计算 CRC16 (对前6个字节计算)
+    uint16_t crc = modbus_crc16(out_buf, 6);
+    out_buf[6] = (uint8_t)(crc & 0xFF);        // CRC 低字节
+    out_buf[7] = (uint8_t)(crc >> 8);          // CRC 高字节
+
+    return 8; // 返回构造成功的字节数
+}

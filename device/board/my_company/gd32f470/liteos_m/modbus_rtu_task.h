@@ -9,9 +9,9 @@
 extern UINT32 queueID_1;
 extern UINT32 queueID_2;
 
-UINT32 modbus_rtu_queue_init();
+UINT32 rs485_recv_queue_init();
 
-UINT32 modbus_rtu_task_1_init();
-UINT32 modbus_rtu_task_2_init();
+UINT32 rs485_1_recv_task_init();
+UINT32 rs485_2_recv_task_init();
 
 #endif
