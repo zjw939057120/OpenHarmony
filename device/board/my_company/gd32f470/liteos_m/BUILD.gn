@@ -43,6 +43,7 @@ kernel_module(module_name) {
         "periph_ethernet.c",
         "message_queue.c",
         "modbus_rtu_task.c",
+        "modbus_rtu.c",
     ]
     deps = [
         "//device/soc/gd/gd32f4xx/sdk:gd32f4xx_sdk",
