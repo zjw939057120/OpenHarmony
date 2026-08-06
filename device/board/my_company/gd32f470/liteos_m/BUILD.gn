@@ -19,7 +19,7 @@ kernel_module(module_name) {
 
         # shell
         "third_party/shell/shell_cmd_list.c",
-        "third_party/shell/shell_core.c",
+        "third_party/shell/shell.c",
         "third_party/shell/shell_port.c",
         "third_party/shell/shell_companion.c",
         "third_party/shell/shell_ext.c",

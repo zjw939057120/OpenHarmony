@@ -12,7 +12,7 @@
 #ifndef __SHELL_PORT_H__
 #define __SHELL_PORT_H__
 
-#include "shell_core.h"
+#include "shell.h"
 
 extern void wakeupShellRecvTask(void);
 extern void initLetterShell(void);

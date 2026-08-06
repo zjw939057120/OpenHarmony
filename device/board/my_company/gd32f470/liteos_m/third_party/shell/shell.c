@@ -8,7 +8,7 @@
  * 
  */
 
-#include "shell_core.h"
+#include "shell.h"
 #include "string.h"
 #include "stdio.h"
 #include "stdarg.h"
@@ -363,6 +363,42 @@ void shellPrint(Shell *shell, char *fmt, ...)
     va_end(vargs);
     
     shellWriteString(shell, buffer);
+}
+#endif
+
+
+#if SHELL_SCAN_BUFFER > 0
+/**
+ * @brief shell格式化输入
+ * 
+ * @param shell shell对象
+ * @param fmt 格式化字符串
+ * @param ... 参数
+ */
+void shellScan(Shell *shell, char *fmt, ...)
+{
+    char buffer[SHELL_SCAN_BUFFER];
+    va_list vargs;
+    short index = 0;
+
+    SHELL_ASSERT(shell, return);
+
+    if (shell->read)
+    {
+        do {
+            if (shell->read(&buffer[index]) == 0)
+            {
+                shell->write(buffer[index]);
+                index++;
+            }
+        } while (buffer[index -1] != '\r' && buffer[index -1] != '\n' && index < SHELL_SCAN_BUFFER);
+        shellWriteString(shell, "\r\n");
+        buffer[index] = '\0';
+    }
+
+    va_start(vargs, fmt);
+    vsscanf(buffer, fmt, vargs);
+    va_end(vargs);
 }
 #endif
 
@@ -852,8 +888,11 @@ static void shellParserParam(Shell *shell)
             }
             if (record == 1)
             {
-                shell->parser.param[shell->parser.paramCount ++] = 
-                    &(shell->parser.buffer[i]);
+                if (shell->parser.paramCount < SHELL_PARAMETER_MAX_NUMBER)
+                {
+                    shell->parser.param[shell->parser.paramCount++] =
+                        &(shell->parser.buffer[i]);
+                }
                 record = 0;
             }
             if (shell->parser.buffer[i] == '\\'
@@ -1116,10 +1155,12 @@ setVar, shellSetVar, set var);
  * 
  * @param shell shell对象
  * @param command 命令
+ * 
+ * @return unsigned int 命令返回值
  */
-static void shellRunCommand(Shell *shell, ShellCommand *command)
+unsigned int shellRunCommand(Shell *shell, ShellCommand *command)
 {
-    int returnValue;
+    int returnValue = 0;
     shell->status.isActive = 1;
     if (command->attr.attrs.type == SHELL_TYPE_CMD_MAIN)
     {
@@ -1152,6 +1193,8 @@ static void shellRunCommand(Shell *shell, ShellCommand *command)
         shellSetUser(shell, command);
     }
     shell->status.isActive = 0;
+
+    return returnValue;
 }
 
 
@@ -1591,11 +1634,18 @@ void shellHelp(int argc, char *argv[])
                                                  argv[1],
                                                  shell->commandList.base,
                                                  0);
-        shellWriteString(shell, shellText[SHELL_TEXT_HELP_HEADER]);
-        shellWriteString(shell, shellGetCommandName(command));
-        shellWriteString(shell, "\r\n");
-        shellWriteString(shell, shellGetCommandDesc(command));
-        shellWriteString(shell, "\r\n");
+        if (command)
+        {
+            shellWriteString(shell, shellText[SHELL_TEXT_HELP_HEADER]);
+            shellWriteString(shell, shellGetCommandName(command));
+            shellWriteString(shell, "\r\n");
+            shellWriteString(shell, shellGetCommandDesc(command));
+            shellWriteString(shell, "\r\n");
+        }
+        else
+        {
+            shellWriteString(shell, shellText[SHELL_TEXT_CMD_NOT_FOUND]);
+        }
     }
 }
 SHELL_EXPORT_CMD(
@@ -1689,18 +1739,24 @@ void shellHandler(Shell *shell, char data)
 #if SHELL_SUPPORT_END_LINE == 1
 void shellWriteEndLine(Shell *shell, char *buffer, int len)
 {
-    shellWriteString(shell, shellText[SHELL_TEXT_CLEAR_LINE]);
+    if (!shell->status.isActive)
+    {
+        shellWriteString(shell, shellText[SHELL_TEXT_CLEAR_LINE]);
+    }
     while (len --)
     {
         shell->write(*buffer++);
     }
-    shellWriteCommandLine(shell, 0);
-    if (shell->parser.length > 0)
+    if (!shell->status.isActive)
     {
-        shellWriteString(shell, shell->parser.buffer);
-        for (short i = 0; i < shell->parser.length - shell->parser.cursor; i++)
+        shellWriteCommandLine(shell, 0);
+        if (shell->parser.length > 0)
         {
-            shell->write('\b');
+            shellWriteString(shell, shell->parser.buffer);
+            for (short i = 0; i < shell->parser.length - shell->parser.cursor; i++)
+            {
+                shell->write('\b');
+            }
         }
     }
 }
@@ -1821,6 +1877,7 @@ clear, shellClear, clear console);
 int shellRun(Shell *shell, const char *cmd)
 {
     SHELL_ASSERT(shell && cmd, return -1);
+    char active = shell->status.isActive;
     if (strlen(cmd) > shell->parser.bufferSize - 1)
     {
         shellWriteString(shell, shellText[SHELL_TEXT_CMD_TOO_LONG]);
@@ -1830,6 +1887,7 @@ int shellRun(Shell *shell, const char *cmd)
     {
         shell->parser.length = shellStringCopy(shell->parser.buffer, (char *)cmd);
         shellExec(shell);
+        shell->status.isActive = active;
         return 0;
     }
 }

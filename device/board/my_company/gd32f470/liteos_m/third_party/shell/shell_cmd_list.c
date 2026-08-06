@@ -9,7 +9,7 @@
  * 
  */
 
-#include "shell_core.h"
+#include "shell.h"
 
 #if SHELL_USING_CMD_EXPORT != 1
 

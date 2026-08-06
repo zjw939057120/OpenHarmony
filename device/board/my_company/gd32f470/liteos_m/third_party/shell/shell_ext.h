@@ -12,7 +12,7 @@
 #ifndef __SHELL_EXT_H__
 #define __SHELL_EXT_H__
 
-#include "shell_core.h"
+#include "shell.h"
 
 /**
  * @brief 数字类型
@@ -20,12 +20,12 @@
  */
 typedef enum
 {
-    NUM_TYPE_INT,                                           /**< 十进制整型 */
+    NUM_TYPE_DEC,                                           /**< 十进制整型 */
     NUM_TYPE_BIN,                                           /**< 二进制整型 */
     NUM_TYPE_OCT,                                           /**< 八进制整型 */
     NUM_TYPE_HEX,                                           /**< 十六进制整型 */
     NUM_TYPE_FLOAT                                          /**< 浮点型 */
-} NUM_Type;
+} ShellNumType;
 
 unsigned int shellExtParsePara(Shell *shell, char *string);
 int shellExtRun(Shell *shell, ShellCommand *command, int argc, char *argv[]);

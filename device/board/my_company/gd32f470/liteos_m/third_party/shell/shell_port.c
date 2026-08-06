@@ -10,7 +10,7 @@
  */
 
 #include <stdio.h>
-#include "shell_core.h"
+#include "shell_port.h"
 #include "los_sem.h"
 #include "los_task.h"
 #include "uart_drv.h"

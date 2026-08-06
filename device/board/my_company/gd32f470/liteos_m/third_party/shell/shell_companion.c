@@ -8,7 +8,7 @@
  * @copyright (c) 2020 Letter
  * 
  */
- #include "shell_core.h"
+ #include "shell.h"
  
 #if SHELL_USING_COMPANION == 1
 /**

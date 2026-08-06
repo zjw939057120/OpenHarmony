@@ -14,7 +14,7 @@
 
 #include "shell_cfg.h"
 
-#define     SHELL_VERSION               "3.0.5"                 /**< 版本号 */
+#define     SHELL_VERSION               "3.0.6"                 /**< 版本号 */
 
 
 /**
@@ -410,6 +410,7 @@ typedef struct
 void shellInit(Shell *shell, char *buffer, unsigned short size);
 unsigned short shellWriteString(Shell *shell, const char *string);
 void shellPrint(Shell *shell, char *fmt, ...);
+void shellScan(Shell *shell, char *fmt, ...);
 Shell* shellGetCurrent(void);
 void shellHandler(Shell *shell, char data);
 void shellWriteEndLine(Shell *shell, char *buffer, int len);
