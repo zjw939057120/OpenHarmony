@@ -111,7 +111,7 @@ int main(void)
 #endif
 #endif
 
-	initUartTxTask();
+	// 初始化UART接收中断
 	uartRxIrqRegister();
 
 	// 初始化任务

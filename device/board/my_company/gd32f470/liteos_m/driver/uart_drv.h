@@ -24,6 +24,5 @@ extern int uartGetc(char *c);
 
 extern void uartInit(void);
 extern void uartRxIrqRegister(void);
-extern void initUartTxTask(void);
 
 #endif

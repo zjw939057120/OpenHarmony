@@ -110,9 +110,6 @@ typedef struct {
 } ringbuffer_t;
 
 static ringbuffer_t rx_ringbuffer = {.name = "rx"};
-static ringbuffer_t tx_ringbuffer = {.name = "tx"};
-static UINT32 g_tx_semId;
-static int txTask_is_inited;
 
 static int ringbuffer_write(ringbuffer_t *rb, const char c)
 {
@@ -162,40 +159,17 @@ static void uartPutc(char c)
 
 int uartPuts(const char *s)
 {
-	if (!txTask_is_inited) {
-		unsigned int intSave;
-		intSave = LOS_IntLock();
-		// 切换到发送模式
-		rs485_3_en(true);
-		while (*s) {
-			uartPutc(*s);
-			s++;
-		}
-		// 切换到接收模式
-		rs485_3_en(false);
-		LOS_IntRestore(intSave);
-	} else {
-		unsigned int intSave;
-		intSave = LOS_IntLock();
-		while (*s) {
-			if (ringbuffer_write(&tx_ringbuffer, *s) < 0) {
-				const char *msg = "** ringbuffer_write: 'tx' buffer is full\n";
-				const char *p = msg;
-				// 切换到发送模式
-				rs485_3_en(true);
-				while (*p) {
-					uartPutc(*p);
-					p++;
-				}
-				// 切换到接收模式
-				rs485_3_en(false);
-				break;
-			}
-			s++;
-		}
-		LOS_IntRestore(intSave);
-		LOS_SemPost(g_tx_semId);
+	unsigned int intSave;
+	intSave = LOS_IntLock();
+	// 切换到发送模式
+	rs485_3_en(true);
+	while (*s) {
+		uartPutc(*s);
+		s++;
 	}
+	// 切换到接收模式
+	rs485_3_en(false);
+	LOS_IntRestore(intSave);
 
 	return 0;
 }
@@ -275,35 +249,3 @@ void uartRxIrqRegister(void)
 	usart_interrupt_enable(UART_NR, USART_INT_RBNE);
 }
 
-static void *thread_uart_tx(unsigned int arg)
-{
-	txTask_is_inited = 1;
-	while (1) {
-		if (LOS_SemPend(g_tx_semId, LOS_WAIT_FOREVER) == LOS_OK) {
-            char c;
-			// 切换到发送模式
-			rs485_3_en(true);
-			while (ringbuffer_read(&tx_ringbuffer, &c) == 0)
-				uartPutc(c);
-			// 切换到接收模式
-			rs485_3_en(false);
-		}
-	}
-	return NULL;
-}
-
-void initUartTxTask(void)
-{
-	LOS_SemCreate(0, &g_tx_semId);
-
-	UINT32 uartTxTaskID;
-	TSK_INIT_PARAM_S stTask = {
-		.pfnTaskEntry = thread_uart_tx,
-		.uwStackSize = 0x1000,
-		.pcName = "uartTxTask",
-		.usTaskPrio = 6,
-	};
-	if (LOS_TaskCreate(&uartTxTaskID, &stTask) != LOS_OK) {
-		printf("** LOS_TaskCreate uartTxTask failed!\n");
-	}
-}
