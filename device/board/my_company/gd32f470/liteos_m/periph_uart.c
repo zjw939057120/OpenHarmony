@@ -53,35 +53,6 @@ void rs485_1_init()
 	rs485_1_RxIrqRegister();
 }
 
-void rs485_2_init()
-{
-	/* enable GPIO clock */
-	rcu_periph_clock_enable(RS485_2_COM_RCU_GPIO_CLOCK);
-	/* enable USART clock */
-	rcu_periph_clock_enable(RS485_2_COM_RCU_UART_CLOCK);
-
-	/* connect port to USARTx_Tx */
-	gpio_af_set(RS485_2_COM_TX_GPIO, RS485_2_COM_TX_GPIO_AF, RS485_2_COM_TX_GPIO_PIN);
-	/* connect port to USARTx_Rx */
-	gpio_af_set(RS485_2_COM_RX_GPIO, RS485_2_COM_RX_GPIO_AF, RS485_2_COM_RX_GPIO_PIN);
-
-	/* configure USART Tx as alternate function push-pull */
-	gpio_mode_set(RS485_2_COM_TX_GPIO, GPIO_MODE_AF, GPIO_PUPD_PULLUP, RS485_2_COM_TX_GPIO_PIN);
-	gpio_output_options_set(RS485_2_COM_TX_GPIO, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, RS485_2_COM_TX_GPIO_PIN);
-	/* configure USART Rx as alternate function push-pull */
-	gpio_mode_set(RS485_2_COM_RX_GPIO, GPIO_MODE_AF, GPIO_PUPD_PULLUP, RS485_2_COM_RX_GPIO_PIN);
-	gpio_output_options_set(RS485_2_COM_RX_GPIO, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, RS485_2_COM_RX_GPIO_PIN);
-
-	/* USART configure */
-	usart_deinit(RS485_2_COM_NR);
-	usart_baudrate_set( RS485_2_COM_NR, 9600U);
-	usart_receive_config( RS485_2_COM_NR, USART_RECEIVE_ENABLE);
-	usart_transmit_config( RS485_2_COM_NR, USART_TRANSMIT_ENABLE);
-	usart_enable(RS485_2_COM_NR);
-
-	rs485_2_RxIrqRegister();
-}
-
 void rs485_1_ReceiveHandler(void)
 {
 	if ((RESET != usart_interrupt_flag_get(RS485_1_COM_NR, USART_INT_FLAG_RBNE)) &&
@@ -133,6 +104,35 @@ void rs485_1_RxIrqRegister(void)
 	nvic_irq_enable(RS485_1_COM_IRQ_NR, 0, 0);
 	usart_interrupt_enable(RS485_1_COM_NR, USART_INT_RBNE);
 	usart_interrupt_enable(RS485_1_COM_NR, USART_INT_IDLE);
+}
+
+void rs485_2_init()
+{
+	/* enable GPIO clock */
+	rcu_periph_clock_enable(RS485_2_COM_RCU_GPIO_CLOCK);
+	/* enable USART clock */
+	rcu_periph_clock_enable(RS485_2_COM_RCU_UART_CLOCK);
+
+	/* connect port to USARTx_Tx */
+	gpio_af_set(RS485_2_COM_TX_GPIO, RS485_2_COM_TX_GPIO_AF, RS485_2_COM_TX_GPIO_PIN);
+	/* connect port to USARTx_Rx */
+	gpio_af_set(RS485_2_COM_RX_GPIO, RS485_2_COM_RX_GPIO_AF, RS485_2_COM_RX_GPIO_PIN);
+
+	/* configure USART Tx as alternate function push-pull */
+	gpio_mode_set(RS485_2_COM_TX_GPIO, GPIO_MODE_AF, GPIO_PUPD_PULLUP, RS485_2_COM_TX_GPIO_PIN);
+	gpio_output_options_set(RS485_2_COM_TX_GPIO, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, RS485_2_COM_TX_GPIO_PIN);
+	/* configure USART Rx as alternate function push-pull */
+	gpio_mode_set(RS485_2_COM_RX_GPIO, GPIO_MODE_AF, GPIO_PUPD_PULLUP, RS485_2_COM_RX_GPIO_PIN);
+	gpio_output_options_set(RS485_2_COM_RX_GPIO, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, RS485_2_COM_RX_GPIO_PIN);
+
+	/* USART configure */
+	usart_deinit(RS485_2_COM_NR);
+	usart_baudrate_set( RS485_2_COM_NR, 9600U);
+	usart_receive_config( RS485_2_COM_NR, USART_RECEIVE_ENABLE);
+	usart_transmit_config( RS485_2_COM_NR, USART_TRANSMIT_ENABLE);
+	usart_enable(RS485_2_COM_NR);
+
+	rs485_2_RxIrqRegister();
 }
 
 void rs485_2_ReceiveHandler(void)

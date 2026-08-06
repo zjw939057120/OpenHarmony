@@ -33,7 +33,7 @@
 #define RS485_2_COM_TX_GPIO_PIN 		GPIO_PIN_10
 #define RS485_2_COM_TX_GPIO_AF 		GPIO_AF_7
 /* uart rx */
-#define RS485_2_COM_RX_GPIO			GPIOC
+#define RS485_2_COM_RX_GPIO			GPIOB
 #define RS485_2_COM_RX_GPIO_PIN 		GPIO_PIN_11
 #define RS485_2_COM_RX_GPIO_AF 		GPIO_AF_7
 /* uart irq */
