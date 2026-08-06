@@ -56,19 +56,19 @@
 /* uart irq */
 #define RS485_3_COM_IRQ_NR				USART5_IRQn
 
-// 串口接收队列节点大小
-#define QUEUE_MAX_NODE_SIZE 128
-// 串口接收队列最大长度
-#define QUEUE_MAX_LEN 10
 
 void init_periph_uart();
 
-void rs485_com_1_init();
+void rs485_1_init();
 
-void rs485_com_2_init();
+void rs485_2_init();
 
-void rs485_com_1_RxIrqRegister();
+void rs485_1_RxIrqRegister();
 
-void rs485_com_2_RxIrqRegister();
+void rs485_2_RxIrqRegister();
+
+void rs485_1_send_bytes(uint8_t *bytes, uint32_t len);
+
+void rs485_2_send_bytes(uint8_t *bytes, uint32_t len);
 
 #endif

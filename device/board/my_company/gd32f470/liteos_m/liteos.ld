@@ -1,5 +1,5 @@
 /*!
-    \file    gd32f470xG_flash.ld
+    \file    gd32f470xI_flash.ld
     \brief   linker script file
 
     \version 2025-07-31, V3.3.2, firmware for GD32F4xx
@@ -28,8 +28,8 @@
 /* memory map */
 MEMORY
 {
-  FLASH    (rx): ORIGIN = 0x08000000, LENGTH = 1024K
-  RAM      (xrw): ORIGIN = 0x20000000, LENGTH = 448K
+  FLASH    (rx): ORIGIN = 0x08000000, LENGTH = 2048K
+  RAM      (xrw): ORIGIN = 0x20000000, LENGTH = 704K
   TCMRAM   (xrw): ORIGIN = 0x10000000, LENGTH = 64K
 }
 

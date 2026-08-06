@@ -17,7 +17,7 @@
 #include "gd32f4xx.h"
 #include "utils.h"
 #include "modbus_rtu_task.h"
-#include "los_queue.h"
+#include "message_queue.h"
 
 
 UINT32 queueID_1 = 0;
@@ -26,15 +26,15 @@ UINT32 queueID_2 = 0;
 UINT32 modbus_rtu_queue_init()
 {
 	UINT32 ret = 0;
-    ret = LOS_QueueCreate("Q1", QUEUE_MAX_LEN, &queueID_1, 0, QUEUE_MAX_NODE_SIZE);
+    ret = messageQueueNew("Q1", QUEUE_MAX_LEN, &queueID_1, 0, QUEUE_MAX_NODE_SIZE);
     if(ret != LOS_OK) {
-        printf("** LOS_QueueCreate Q1 failed!\n");
+        printf("** messageQueueNew Q1 failed!\n");
         return ret;
     }
 
-    ret = LOS_QueueCreate("Q2", QUEUE_MAX_LEN, &queueID_2, 0, QUEUE_MAX_NODE_SIZE);
+    ret = messageQueueNew("Q2", QUEUE_MAX_LEN, &queueID_2, 0, QUEUE_MAX_NODE_SIZE);
     if(ret != LOS_OK) {
-        printf("** LOS_QueueCreate Q2 failed!\n");
+        printf("** messageQueueNew Q2 failed!\n");
         return ret;
     }
     return ret;
@@ -46,13 +46,14 @@ static void *thread_modbus_rtu_task_1(unsigned int arg)
 	UINT32 len = 0;
 	while(1) {
 		len = QUEUE_MAX_NODE_SIZE;
-		UINT32 ret = LOS_QueueReadCopy(queueID_1, buf, &len,LOS_WAIT_FOREVER);
+		UINT32 ret = messageQueueGet(queueID_1, buf, &len);
 		buf[len] = '\0';
 		if(ret != LOS_OK) {
-			printf("** LOS_QueueReadCopy queueID_1 = %d, ret = 0x%x\n",queueID_1, ret);
+			printf("** messageQueueGet queueID_1 = %d, ret = 0x%x\n",queueID_1, ret);
 		}
 		// process data
-		printf("buf: %s, len = %d\n", buf,len);
+		// printf("buf: %s, len = %d\n", buf,len);
+		rs485_1_send_bytes(buf, len);
 	}
 }
 
@@ -62,13 +63,14 @@ static void *thread_modbus_rtu_task_2(unsigned int arg)
 	UINT32 len = 0;
 	while(1) {
 		len = QUEUE_MAX_NODE_SIZE;
-		UINT32 ret = LOS_QueueReadCopy(queueID_2, buf, &len,LOS_WAIT_FOREVER);
+		UINT32 ret = messageQueueGet(queueID_2, buf, &len);
 		buf[len] = '\0';
 		if(ret != LOS_OK) {
-			printf("** LOS_QueueReadCopy queueID_2 = %d, ret = 0x%x\n",queueID_2, ret);
+			printf("** messageQueueGet queueID_2 = %d, ret = 0x%x\n",queueID_2, ret);
 		}
 		// process data
-		printf("buf: %s, len = %d\n", buf,len);
+		// printf("buf: %s, len = %d\n", buf,len);
+		rs485_2_send_bytes(buf, len);
 	}
 }
 
