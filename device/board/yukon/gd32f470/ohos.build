@@ -3,7 +3,7 @@
   "parts": {
     "device_gd32f470": {
       "module_list": [
-        "//device/board/my_company/gd32f470/liteos_m:gd32f470"
+        "//device/board/yukon/gd32f470/liteos_m:gd32f470"
       ]
     }
   }

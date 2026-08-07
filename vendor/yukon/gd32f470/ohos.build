@@ -3,7 +3,7 @@
   "parts": {
     "product_gd32f470": {
       "module_list": [
-        "//vendor/my_company/gd32f470:gd32f470"
+        "//vendor/yukon/gd32f470:gd32f470"
       ]   
     }   
   }

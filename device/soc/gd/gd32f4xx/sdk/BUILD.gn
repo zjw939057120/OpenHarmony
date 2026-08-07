@@ -35,10 +35,10 @@ kernel_module(module_name) {
     "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_usart.c",
     "Drivers/GD32F4xx_standard_peripheral/Source/gd32f4xx_wwdgt.c",
   ]
-  visibility += [ "//device/board/my_company:*" ]
-  visibility += [ "//device/board/my_company/gd32f470:*" ]
-  visibility += [ "//device/board/my_company/gd32f470/liteos_m:*" ]
-  visibility += [ "//device/board/my_company/gd32f470/liteos_m/board:*" ]
+  visibility += [ "//device/board/yukon:*" ]
+  visibility += [ "//device/board/yukon/gd32f470:*" ]
+  visibility += [ "//device/board/yukon/gd32f470/liteos_m:*" ]
+  visibility += [ "//device/board/yukon/gd32f470/liteos_m/board:*" ]
 }
 
 #指定全局头文件搜索路径

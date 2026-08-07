@@ -55,9 +55,11 @@ static void *thread_rs485_1_recv_task(unsigned int arg)
 			LOS_TaskDelay(1000);
 			continue;
 		}
-		// process data
+        //处理数据
 		// printf("rx_buffer: %s, rx_len = %d\n", rx_buffer,rx_len);
-	// 1. 接收到的原始数据
+        // 打印接收到的原始数据
+        // rs485_1_send_bytes(rx_buffer, rx_len);
+        // continue;
     // 2. 解析请求
 	ModbusRequest req;
     if (!modbus_rtu_parse_request(rx_buffer, rx_len, &req)) {
@@ -117,7 +119,11 @@ static void *thread_rs485_2_recv_task(unsigned int arg)
 			LOS_TaskDelay(1000);
 			continue;
 		}
+        //处理数据
 		// printf("rx_buffer: %s, rx_len = %d\n", rx_buffer,rx_len);
+        // 打印接收到的原始数据
+        // rs485_2_send_bytes(rx_buffer, rx_len);
+        // continue;
     printf("📥 [主站接收] 收到 %d 字节数据\n", rx_len);
 
     if (rx_len > 4 && rx_buffer[0] == target_slave_id && rx_buffer[1] == 0x03) {

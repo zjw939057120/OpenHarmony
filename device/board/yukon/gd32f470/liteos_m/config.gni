@@ -85,15 +85,15 @@ board_include_dirs = [
     "//device/soc/gd/gd32f4xx/sdk/Drivers/CMSIS",
     "//device/soc/gd/gd32f4xx/sdk/Drivers/CMSIS/GD/GD32F4xx/Include",
     "//device/soc/gd/gd32f4xx/sdk/Drivers/GD32F4xx_standard_peripheral/Include",
-    "//device/board/my_company/gd32f470/liteos_m",
-    "//device/board/my_company/gd32f470/liteos_m/include",
-    "//device/board/my_company/gd32f470/liteos_m/common",
-    "//device/board/my_company/gd32f470/liteos_m/driver",
-    "//device/board/my_company/gd32f470/liteos_m/libc",
+    "//device/board/yukon/gd32f470/liteos_m",
+    "//device/board/yukon/gd32f470/liteos_m/include",
+    "//device/board/yukon/gd32f470/liteos_m/common",
+    "//device/board/yukon/gd32f470/liteos_m/driver",
+    "//device/board/yukon/gd32f470/liteos_m/libc",
     "//device/board/mht/gd32f470aigateway/liteos_m/kernel",
-    "//device/board/my_company/gd32f470/liteos_m/app",
-    "//device/board/my_company/gd32f470/liteos_m/kernel",
-    "//device/board/my_company/gd32f470/liteos_m/third_party/shell",
+    "//device/board/yukon/gd32f470/liteos_m/app",
+    "//device/board/yukon/gd32f470/liteos_m/kernel",
+    "//device/board/yukon/gd32f470/liteos_m/third_party/shell",
 ]
 
 # Board adapter dir for OHOS components.
