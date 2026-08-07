@@ -154,6 +154,8 @@ static void _uartPutc(char c)
 
 static void uartPutc(char c)
 {
+	if (c == '\n')
+		_uartPutc('\r');
 	_uartPutc(c);
 }
 

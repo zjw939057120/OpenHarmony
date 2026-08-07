@@ -9,4 +9,6 @@
 #include "periph_uart.h"
 #include "third_party/RTT/SEGGER_RTT.h"
 
+void generate_mac_from_uid(uint8_t *mac_addr);
+
 #endif

@@ -94,10 +94,6 @@ int main(void)
 	initWatchDog();
 	// 初始化RTC
 	initRtc();
-	// 初始化队列
-	init_queue();
-	// 初始化HWI
-	init_hwi();
 
 #if IS_ENABLED(LOSCFG_SHELL)
 #if IS_ENABLED(CONFIG_USE_LETTER_SHELL)
@@ -113,7 +109,10 @@ int main(void)
 
 	// 初始化UART接收中断
 	uartRxIrqRegister();
-
+	// 初始化队列
+	init_queue();
+	// 初始化HWI
+	init_hwi();
 	// 初始化任务
 	init_task();
 

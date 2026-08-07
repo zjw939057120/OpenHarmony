@@ -33,6 +33,7 @@ kernel_module(module_name) {
         "common/common_time.c",
         "kernel/los_shell_cmd.c",
         "main.c",
+        "utils.c",
         "periph_gpio.c",
         "periph_uart.c",
         "main_task.c",
