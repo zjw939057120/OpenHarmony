@@ -22,18 +22,18 @@ adb root
 @REM AI10_C	SGM4591XTS24G	269
 @REM AI11_A	SGM4591XTS24G	270
 @REM AI11_B	SGM4591XTS24G	271
-@REM AI11_C	SGM4591XTS24G	?
-adb shell "echo 261 > /sys/class/gpio/export"
-adb shell "echo 262 > /sys/class/gpio/export"
-adb shell "echo 263 > /sys/class/gpio/export"
+@REM AI11_C	SGM4591XTS24G	52
+@REM adb shell "echo 261 > /sys/class/gpio/export"
+@REM adb shell "echo 262 > /sys/class/gpio/export"
+@REM adb shell "echo 263 > /sys/class/gpio/export"
 
-adb shell "echo out > /sys/class/gpio/gpio261/direction"
-adb shell "echo out > /sys/class/gpio/gpio262/direction"
-adb shell "echo out > /sys/class/gpio/gpio263/direction"
+@REM adb shell "echo out > /sys/class/gpio/gpio261/direction"
+@REM adb shell "echo out > /sys/class/gpio/gpio262/direction"
+@REM adb shell "echo out > /sys/class/gpio/gpio263/direction"
 
-adb shell "echo 1 > /sys/class/gpio/gpio261/value"
-adb shell "echo 0 > /sys/class/gpio/gpio262/value"
-adb shell "echo 1 > /sys/class/gpio/gpio263/value"
+@REM adb shell "echo 1 > /sys/class/gpio/gpio261/value"
+@REM adb shell "echo 1 > /sys/class/gpio/gpio262/value"
+@REM adb shell "echo 0 > /sys/class/gpio/gpio263/value"
 
 
 adb shell rm /data/sgm51242

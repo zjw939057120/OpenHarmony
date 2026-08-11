@@ -7,8 +7,5 @@ if exist "%BUILD_DIR%CMakeCache.txt" del /q "%BUILD_DIR%CMakeCache.txt"
 if not exist "%BUILD_DIR%" mkdir "%BUILD_DIR%"
 cd /d "%BUILD_DIR%"
 
-cmake -G "Unix Makefiles" ^
-      -DCMAKE_TOOLCHAIN_FILE="%TOOLCHAIN%" ^
-      -DOHOS_ARCH=armeabi-v7a ^
-      ..
+cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="%TOOLCHAIN%" -DOHOS_ARCH=armeabi-v7a ..
 cmake --build .

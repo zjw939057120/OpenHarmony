@@ -20,11 +20,112 @@
 #define SW_RESET_WORD       0x7DAC      /* 软件复位指令 */
 
 //外部参考电压
-#define VREF_EXT 4.48f
+#define VREF_EXT 4.6f
 #define SPI_DEVICE "/dev/spidev4.0"
 
 int spi_fd = -1;
 uint32_t spi_speed = 100000;
+
+// GPIO组定义
+int gpio_group[7][3] = {
+    {284,285,286},
+    {287,256,257},
+    {258,259,260},
+    {261,262,263},
+    {264,265,266},
+    {267,268,269},
+    {270,271,52}
+};
+// GPIO组数量
+int gpio_group_count = 7;
+// GPIO数量
+int gpio_count = 3;
+
+int gpio_group_mode(int *group,int mode){
+    printf("GPIO=[%d,%d,%d],mode=[%d]\n", group[0], group[1] ,group[2],mode);
+    char gpio_cmd[128] = {0};
+    switch (mode) {
+    case 0:{
+        //模式0：全部高电平输出
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[0]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[1]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[2]);
+        system(gpio_cmd);
+        usleep(1000*10);
+    }
+    break;
+    case 1:{
+        //模式1：DI开关信号输入，GPIO配置：011，短接输入：电压为0V，断开输入：电压为：4.13V
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 0, group[0]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[1]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[2]);
+        system(gpio_cmd);
+        usleep(1000*10);
+    }
+    break;
+    case 2:{
+        //模式2：AI电流信号输入，GPIO配置：101，0mA输入：电压为0V，10mA输入：电压为2.7V，20mA输入：电压为：4.13V
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[0]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 0, group[1]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[2]);
+        system(gpio_cmd);
+        usleep(1000*10);
+    }
+    break;
+    case 3:{
+        //模式3：UI电压信号输入，GPIO配置：110，0V输入：电压为0V，5V输入：电压为2.7V，10V输入：电压为：4.13V
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[0]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[1]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 0, group[2]);
+        system(gpio_cmd);
+        usleep(1000*10);
+    }
+    break;
+    }
+    return 0;
+}
+
+int gpio_init(void) {
+    char gpio_cmd[128] = {0};
+    for (int i = 0; i < gpio_group_count; i++) {
+        printf("初始化GPIO=[%d,%d,%d]\n", gpio_group[i][0],gpio_group[i][1],gpio_group[i][2]);
+        for (int j = 0; j < gpio_count; j++) {
+        // 导出GPIO引脚
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/export", gpio_group[i][j]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        // 设置GPIO方向为输出
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo out > /sys/class/gpio/gpio%d/direction", gpio_group[i][j]);
+        system(gpio_cmd);
+        usleep(1000*10);
+        }
+        // 设置GPIO高电平输出
+        gpio_group_mode(gpio_group[i],0);
+    }
+
+    //模式1：DI开关信号输入
+    //模式2：AI电流信号输入
+    //模式3：UI电压信号输入
+    //AI8模式1
+    gpio_group_mode(gpio_group[3],1);
+    return 0;
+}
 
 int spi_init(void) {
     spi_fd = open(SPI_DEVICE, O_RDWR);
@@ -133,8 +234,8 @@ uint16_t adc_read_one() {
 }
 
 int main(int argc, char *argv[]) {
+    if (gpio_init() < 0) return -1;
     if (spi_init() < 0) return -1;
-
     if (argc == 1) {
         // 无参数：扫描全部8通道
         printf("\n============================================\n");
@@ -150,6 +251,7 @@ int main(int argc, char *argv[]) {
                                  (val > 4085) ? "接近VREF_EXT" : "正常";
             printf("  IN%d    %4d       %.3f      %s\n", ch, val, v, status);
             fflush(stdout);
+            usleep(1000*500);// 500ms间隔
         }
         printf("============================================\n");
         }
