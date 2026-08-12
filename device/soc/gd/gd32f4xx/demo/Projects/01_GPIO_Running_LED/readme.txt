@@ -1,7 +1,7 @@
 /*!
     \file    readme.txt
-    \brief   description of the GPIO running LED example
-
+    \brief   description of GPIO running led example
+    
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
@@ -32,9 +32,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-  This example is based on the GD32470Z-EVAL-V1.0 board, it provides a description
+  This example is based on the GD32F470I-EVAL-V1.0 board, it provides a description
 of Running_led. After the system is start-up, firstly, LED1 on, then, LED2 on, three 
 LEDs can light periodically.
 
-  On the GD32470Z-EVAL-V1.0 board, LED1 connected to PD4, LED2 connected to PD5, LED3
-connected to PG3.
+  On the GD32F470I-EVAL-V1.0 board, LED1 connected to PE2, LED2 connected to PE3, LED3
+connected to PF10.

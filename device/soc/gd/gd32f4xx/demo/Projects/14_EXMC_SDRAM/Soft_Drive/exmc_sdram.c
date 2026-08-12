@@ -1,12 +1,12 @@
 /*!
     \file    exmc_sdram.c
-    \brief   exmc sdram(MICRON 48LC16M16A2) driver
+    \brief   exmc sdram driver
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -36,22 +36,22 @@ OF SUCH DAMAGE.
 #include "systick.h"
 #include "exmc_sdram.h"
 
-/* define mode register content */
-/* burst length */
+/* Define mode register content */
+/* Burst Length */
 #define SDRAM_MODEREG_BURST_LENGTH_1             ((uint16_t)0x0000)
 #define SDRAM_MODEREG_BURST_LENGTH_2             ((uint16_t)0x0001)
 #define SDRAM_MODEREG_BURST_LENGTH_4             ((uint16_t)0x0002)
 #define SDRAM_MODEREG_BURST_LENGTH_8             ((uint16_t)0x0003)
 
-/* burst type */
+/* Burst Type */
 #define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL      ((uint16_t)0x0000)
 #define SDRAM_MODEREG_BURST_TYPE_INTERLEAVED     ((uint16_t)0x0008)
 
-/* CAS latency */
+/* CAS Latency */
 #define SDRAM_MODEREG_CAS_LATENCY_2              ((uint16_t)0x0020)
 #define SDRAM_MODEREG_CAS_LATENCY_3              ((uint16_t)0x0030)
 
-/* write mode */
+/* Write Mode */
 #define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((uint16_t)0x0000)
 #define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((uint16_t)0x0200)
 
@@ -65,7 +65,7 @@ OF SUCH DAMAGE.
     \param[out] none
     \retval     none
 */
-ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
+void exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
 {
     exmc_sdram_parameter_struct        sdram_init_struct;
     exmc_sdram_timing_parameter_struct  sdram_timing_init_struct;
@@ -74,7 +74,7 @@ ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
     uint32_t command_content = 0, bank_select;
     uint32_t timeout = SDRAM_TIMEOUT;
 
-    /* enable EXMC clock*/
+    /* enable EXMC clock */
     rcu_periph_clock_enable(RCU_EXMC);
     rcu_periph_clock_enable(RCU_GPIOB);
     rcu_periph_clock_enable(RCU_GPIOC);
@@ -85,10 +85,10 @@ ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
     rcu_periph_clock_enable(RCU_GPIOH);
 
     /* common GPIO configuration */
-    /* SDNWE(PC0),SDNE0(PC2),SDCKE0(PC3) pin configuration */
-    gpio_af_set(GPIOC, GPIO_AF_12, GPIO_PIN_0 | GPIO_PIN_2 | GPIO_PIN_3);
-    gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_0 | GPIO_PIN_2 | GPIO_PIN_3);
-    gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0 | GPIO_PIN_2 | GPIO_PIN_3);
+    /* SDNE0(PC2),SDCKE0(PC5) pin configuration */
+    gpio_af_set(GPIOC, GPIO_AF_12, GPIO_PIN_2 | GPIO_PIN_5);
+    gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_2 | GPIO_PIN_5);
+    gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_2 | GPIO_PIN_5);
 
     /* D2(PD0),D3(PD1),D13(PD8),D14(PD9),D15(PD10),D0(PD14),D1(PD15) pin configuration */
     gpio_af_set(GPIOD, GPIO_AF_12, GPIO_PIN_0  | GPIO_PIN_1  | GPIO_PIN_8 | GPIO_PIN_9 |
@@ -127,6 +127,10 @@ ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
                   GPIO_PIN_5 | GPIO_PIN_8 | GPIO_PIN_15);
     gpio_output_options_set(GPIOG, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_4 |
                             GPIO_PIN_5 | GPIO_PIN_8 | GPIO_PIN_15);
+    /* SDNWE(PH5) pin configuration */
+    gpio_af_set(GPIOH, GPIO_AF_12, GPIO_PIN_5);
+    gpio_mode_set(GPIOH, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_5);
+    gpio_output_options_set(GPIOH, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_5);
 
     /* specify which SDRAM to read and write */
     if(EXMC_SDRAM_DEVICE0 == sdram_device) {
@@ -139,18 +143,18 @@ ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
     /* Step 1 : configure SDRAM timing registers --------------------------------*/
     /* LMRD: 2 clock cycles */
     sdram_timing_init_struct.load_mode_register_delay = 2;
-    /* XSRD: min = 75ns */
-    sdram_timing_init_struct.exit_selfrefresh_delay = 8;
-    /* RASD: min=44ns , max=120k (ns) */
+    /* XSRD: min = 67ns */
+    sdram_timing_init_struct.exit_selfrefresh_delay = 7;
+    /* RASD: min=42ns , max=120k (ns) */
     sdram_timing_init_struct.row_address_select_delay = 5;
-    /* ARFD: min=66ns */
-    sdram_timing_init_struct.auto_refresh_delay = 7;
-    /* WRD:  min=1 Clock cycles +7.5ns */
+    /* ARFD: min=60ns */
+    sdram_timing_init_struct.auto_refresh_delay = 6;
+    /* WRD:  min=1 Clock cycles +6ns */
     sdram_timing_init_struct.write_recovery_delay = 2;
-    /* RPD:  min=20ns */
-    sdram_timing_init_struct.row_precharge_delay = 3;
-    /* RCD:  min=20ns */
-    sdram_timing_init_struct.row_to_column_delay = 3;
+    /* RPD:  min=18ns */
+    sdram_timing_init_struct.row_precharge_delay = 2;
+    /* RCD:  min=18ns */
+    sdram_timing_init_struct.row_to_column_delay = 2;
 
     /* step 2 : configure SDRAM control registers ---------------------------------*/
     sdram_init_struct.sdram_device = sdram_device;
@@ -176,9 +180,6 @@ ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
     while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
         timeout--;
     }
-    if(0 == timeout) {
-        return ERROR;
-    }
     /* send the command */
     exmc_sdram_command_config(&sdram_command_init_struct);
 
@@ -195,9 +196,6 @@ ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
     while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
         timeout--;
     }
-    if(0 == timeout) {
-        return ERROR;
-    }
     /* send the command */
     exmc_sdram_command_config(&sdram_command_init_struct);
 
@@ -210,9 +208,6 @@ ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
     timeout = SDRAM_TIMEOUT;
     while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
         timeout--;
-    }
-    if(0 == timeout) {
-        return ERROR;
     }
     /* send the command */
     exmc_sdram_command_config(&sdram_command_init_struct);
@@ -235,9 +230,6 @@ ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
     while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
         timeout--;
     }
-    if(0 == timeout) {
-        return ERROR;
-    }
     /* send the command */
     exmc_sdram_command_config(&sdram_command_init_struct);
 
@@ -252,17 +244,13 @@ ErrStatus exmc_synchronous_dynamic_ram_init(uint32_t sdram_device)
     while((exmc_flag_get(sdram_device, EXMC_SDRAM_FLAG_NREADY) != RESET) && (timeout > 0)) {
         timeout--;
     }
-    if(0 == timeout) {
-        return ERROR;
-    }
-    return SUCCESS;
 }
 
 /*!
     \brief      fill the buffer with specified value
     \param[in]  pbuffer: pointer on the buffer to fill
-    \param[in]  buffer_lengh: size of the buffer to fill
-    \param[in]  offset: the initial value to fill in the buffer
+    \param[in]  buffersize: size of the buffer to fill
+    \param[in]  value: value to fill on the buffer
     \param[out] none
     \retval     none
 */
@@ -289,19 +277,19 @@ void sdram_writebuffer_8(uint32_t sdram_device, uint8_t *pbuffer, uint32_t write
 {
     uint32_t temp_addr;
 
-    /* Select the base address according to EXMC_Bank */
+    /* select the base address according to EXMC_Bank */
     if(sdram_device == EXMC_SDRAM_DEVICE0) {
         temp_addr = SDRAM_DEVICE0_ADDR;
     } else {
         temp_addr = SDRAM_DEVICE1_ADDR;
     }
 
-    /* While there is data to write */
+    /* while there is data to write */
     for(; numbytetowrite != 0; numbytetowrite--) {
-        /* Transfer data to the memory */
+        /* transfer data to the memory */
         *(uint8_t *)(temp_addr + writeaddr) = *pbuffer++;
 
-        /* Increment the address*/
+        /* increment the address */
         writeaddr += 1;
     }
 }
@@ -333,67 +321,5 @@ void sdram_readbuffer_8(uint32_t sdram_device, uint8_t *pbuffer, uint32_t readad
 
         /* increment the address */
         readaddr += 1;
-    }
-}
-
-/*!
-    \brief      write a half-word buffer(data is 16 bits) to the EXMC SDRAM memory
-    \param[in]  sdram_device: specify which a SDRAM memory block is written
-    \param[in]  pbuffer: pointer to buffer
-    \param[in]  writeaddr: SDRAM memory internal address from which the data will be written
-    \param[in]  numbytetowrite: number of half-word to write
-    \param[out] none
-    \retval     none
-*/
-void sdram_writebuffer_16(uint32_t sdram_device, uint16_t *pbuffer, uint32_t writeaddr, uint32_t numtowrite)
-{
-    uint32_t temp_addr;
-    __IO uint32_t write_addr_prt = writeaddr;
-
-    /* Select the base address according to EXMC_Bank */
-    if(sdram_device == EXMC_SDRAM_DEVICE0) {
-        temp_addr = SDRAM_DEVICE0_ADDR;
-    } else {
-        temp_addr = SDRAM_DEVICE1_ADDR;
-    }
-
-    /* While there is data to write */
-    for(; numtowrite != 0; numtowrite--) {
-        /* Transfer data to the memory */
-        *(uint16_t *)(temp_addr + write_addr_prt) = *pbuffer++;
-
-        /* Increment the address */
-        write_addr_prt += 2;
-    }
-}
-
-/*!
-    \brief      read a block of 16-bit data from the EXMC SDRAM memory
-    \param[in]  sdram_device: specify which a SDRAM memory block is written
-    \param[in]  pbuffer: pointer to buffer
-    \param[in]  readaddr: SDRAM memory internal address to read from
-    \param[in]  numtowrite: number of half-word to read
-    \param[out] none
-    \retval     none
-*/
-void sdram_readbuffer_16(uint32_t sdram_device, uint16_t *pbuffer, uint32_t readaddr, uint32_t numtowrite)
-{
-    uint32_t temp_addr;
-    __IO uint32_t write_addr_prt = readaddr;
-
-    /* select the base address according to EXMC_Bank */
-    if(sdram_device == EXMC_SDRAM_DEVICE0) {
-        temp_addr = SDRAM_DEVICE0_ADDR;
-    } else {
-        temp_addr = SDRAM_DEVICE1_ADDR;
-    }
-
-    /* while there is data to read */
-    for(; numtowrite != 0; numtowrite--) {
-        /* read a byte from the memory */
-        *pbuffer++ = *(uint16_t *)(temp_addr + write_addr_prt);
-
-        /* increment the address */
-        write_addr_prt += 2;
     }
 }

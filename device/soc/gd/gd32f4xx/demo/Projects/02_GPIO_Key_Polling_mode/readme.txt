@@ -1,6 +1,6 @@
 /*!
-    \file    readme.txt
-    \brief   description of GPIO key polling mode example
+    \file  readme.txt
+    \brief description of GPIO key polling mode example
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
@@ -32,7 +32,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-  This demo is based on the GD32470Z-EVAL-V1.0 board. On the board,the Tamper key 
-connected to PC13 and the LED1 connected to PD4. It provides a description to 
-use the key to control the LED by the polling mode. The user can toggle the output 
-state of LED1 by pressing the Tamper key.
+  This demo is based on the GD32F470I-EVAL-V1.0 board. On the board, the Tamper key 
+connected to PC13 and the LED2 connected to PE3. It provides a description to use the
+key to control the LED by the polling mode. The user can toggle the output state of LED2
+by pressing the Tamper key.

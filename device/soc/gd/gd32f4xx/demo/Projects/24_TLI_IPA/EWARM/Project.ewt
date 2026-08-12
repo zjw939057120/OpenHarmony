@@ -2111,7 +2111,13 @@
   <group>
     <name>Application</name>
     <file>
+      <name>$PROJ_DIR$\..\gd32f4xx_it.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\main.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\systick.c</name>
     </file>
   </group>
   <group>
@@ -2129,10 +2135,7 @@
   <group>
     <name>GD32F4xx_EVAL</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470z_eval.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\Soft_Drive\gd32f470z_lcd_eval.c</name>
+      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470i_eval.c</name>
     </file>
   </group>
   <group>

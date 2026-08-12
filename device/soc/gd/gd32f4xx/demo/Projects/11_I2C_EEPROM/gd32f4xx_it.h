@@ -1,6 +1,6 @@
 /*!
-    \file    gd32f4xx_it.h
-    \brief   the header file of the ISR
+    \file  gd32f4xx_it.h
+    \brief the header file of the ISR
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */

@@ -1,6 +1,6 @@
 /*!
-    \file  gd32f4xx_it.c
-    \brief interrupt service routines
+    \file    gd32f4xx_it.c
+    \brief   interrupt service routines
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
@@ -33,6 +33,7 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx_it.h"
+#include "gd32f470i_eval.h"
 #include "systick.h"
 
 /*!
@@ -159,7 +160,7 @@ void SysTick_Handler(void)
 void EXTI10_15_IRQHandler(void)
 {
     if(RESET != exti_interrupt_flag_get(EXTI_13)) {
-        gpio_bit_toggle(GPIOD, GPIO_PIN_4);
+        gpio_bit_toggle(GPIOE, GPIO_PIN_3);
+        exti_interrupt_flag_clear(EXTI_13);
     }
-    exti_interrupt_flag_clear(EXTI_13);
 }

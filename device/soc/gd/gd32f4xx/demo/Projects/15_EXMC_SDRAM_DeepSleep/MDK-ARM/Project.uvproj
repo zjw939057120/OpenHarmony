@@ -7,12 +7,12 @@
 
   <Targets>
     <Target>
-      <TargetName>GD32F470Z_EVAL</TargetName>
+      <TargetName>GD32470I_EVAL</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
         <TargetCommonOption>
-          <Device>GD32F470ZK</Device>
+          <Device>GD32F470IK</Device>
           <Vendor>GigaDevice</Vendor>
           <Cpu>IRAM(0x20000000-0x2002FFFF) IRAM2(0x10000000-0x1000FFFF) IROM(0x08000000-0x082FFFFF) CLOCK(16000000) CPUTYPE("Cortex-M4") FPU2</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -168,7 +168,7 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4099</DriverSelection>
+            <DriverSelection>4097</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
@@ -360,9 +360,9 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,GD32F470</Define>
+              <Define>GD32F470</Define>
               <Undefine></Undefine>
-              <IncludePath>..\;..\..\..\Utilities;..\..\..\..\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Include;..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Include;..\Soft_Drive</IncludePath>
+              <IncludePath>..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Include;..\..\..\..\GD32F4xx_Firmware_Library\CMSIS;..\..\..\..\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Include;..\..\..\Utilities;..\;..\Soft_Drive</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -411,14 +411,14 @@
               <FilePath>..\main.c</FilePath>
             </File>
             <File>
-              <FileName>systick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\systick.c</FilePath>
-            </File>
-            <File>
               <FileName>gd32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\gd32f4xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>systick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\systick.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -586,19 +586,9 @@
           <GroupName>GD32F4xx_EVAL</GroupName>
           <Files>
             <File>
-              <FileName>gd32f470z_eval.c</FileName>
+              <FileName>gd32f470i_eval.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Utilities\gd32f470z_eval.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Soft_Drive</GroupName>
-          <Files>
-            <File>
-              <FileName>exmc_sdram.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Soft_Drive\exmc_sdram.c</FilePath>
+              <FilePath>..\..\..\Utilities\gd32f470i_eval.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -619,6 +609,16 @@
               <FileName>readme.txt</FileName>
               <FileType>5</FileType>
               <FilePath>..\readme.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Soft_Drive</GroupName>
+          <Files>
+            <File>
+              <FileName>exmc_sdram.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Soft_Drive\exmc_sdram.c</FilePath>
             </File>
           </Files>
         </Group>

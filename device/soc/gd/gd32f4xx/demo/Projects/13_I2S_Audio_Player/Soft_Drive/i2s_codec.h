@@ -1,34 +1,34 @@
 /*!
     \file    i2s_codec.h
     \brief   the header file of I2S codec driver
-    
+
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
     Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
-    Redistribution and use in source and binary forms, with or without modification, 
+    Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    1. Redistributions of source code must retain the above copyright notice, this 
+    1. Redistributions of source code must retain the above copyright notice, this
        list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
+    2. Redistributions in binary form must reproduce the above copyright notice,
+       this list of conditions and the following disclaimer in the documentation
        and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
+    3. Neither the name of the copyright holder nor the names of its contributors
+       may be used to endorse or promote products derived from this software without
        specific prior written permission.
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.
 */
 
@@ -70,27 +70,26 @@ extern const char wavetestdata[];
 
 /* constants definitions */
 /* audio parsing constants */
-#define CHUNKID             0x52494646                                               /* correspond to the letters 'RIFF' */
-#define FILEFORMAT          0x57415645                                               /* correspond to the letters 'WAVE' */
-#define FORMATID            0x666D7420                                               /* correspond to the letters 'fmt ' */
-#define DATAID              0x64617461                                               /* correspond to the letters 'data' */
-#define FACTID              0x66616374                                               /* correspond to the letters 'fact' */
-#define WAVE_FORMAT_PCM     0x01                                                     /* pcm format */
-#define FORMATCHUNKSIZE     0x10                                                     /* format chunk size */
-#define CHANNEL_MONO        0x01                                                     /* mono channel */
-#define CHANNEL_STEREO      0x02                                                     /* stereo channel */
-#define BITS_PER_SAMPLE_8   8                                                        /* 8 bits per sample */
-#define BITS_PER_SAMPLE_16  16                                                       /* 16 bits per sample */
+#define CHUNKID             0x52494646  /* correspond to the letters 'RIFF' */
+#define FILEFORMAT          0x57415645  /* correspond to the letters 'WAVE' */
+#define FORMATID            0x666D7420  /* correspond to the letters 'fmt ' */
+#define DATAID              0x64617461  /* correspond to the letters 'data' */
+#define FACTID              0x66616374  /* correspond to the letters 'fact' */
+#define WAVE_FORMAT_PCM     0x01        /* pcm format */
+#define FORMATCHUNKSIZE     0x10        /* format chunk size */
+#define CHANNEL_MONO        0x01        /* mono channel */
+#define CHANNEL_STEREO      0x02        /* stereo channel */
+#define BITS_PER_SAMPLE_8   8           /* 8 bits per sample */
+#define BITS_PER_SAMPLE_16  16          /* 16 bits per sample */
 /* audio start address and end address constants */
 #define AUDIOFILEADDRESS       (uint32_t)wavetestdata                                /* audio start address */
 #define AUDIOFILEADDRESSEND    (uint32_t)(wavetestdata + (COUNTOF(wavetestdata)))    /* audio end address */
 /* I2S configuration parameters */
-#define I2S_STANDARD                  I2S_STD_MSB                                    /* I2S MSB standard */
-#define I2S_MCLKOUTPUT                I2S_MCKOUT_ENABLE                              /* mck output enable */
+#define I2S_STANDARD                  I2S_STD_MSB         /* I2S MSB standard */
+#define I2S_MCLKOUTPUT                I2S_MCKOUT_ENABLE   /* mck output enable */
 
 /* audio file information structure */
-typedef struct
-{
+typedef struct {
     uint32_t riffchunksize;             /* riff chunk size */
     uint16_t formattag;                 /* format tag */
     uint16_t numchannels;               /* number of channel */
@@ -99,11 +98,10 @@ typedef struct
     uint16_t blockalign;                /* block align */
     uint16_t bitspersample;             /* bits per sample */
     uint32_t datasize;                  /* audio data size */
-}wave_file_struct;
+} wave_file_struct;
 
 /* error identification enum */
-typedef enum
-{
+typedef enum {
     VALID_WAVE_FILE = 0,                /* valid wave file */
     UNVALID_RIFF_ID,                    /* unvalid riff id */
     UNVALID_WAVE_FORMAT,                /* unvalid wave format */
@@ -115,21 +113,21 @@ typedef enum
     UNVALID_DATACHUNK_ID,               /* unvalid data chunk id */
     UNSUPPORETD_EXTRAFORMATBYTES,       /* unsupporetd extra format bytes */
     UNVALID_FACTCHUNK_ID                /* unvalid fact chunk id */
-}errorcode_enum;
+} errorcode_enum;
 
 /* endianness enum */
-typedef enum
-{
+typedef enum {
     littleendian,                       /* little endian */
     bigendian                           /* big endian */
-}endianness_enum;
+} endianness_enum;
 
 /* function declarations */
+
 /* read uint data according to endianness */
 uint32_t read_unit(uint8_t nbrofbytes, endianness_enum bytesformat);
 /* wave audio file parsing function */
 errorcode_enum codec_wave_parsing(void);
-/* configure the I2S peripheral */
+/* configure I2S GPIO and parameters */
 void i2s_config(void);
 /* send audio data */
 void i2s_audio_data_send(void);

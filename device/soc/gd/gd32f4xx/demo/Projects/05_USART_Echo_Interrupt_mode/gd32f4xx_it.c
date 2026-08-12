@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -40,7 +40,7 @@ OF SUCH DAMAGE.
 extern uint8_t   tx_buffer[];
 extern uint8_t   rx_buffer[] ;
 extern uint32_t  nbr_data_to_read, nbr_data_to_send;
-extern uint16_t  tx_counter, rx_counter;
+extern volatile uint16_t  tx_counter, rx_counter;
 
 /*!
     \brief      this function handles NMI exception
@@ -158,30 +158,30 @@ void SysTick_Handler(void)
 }
 
 /*!
-    \brief      this function handles USART RBNE interrupt request and TBE interrupt request
+    \brief      this function handles USART0 exception
     \param[in]  none
     \param[out] none
     \retval     none
 */
 void USART0_IRQHandler(void)
 {
-    if((RESET != usart_interrupt_flag_get(USART0, USART_INT_FLAG_RBNE)) && 
-       (RESET != usart_flag_get(USART0, USART_FLAG_RBNE))){
+    if(RESET != usart_interrupt_flag_get(USART0, USART_INT_FLAG_RBNE)){
         /* read one byte from the receive data register */
         rx_buffer[rx_counter++] = (uint8_t)usart_data_receive(USART0);
 
-        if(rx_counter >= nbr_data_to_read){
+        if(rx_counter >= nbr_data_to_read)
+        {
             /* disable the USART0 receive interrupt */
             usart_interrupt_disable(USART0, USART_INT_RBNE);
         }
     }
        
-    if((RESET != usart_flag_get(USART0, USART_FLAG_TBE)) && 
-       (RESET != usart_interrupt_flag_get(USART0, USART_INT_FLAG_TBE))){
+    if(RESET != usart_interrupt_flag_get(USART0, USART_INT_FLAG_TBE)){
         /* write one byte to the transmit data register */
         usart_data_transmit(USART0, tx_buffer[tx_counter++]);
 
-        if(tx_counter >= nbr_data_to_send){
+        if(tx_counter >= nbr_data_to_send)
+        {
             /* disable the USART0 transmit interrupt */
             usart_interrupt_disable(USART0, USART_INT_TBE);
         }

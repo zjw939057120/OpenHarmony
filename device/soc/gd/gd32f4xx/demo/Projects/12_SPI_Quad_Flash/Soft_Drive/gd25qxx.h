@@ -1,34 +1,34 @@
 /*!
     \file    gd25qxx.h
     \brief   the header file of SPI flash gd25qxx driver
-    
+
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
-    Redistribution and use in source and binary forms, with or without modification, 
+    Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    1. Redistributions of source code must retain the above copyright notice, this 
+    1. Redistributions of source code must retain the above copyright notice, this
        list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
+    2. Redistributions in binary form must reproduce the above copyright notice,
+       this list of conditions and the following disclaimer in the documentation
        and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
+    3. Neither the name of the copyright holder nor the names of its contributors
+       may be used to endorse or promote products derived from this software without
        specific prior written permission.
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.
 */
 
@@ -38,8 +38,8 @@ OF SUCH DAMAGE.
 #include "gd32f4xx.h"
 
 #define  SPI_FLASH_PAGE_SIZE       0x100
-#define  SPI_FLASH_CS_LOW()        gpio_bit_reset(GPIOG,GPIO_PIN_9)
-#define  SPI_FLASH_CS_HIGH()       gpio_bit_set(GPIOG,GPIO_PIN_9)
+#define  SPI_FLASH_CS_LOW()        gpio_bit_reset(GPIOI,GPIO_PIN_8)
+#define  SPI_FLASH_CS_HIGH()       gpio_bit_set(GPIOI,GPIO_PIN_8)
 
 /* initialize SPI5 GPIO and parameter */
 void spi_flash_init(void);
@@ -48,11 +48,11 @@ void spi_flash_sector_erase(uint32_t sector_addr);
 /* erase the entire flash */
 void spi_flash_bulk_erase(void);
 /* write more than one byte to the flash */
-void spi_flash_page_write(uint8_t* pbuffer, uint32_t write_addr, uint16_t num_byte_to_write);
+void spi_flash_page_write(uint8_t *pbuffer, uint32_t write_addr, uint16_t num_byte_to_write);
 /* write block of data to the flash */
-void spi_flash_buffer_write(uint8_t* pbuffer, uint32_t write_addr, uint16_t num_byte_to_write);
+void spi_flash_buffer_write(uint8_t *pbuffer, uint32_t write_addr, uint16_t num_byte_to_write);
 /* read a block of data from the flash */
-void spi_flash_buffer_read(uint8_t* pbuffer, uint32_t read_addr, uint16_t num_byte_to_read);
+void spi_flash_buffer_read(uint8_t *pbuffer, uint32_t read_addr, uint16_t num_byte_to_read);
 /* read flash identification */
 uint32_t spi_flash_read_id(void);
 /* start a read data byte (read) sequence from the flash */
@@ -65,16 +65,16 @@ uint8_t spi_flash_send_byte(uint8_t byte);
 uint16_t spi_flash_send_halfword(uint16_t half_word);
 /* enable the write access to the flash */
 void spi_flash_write_enable(void);
-/* poll the status of the write in progress(wip) flag in the flash's status register */
+/* poll the status of the write in progress (wip) flag in the flash's status register */
 void spi_flash_wait_for_write_end(void);
 
 /* enable the flash quad mode */
 void spi_quad_flash_quad_enable(void);
 /* write block of data to the flash using qspi */
-void spi_quad_flash_buffer_write(uint8_t* pbuffer, uint32_t write_addr, uint16_t num_byte_to_write);
+void spi_quad_flash_buffer_write(uint8_t *pbuffer, uint32_t write_addr, uint16_t num_byte_to_write);
 /* read a block of data from the flash using qspi */
-void spi_quad_flash_buffer_read(uint8_t* pbuffer, uint32_t read_addr, uint16_t num_byte_to_read);
+void spi_quad_flash_buffer_read(uint8_t *pbuffer, uint32_t read_addr, uint16_t num_byte_to_read);
 /* write more than one byte to the flash using qspi */
-void spi_quad_flash_page_write(uint8_t* pbuffer, uint32_t write_addr, uint16_t num_byte_to_write);
+void spi_quad_flash_page_write(uint8_t *pbuffer, uint32_t write_addr, uint16_t num_byte_to_write);
 
 #endif /* GD25QXX_H */

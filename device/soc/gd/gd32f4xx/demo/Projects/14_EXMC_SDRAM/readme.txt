@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -30,13 +30,12 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
 OF SUCH DAMAGE.
-*/ 
+*/
 
-  This demo is based on the GD32470Z-EVAL-V1.0 board, it shows how to use EXMC peripheral
-to control SDRAM memory. 
+  This demo is based on the GD32470I-EVAL-V1.0 board, it shows how to use EXMC 
+peripheral to control SDRAM memory. 
   This demo shows the write and read data operation process of SDRAM memory
-by EXMC module. If the test pass, LED1 will be turned on. Otherwise,turn
+by EXMC module. If the test correctly, LED1 will be turned on. Otherwise, turn
 on the LED3.
   The timing parameters are calculated according to the 240MHz system clock.
-  P2,P3,JP16,JP17,JP18 must be fitted to the SDRAM port,JP13 must be fitted
-to the USART port.
+  JP17 must be fitted to the SDRAM port, JP5 must be fitted to the USART port.

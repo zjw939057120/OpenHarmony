@@ -1,7 +1,7 @@
 /*!
     \file  systick.c
     \brief the systick configuration file
-
+    
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 

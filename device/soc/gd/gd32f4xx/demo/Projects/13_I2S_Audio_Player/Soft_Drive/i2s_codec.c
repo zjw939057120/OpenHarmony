@@ -1,34 +1,34 @@
 /*!
     \file    i2s_codec.c
     \brief   I2S codec driver
-    
+
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
     Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
-    Redistribution and use in source and binary forms, with or without modification, 
+    Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    1. Redistributions of source code must retain the above copyright notice, this 
+    1. Redistributions of source code must retain the above copyright notice, this
        list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
+    2. Redistributions in binary form must reproduce the above copyright notice,
+       this list of conditions and the following disclaimer in the documentation
        and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
+    3. Neither the name of the copyright holder nor the names of its contributors
+       may be used to endorse or promote products derived from this software without
        specific prior written permission.
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.
 */
 
@@ -40,7 +40,7 @@ wave_file_struct wave_struct;
 uint16_t i2saudiofreq = 0;
 __IO uint8_t headertab_index = 0;
 uint32_t datastartaddr = 0;
-__IO uint32_t audiodataindex = 0; 
+__IO uint32_t audiodataindex = 0;
 
 /*!
     \brief      read uint data according to endianness
@@ -146,9 +146,8 @@ errorcode_enum codec_wave_parsing(void)
     return(VALID_WAVE_FILE);
 }
 
-
 /*!
-    \brief      configure the I2S peripheral
+    \brief      I2S configuration function
     \param[in]  none
     \param[out] none
     \retval     none
@@ -156,19 +155,25 @@ errorcode_enum codec_wave_parsing(void)
 void i2s_config()
 {
     /* enable the GPIO clock */
-    rcu_periph_clock_enable(RCU_GPIOB);
+    rcu_periph_clock_enable(RCU_GPIOA);
     rcu_periph_clock_enable(RCU_GPIOC);
+    rcu_periph_clock_enable(RCU_GPIOI);
     /* enable I2S1 clock */
     rcu_periph_clock_enable(RCU_SPI1);
 
-    /* I2S1_MCK(PC6), I2S1_CK(PC7), I2S1_WS(PB9), I2S1_SD(PC1) GPIO pin configuration */
-    gpio_af_set(GPIOC, GPIO_AF_5, GPIO_PIN_6 | GPIO_PIN_7);
+    /* I2S1_MCK(PA6), I2S1_CK(PI1), I2S1_WS(PI0), I2S1_SD(PC1) GPIO pin configuration */
+    gpio_af_set(GPIOA, GPIO_AF_6, GPIO_PIN_6);
     gpio_af_set(GPIOC, GPIO_AF_7, GPIO_PIN_1);
-    gpio_af_set(GPIOB, GPIO_AF_5, GPIO_PIN_9);
-    gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_1 | GPIO_PIN_6 | GPIO_PIN_7);
-    gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_9);
-    gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_1 | GPIO_PIN_6 | GPIO_PIN_7); 
-    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_9); 
+    gpio_af_set(GPIOI, GPIO_AF_5, GPIO_PIN_0 | GPIO_PIN_1);
+
+    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_6);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_6);
+
+    gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_1);
+    gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_1);
+
+    gpio_mode_set(GPIOI, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_0 | GPIO_PIN_1);
+    gpio_output_options_set(GPIOI, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0 | GPIO_PIN_1);
 
     spi_i2s_deinit(SPI1);
 
@@ -176,11 +181,11 @@ void i2s_config()
     i2s_psc_config(SPI1, i2saudiofreq, I2S_FRAMEFORMAT_DT16B_CH16B, I2S_MCLKOUTPUT);
     i2s_init(SPI1, I2S_MODE_MASTERTX, I2S_STANDARD, I2S_CKPL_HIGH);
     /* enable the I2S1 peripheral */
-    i2s_enable(SPI1); 
+    i2s_enable(SPI1);
 }
 
 /*!
-    \brief      send audio data
+    \brief      I2S data send
     \param[in]  none
     \param[out] none
     \retval     none
@@ -188,29 +193,29 @@ void i2s_config()
 void i2s_audio_data_send(void)
 {
     /* send the data read from the memory */
-    spi_i2s_data_transmit(SPI1, read_half_word(audiodataindex+datastartaddr));
+    spi_i2s_data_transmit(SPI1, read_half_word(audiodataindex + datastartaddr));
     /* increment the index */
     audiodataindex += (uint32_t)wave_struct.numchannels ;
 }
 
 /*!
-    \brief      start audio paly
+    \brief      I2S audio play
     \param[in]  none
     \param[out] none
     \retval     errorcode_enum
 */
 errorcode_enum i2s_audio_play(void)
 {
-    errorcode_enum errorcode = UNVALID_RIFF_ID; 
+    errorcode_enum errorcode = UNVALID_RIFF_ID;
     /* read the audio file to extract the audio frequency */
     errorcode = codec_wave_parsing();
-    if(VALID_WAVE_FILE == errorcode){
-        i2s_config(); 
-        /* enable the I2S1 TBE interrupt */ 
+    if(VALID_WAVE_FILE == errorcode) {
+        i2s_config();
+        /* enable the I2S1 TBE interrupt */
         spi_i2s_interrupt_enable(SPI1, SPI_I2S_INT_TBE);
     }
     return errorcode;
-}            
+}
 
 /*!
     \brief      read half word
@@ -219,7 +224,7 @@ errorcode_enum i2s_audio_play(void)
     \retval     audio data
 */
 uint16_t read_half_word(uint32_t offset)
-{   
+{
     static  uint32_t monovar = 0, tmpvar = 0;
     if((AUDIOFILEADDRESS + offset) >= AUDIOFILEADDRESSEND) {
         audiodataindex = 0;
@@ -237,7 +242,6 @@ uint16_t read_half_word(uint32_t offset)
         return tmpvar;
         /* right channel to be sent in mono format */
     } else {
-
         /* reset the monovar variable */
         monovar = 0;
         /* return the previous read data in mono format */

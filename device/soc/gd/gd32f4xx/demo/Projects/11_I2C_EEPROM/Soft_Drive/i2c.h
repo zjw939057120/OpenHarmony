@@ -1,6 +1,7 @@
 /*!
-    \file    i2c.h
-    \brief   the header file of I2C
+    \file  i2c.h
+    \brief the header file of I2C
+    
     
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */

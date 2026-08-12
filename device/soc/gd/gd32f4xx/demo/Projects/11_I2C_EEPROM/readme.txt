@@ -1,6 +1,6 @@
 /*!
-    \file    readme.txt
-    \brief   description of using the I2C bus to write and read EEPROM
+    \file  readme.txt
+    \brief description of using the I2C bus to write and read EEPROM
     
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
@@ -32,7 +32,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-  This demo is based on the GD32470Z-EVAL-V1.0 board, it provides a description 
+  This demo is based on the GD32470I-EVAL-V1.0 board, it provides a description 
 of how to use the I2C bus to write and read EEPROM. The access result will be 
 printed by COM0.
 
@@ -43,4 +43,4 @@ same,"I2C-AT24C02 test passed!" will be printed, while the board of the three
 LED lights start flashing, otherwise "Err:data read and write aren't matching."
 will be printed, while the three LEDs light will on.
 
-  JP13 must be fitted to the USART port.
+  JP5 must be fitted to the USART port.

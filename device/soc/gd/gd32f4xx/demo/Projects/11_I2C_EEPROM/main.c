@@ -5,7 +5,6 @@
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
-
 /*
     Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
@@ -34,7 +33,7 @@ OF SUCH DAMAGE.
 */
 
 #include <stdio.h>
-#include "gd32f470z_eval.h"
+#include "gd32f470i_eval.h"
 #include "systick.h"
 #include "i2c.h"
 #include "at24cxx.h"

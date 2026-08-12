@@ -1,13 +1,12 @@
 /*!
-    \file    main.c
-    \brief   RTC calendar demo
+    \file    readme.txt
+    \brief   description of the calendar alarm example
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
-
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -31,10 +30,9 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
 OF SUCH DAMAGE.
-*/ 
+*/
 
-
-  This demo is based on the GD32f470z-EVAL-V1.0 board, it explains how 
+  This demo is based on the GD32f470i-EVAL-V1.0 board, it explains how 
 to configure the RTC module. In this demo, RTC peripheral is configured to keep
 time.
   
@@ -43,7 +41,7 @@ define in main file. And the HyperTerminal should be connected to the evaluation
 board via USART0. The vbat bin on the board should connect to the CR1220 battery.
   
   After start-up,get key value from BKP data register or bit RTCSRC of backup domain 
-control register. If the value is not correct, the program will ask to set the time and 
+control register.If the value is not correct, the program will ask to set the time and 
 alarm value on the HyperTerminal. If the key value is correct, the time will be displayed 
 on the HyperTerminal.
 

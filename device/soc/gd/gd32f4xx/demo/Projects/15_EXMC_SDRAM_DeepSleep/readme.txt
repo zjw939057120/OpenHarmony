@@ -1,12 +1,12 @@
 /*!
-    \file  readme.txt
-    \brief description of EXMC SDRAM DeepSleep demo
+    \file    readme.txt
+    \brief   description of EXMC SDRAM DeepSleep demo
     
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -30,14 +30,13 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
 OF SUCH DAMAGE.
-*/ 
+*/
 
-  This demo is based on the GD32470Z-EVAL-V1.0 board, it shows how to use EXMC peripheral
+  This demo is based on the GD32470I-EVAL-V1.0 board, it shows how to use EXMC peripheral
 to control SDRAM memory work with PMU(deepsleep mode).
-  Firstly, write data to SDRAM, then make MCU enter into deepsleep mode and light on LED2.
+  Firstly, write data to SDRAM, then make MCU into deepsleep mode and light on LED2.
 Secondly, press the USER key to wakeup the MCU. After wakeup, MCU read data from SDRAM
-and compare with the data we written just now. If the test pass, LED1 will be 
+and compare with the data we writed just now. If the test correctly, LED1 will be 
 turned on. Otherwise,turn on the LED3.
   The timing parameters are calculated according to the 240MHz system clock.
-  P2,P3,JP16,JP17,JP18 must be fitted to the SDRAM port,JP13 must be fitted
-to the USART port.
+  JP17 must be fitted to the SDRAM port,JP5 must be fitted to the USART port

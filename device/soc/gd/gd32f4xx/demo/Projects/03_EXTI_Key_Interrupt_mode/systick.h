@@ -1,6 +1,6 @@
 /*!
-    \file  systick.h
-    \brief the header file of systick
+    \file    systick.h
+    \brief   the header file of systick
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */

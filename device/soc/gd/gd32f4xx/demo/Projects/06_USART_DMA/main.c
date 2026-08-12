@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -33,12 +33,11 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx.h"
-#include <stdio.h>
-#include "gd32f470z_eval.h"
-#include <stdio.h>
+#include "gd32f470i_eval.h"
 #include "systick.h"
+#include <stdio.h>
 
-uint8_t tx_buffer[] ={ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 
+uint8_t tx_buffer[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 
                        0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 
                        0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 
                        0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F,
@@ -56,9 +55,9 @@ uint8_t tx_buffer[] ={ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x0
                        0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF };
 
 #define ARRAYNUM(arr_name)     (uint32_t)(sizeof(arr_name)/sizeof(*(arr_name)))
-#define USART0_DATA_ADDRESS    ((uint32_t)&USART_DATA(USART0))
+#define USART0_DATA_ADDRESS    ((uint32_t)0x40011004)
 uint8_t rx_buffer[ARRAYNUM(tx_buffer)];
-volatile ErrStatus transfer_status = ERROR; 
+__IO ErrStatus transfer_status = ERROR; 
 
 void led_init(void);
 void led_flash(int times);
@@ -79,11 +78,8 @@ int main(void)
     /* configure systick */
     systick_config();
     
-    /* USART interrupt configuration */
-    nvic_irq_enable(USART0_IRQn, 0, 0);
-    
-    /* flash the LEDs for 1 time */
-    led_flash(1);
+    /* flash the LEDs for 2 times */
+    led_flash(2);
     
     /* configure EVAL_COM0 */
     gd_eval_com_init(EVAL_COM0);
@@ -103,7 +99,7 @@ int main(void)
     while(RESET == dma_flag_get(DMA1, DMA_CH7, DMA_INTF_FTFIF)){
     }
 
-    /* wait until USART0 RX DMA1 channel transfer complete */
+    /* wait until USART0 RX DMA1 channel receive complete */
     while(RESET == dma_flag_get(DMA1, DMA_CH2, DMA_INTF_FTFIF)){
     }
     /* check the received data with the send ones */
@@ -143,29 +139,29 @@ void usart_dma_config(void)
     dma_single_data_parameter_struct dma_init_struct;
     /* enable DMA1 */
     rcu_periph_clock_enable(RCU_DMA1);
-    /* deinitialize DMA channel7(USART0 tx) */
-    dma_single_data_para_struct_init(&dma_init_struct);
+    /* deinitialize DMA channel7(USART0 TX) */
     dma_deinit(DMA1, DMA_CH7);
     dma_init_struct.direction = DMA_MEMORY_TO_PERIPH;
     dma_init_struct.memory0_addr = (uint32_t)tx_buffer;
     dma_init_struct.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
-    dma_init_struct.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
     dma_init_struct.number = ARRAYNUM(tx_buffer);
     dma_init_struct.periph_addr = USART0_DATA_ADDRESS;
     dma_init_struct.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
+    dma_init_struct.periph_memory_width = DMA_PERIPH_WIDTH_8BIT;
     dma_init_struct.priority = DMA_PRIORITY_ULTRA_HIGH;
     dma_single_data_mode_init(DMA1, DMA_CH7, &dma_init_struct);
+    dma_channel_subperipheral_select(DMA1, DMA_CH7, DMA_SUBPERI4);
     /* configure DMA mode */
     dma_circulation_disable(DMA1, DMA_CH7);
-    dma_channel_subperipheral_select(DMA1, DMA_CH7, DMA_SUBPERI4);
     
+	/* deinitialize DMA channel2(USART0 RX) */
     dma_deinit(DMA1, DMA_CH2);
     dma_init_struct.direction = DMA_PERIPH_TO_MEMORY;
     dma_init_struct.memory0_addr = (uint32_t)rx_buffer;
     dma_single_data_mode_init(DMA1, DMA_CH2, &dma_init_struct);
+    dma_channel_subperipheral_select(DMA1, DMA_CH2, DMA_SUBPERI4);
     /* configure DMA mode */
     dma_circulation_disable(DMA1, DMA_CH2);
-    dma_channel_subperipheral_select(DMA1, DMA_CH2, DMA_SUBPERI4);
 }
 
 /*!
@@ -198,7 +194,7 @@ void led_flash(int times)
         gd_eval_led_on(LED1);
         gd_eval_led_on(LED2);
         gd_eval_led_on(LED3);
-
+        
         /* delay 400 ms */
         delay_1ms(400);
 

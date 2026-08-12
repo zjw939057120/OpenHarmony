@@ -1,12 +1,12 @@
 /*!
     \file    main.c
-    \brief   TIMER Breath LED demo
+    \brief   TIMER_Breath_LED demo
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -33,7 +33,8 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx.h"
-#include "gd32f470z_eval.h"
+#include "gd32f470i_eval.h"
+#include <stdio.h>
 #include "systick.h"
 
 void gpio_config(void);
@@ -71,7 +72,7 @@ void timer_config(void)
 
     rcu_periph_clock_enable(RCU_TIMER1);
     rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);
-    timer_struct_para_init(&timer_initpara);
+
     timer_deinit(TIMER1);
 
     /* TIMER1 configuration */
@@ -84,7 +85,6 @@ void timer_config(void)
     timer_init(TIMER1,&timer_initpara);
 
     /* CH2 configuration in PWM mode 0 */
-    timer_channel_output_struct_para_init(&timer_ocintpara);
     timer_ocintpara.ocpolarity  = TIMER_OC_POLARITY_HIGH;
     timer_ocintpara.outputstate = TIMER_CCX_ENABLE;
     timer_ocintpara.ocnpolarity  = TIMER_OCN_POLARITY_HIGH;

@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -36,12 +36,13 @@ OF SUCH DAMAGE.
 #include "gd32f4xx.h"
 #include "systick.h"
 #include "gd25qxx.h"
-#include "gd32f470z_eval.h"
+#include "gd32f470i_eval.h"
 
 #define BUFFER_SIZE              256
 #define TX_BUFFER_SIZE           (countof(tx_buffer) - 1)
 #define RX_BUFFER_SIZE           0xFF
 
+#define Version_ID               "1.0.0000"
 #define countof(a)               (sizeof(a) / sizeof(*(a)))
 
 #define SFLASH_ID                0xC84015
@@ -59,6 +60,8 @@ uint32_t DeviceID = 0;
 uint16_t i = 0;
 uint8_t  is_successful = 0;
 
+void rcc_configuration(void);
+void nvic_configuration(void);
 void turn_on_led(uint8_t led_num);
 void get_chip_serial_num(void);
 ErrStatus memory_compare(uint8_t *src, uint8_t *dst, uint16_t length);
@@ -72,7 +75,7 @@ void test_status_led_init(void);
 */
 int main(void)
 {
-    /* systick configuration */
+    /* systick configuration*/
     systick_config();
 
     /* configure the led GPIO */
@@ -86,16 +89,15 @@ int main(void)
 
     /* GD32450Z-EVAL start up */
     printf("\n\r###############################################################################\n\r");
-    printf("\n\rGD32470Z-EVAL System is Starting up...\n\r");
-    printf("\n\rGD32470Z-EVAL SystemCoreClock:%dHz\n\r", SystemCoreClock);
+    printf("\n\rGD32F470I-EVAL System is Starting up...\n\r");
 
     /* get chip serial number */
     get_chip_serial_num();
 
-    /* print CPU unique device id */
-    printf("\n\rGD32470Z-EVAL The CPU Unique Device ID:[%X-%X-%X]\n\r", int_device_serial[2], int_device_serial[1], int_device_serial[0]);
+    /* printf CPU unique device id */
+    printf("\n\rGD32F470I-EVAL The CPU Unique Device ID:[%X-%X-%X]\n\r", int_device_serial[2], int_device_serial[1], int_device_serial[0]);
 
-    printf("\n\rGD32470Z-EVAL SPI Flash:GD25Q40 configured...\n\r");
+    printf("\n\rGD32F470I-EVAL SPI Flash:GD25Q16 configured...\n\r");
 
     /* get flash id */
     flash_id = spi_flash_read_id();
@@ -142,7 +144,7 @@ int main(void)
 
         /* spi qspi flash test passed */
         if(0 == is_successful) {
-            printf("\n\rSPI-GD25Q40 Test Passed!\n\r");
+            printf("\n\rSPI-GD25Q16 Test Passed!\n\r");
         }
     } else {
         /* spi flash read id fail */
@@ -192,7 +194,7 @@ void test_status_led_init(void)
     gd_eval_led_init(LED2);
     gd_eval_led_init(LED3);
 
-    /* close all of leds */
+    /* turn off all leds */
     gd_eval_led_off(LED1);
     gd_eval_led_off(LED2);
     gd_eval_led_off(LED3);

@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -56,7 +56,5 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 /* this function handles SysTick exception */
 void SysTick_Handler(void);
-/* this function handles USART RBNE interrupt request and TBE interrupt request */
-void USART0_IRQHandler(void);
 
 #endif /* GD32F4XX_IT_H */

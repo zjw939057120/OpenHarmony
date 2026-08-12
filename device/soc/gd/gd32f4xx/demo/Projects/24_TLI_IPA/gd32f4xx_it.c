@@ -1,12 +1,13 @@
 /*!
     \file    gd32f4xx_it.c
     \brief   interrupt service routines
-    
-    \version 2023-11-30, V3.1.1, firmware for GD32F4xx
+
+    \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
     Copyright (c) 2026, GigaDevice Semiconductor Inc.
+
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -33,6 +34,8 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx_it.h"
+#include "gd32f470i_eval.h"
+#include "systick.h"
 
 /*!
     \brief      this function handles NMI exception
@@ -136,4 +139,15 @@ void PendSV_Handler(void)
     /* if PendSV exception occurs, go to infinite loop */
     while(1) {
     }
+}
+
+/*!
+    \brief      this function handles SysTick exception
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void SysTick_Handler(void)
+{
+    delay_decrement();
 }

@@ -99,7 +99,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>GD32F470xK	GD GD32F470xK</state>
+          <state>GD32F450xK	GD GD32F450xK</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -168,7 +168,8 @@
         <debug>1</debug>
         <option>
           <name>CCDefines</name>
-          <state>GD32F470</state>
+          <state>USE_STDPERIPH_DRIVER</state>
+          <state>GD32F450</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -717,7 +718,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$TOOLKIT_DIR$\config\linker\GD\GD32F470xK.icf</state>
+          <state>$TOOLKIT_DIR$\config\linker\GD\GD32F450xK.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1918,7 +1919,7 @@
   <group>
     <name>GD32F4xx_EVAL</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470z_eval.c</name>
+      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470i_eval.c</name>
     </file>
   </group>
   <group>

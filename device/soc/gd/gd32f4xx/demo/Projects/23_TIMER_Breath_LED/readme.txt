@@ -1,12 +1,12 @@
 /*!
     \file    readme.txt
-    \brief   description of the TIMER_Breath_LED
+    \brief   description of TIMER_Breath_LED example
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -32,9 +32,11 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-  This demo is based on the GD32470Z-EVAL-V1.0 board, it shows how to configure 
-the TIMER peripheral in PWM (Pulse Width Modulation) mode.
+  This example is based on the GD32470i-EVAL-V1.0 board, it provides a description
+of how to configure the TIMER peripheral in PWM (Pulse Width Modulation) mode.
+
   The objective is to configure TIMER1 channel 2(PB10) to generate PWM 
 signal with a variable duty cycle.The LED flickers like breathing.
 
-  Connect the TIMER1 pin PB10 to LED pin PD4.
+  Connect the TIMER1 pin PB10 to LED pin PE2.PB10 should not be reused by 
+other peripherals,such as USB_HS_ULPI.

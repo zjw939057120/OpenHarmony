@@ -1,12 +1,13 @@
 /*!
     \file    readme.txt
-    \brief   description of the TLI_IPA display example
+    \brief   description of TLI and IPA
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
 /*
     Copyright (c) 2026, GigaDevice Semiconductor Inc.
+
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -32,9 +33,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-  This example is based on the GD32470Z-EVAL-V1.0 board, this demo shows how to use TLI display 
+  This demo is based on the GD32470I-EVAL-V1.0 board, this demo shows how to use TLI display 
 picture on LCD and IPA copy image from flash to SRAM.
 
-  Choose the right macro in gd32f470z_lcd_eval.h based on the version of LCD.
+  Jump the JP12 to LCD.
+  Jump the JP15 to LCD.
 
-  Jump the JP4, JP10, JP14, JP15, JP19, JP20, JP23 to LCD.

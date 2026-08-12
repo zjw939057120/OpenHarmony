@@ -1,6 +1,6 @@
 /*!
-    \file  main.c
-    \brief EXTI key interrupt demo
+    \file    main.c
+    \brief   EXTI key interrupt demo
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
@@ -33,7 +33,9 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx.h"
+#include "gd32f470i_eval.h"
 #include "systick.h"
+#include <stdio.h>
 
 static void led_flash(uint8_t times);
 
@@ -48,13 +50,13 @@ int main(void)
     /* systick configuration */
     systick_config();
 
-    /* enable the led1 GPIO clock */
-    rcu_periph_clock_enable(RCU_GPIOD);
-    /* configure led1 GPIO port */
-    gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_4);
-    gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_4);
-    /* reset led1 GPIO pin */
-    gpio_bit_reset(GPIOD, GPIO_PIN_4);
+    /* enable the led2 GPIO clock */
+    rcu_periph_clock_enable(RCU_GPIOE);
+    /* configure led2 GPIO port */
+    gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_3);
+    gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_3);
+    /* reset led2 GPIO pin */
+    gpio_bit_reset(GPIOE, GPIO_PIN_3);
 
     /* flash the LED for test */
     led_flash(1);
@@ -90,11 +92,11 @@ static void led_flash(uint8_t times)
         /* delay 500 ms */
         delay_1ms(500);
         /* turn on the LED */
-        gpio_bit_set(GPIOD, GPIO_PIN_4);
+        gpio_bit_set(GPIOE, GPIO_PIN_3);
 
         /* delay 500 ms */
         delay_1ms(500);
         /* turn off the LED */
-        gpio_bit_reset(GPIOD, GPIO_PIN_4);
+        gpio_bit_reset(GPIOE, GPIO_PIN_3);
     }
 }

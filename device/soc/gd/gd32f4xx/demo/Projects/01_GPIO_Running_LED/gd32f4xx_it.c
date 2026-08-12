@@ -33,6 +33,7 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx_it.h"
+#include "gd32f470i_eval.h"
 #include "systick.h"
 
 /*!

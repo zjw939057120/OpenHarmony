@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -32,12 +32,11 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-  This demo is based on the GD32470Z-EVAL-V1.0 board, it shows how to use USART0 transmit 
-and receive interrupts to communicate with the serial terminal tool supporting hex
-format communication.
-  Firstly,the USART0 sends the strings to the serial terminal tool and still waiting for 
-receiving data from the serial terminal tool. Then, compare tx_buffer with the rx_buffer,
-if the tx_buffer is the same with the rx_buffer, LED1, LED2, LED3 light by turns. Otherwise, 
-LED1, LED2, LED3 toggle together.
+  This example is based on the GD32470i-EVAL-V1.0 board, it shows how to use USART0 transmit 
+and receive interrupts to communicate with the hyperterminal.
 
-  JP13 must be fitted.
+  Firstly, USART0 sends the strings to the hyperterminal and still waits for receiving 
+data from the hyperterminal. Then, compare tx_buffer with the rx_buffer, if the tx_buffer 
+is the same with the rx_buffer, LED1, LED2, LED3 light by turns. Otherwise, LED1, LED2, LED3 
+toggle together.
+

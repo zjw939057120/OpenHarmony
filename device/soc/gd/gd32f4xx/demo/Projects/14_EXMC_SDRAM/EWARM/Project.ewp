@@ -147,7 +147,7 @@
         </option>
         <option>
           <name>OGUseCmsis</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>OGUseCmsisDspLib</name>
@@ -329,7 +329,7 @@
         <option>
           <name>CCOptStrategy</name>
           <version>0</version>
-          <state>2</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCOptLevelSlave</name>
@@ -408,7 +408,7 @@
         <option>
           <name>CCOptStrategySlave</name>
           <version>0</version>
-          <state>2</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCGuardCalls</name>
@@ -600,7 +600,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>GD32450Z_EVAL.srec</state>
+          <state>Project.srec</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -655,7 +655,7 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>GD32F450Z_EVAL.out</state>
+          <state>Project.out</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>
@@ -1920,7 +1920,7 @@
   <group>
     <name>GD32F4xx_EVAL</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470z_eval.c</name>
+      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470i_eval.c</name>
     </file>
   </group>
   <group>

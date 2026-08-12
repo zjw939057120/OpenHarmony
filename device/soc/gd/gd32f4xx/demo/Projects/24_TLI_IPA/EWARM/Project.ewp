@@ -168,6 +168,7 @@
         <debug>1</debug>
         <option>
           <name>CCDefines</name>
+          <state>USE_STDPERIPH_DRIVER</state>
           <state>GD32F470</state>
         </option>
         <option>
@@ -304,7 +305,6 @@
           <state>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD</state>
           <state>$PROJ_DIR$\..\..\..\Utilities</state>
           <state>$PROJ_DIR$\..\Image</state>
-          <state>$PROJ_DIR$\..\Soft_Drive</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1896,7 +1896,13 @@
   <group>
     <name>Application</name>
     <file>
+      <name>$PROJ_DIR$\..\gd32f4xx_it.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\main.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\systick.c</name>
     </file>
   </group>
   <group>
@@ -1914,10 +1920,7 @@
   <group>
     <name>GD32F4xx_EVAL</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470z_eval.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\Soft_Drive\gd32f470z_lcd_eval.c</name>
+      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470i_eval.c</name>
     </file>
   </group>
   <group>

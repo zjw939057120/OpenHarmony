@@ -30,15 +30,14 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
 OF SUCH DAMAGE.
-*/ 
-
+*/
 
 #include "gd32f4xx.h"
 #include <stdio.h>
-#include "gd32f470z_eval.h"
+#include "gd32f470i_eval.h"
 
-#define RTC_CLOCK_SOURCE_LXTAL 
-#define BKP_VALUE    0x32F1
+#define RTC_CLOCK_SOURCE_LXTAL
+#define BKP_VALUE    0x32F0
 
 rtc_parameter_struct   rtc_initpara;
 __IO uint32_t prescaler_a = 0, prescaler_s = 0;
@@ -77,9 +76,9 @@ int main(void)
         rtc_setup(); 
     }else{
         /* detect the reset source */
-        if(RESET != rcu_flag_get(RCU_FLAG_PORRST)){
+        if (RESET != rcu_flag_get(RCU_FLAG_PORRST)){
             printf("power on reset occurred....\n\r");
-        }else if(RESET != rcu_flag_get(RCU_FLAG_EPRST)){
+        }else if (RESET != rcu_flag_get(RCU_FLAG_EPRST)){
             printf("external reset occurred....\n\r");
         }
         printf("no need to configure RTC....\n\r");
@@ -104,23 +103,23 @@ int main(void)
 */
 void rtc_pre_config(void)
 {
-    #if defined (RTC_CLOCK_SOURCE_IRC32K) 
-          rcu_osci_on(RCU_IRC32K);
-          rcu_osci_stab_wait(RCU_IRC32K);
-          rcu_rtc_clock_config(RCU_RTCSRC_IRC32K);
-  
-          prescaler_s = 0x13F;
-          prescaler_a = 0x63;
-    #elif defined (RTC_CLOCK_SOURCE_LXTAL)
-          rcu_osci_on(RCU_LXTAL);
-          rcu_osci_stab_wait(RCU_LXTAL);
-          rcu_rtc_clock_config(RCU_RTCSRC_LXTAL);
-    
-          prescaler_s = 0xFF;
-          prescaler_a = 0x7F;
-    #else
-    #error RTC clock source should be defined.
-    #endif /* RTC_CLOCK_SOURCE_IRC32K */
+#if defined (RTC_CLOCK_SOURCE_IRC32K) 
+      rcu_osci_on(RCU_IRC32K);
+      rcu_osci_stab_wait(RCU_IRC32K);
+      rcu_rtc_clock_config(RCU_RTCSRC_IRC32K);
+
+      prescaler_s = 0x13F;
+      prescaler_a = 0x63;
+#elif defined (RTC_CLOCK_SOURCE_LXTAL)
+      rcu_osci_on(RCU_LXTAL);
+      rcu_osci_stab_wait(RCU_LXTAL);
+      rcu_rtc_clock_config(RCU_RTCSRC_LXTAL);
+
+      prescaler_s = 0xFF;
+      prescaler_a = 0x7F;
+#else
+#error RTC clock source should be defined.
+#endif /* RTC_CLOCK_SOURCE_IRC32K */
 
     rcu_periph_clock_enable(RCU_RTC);
     rtc_register_sync_wait();
@@ -149,21 +148,21 @@ void rtc_setup(void)
     /* current time input */
     printf("=======Configure RTC Time========\n\r");
     printf("  please input hour:\n\r");
-    while(0xFF == tmp_hh){
+    while (0xFF == tmp_hh){    
         tmp_hh = usart_input_threshold(23);
         rtc_initpara.hour = tmp_hh;
     }
     printf("  %0.2x\n\r", tmp_hh);
-
+    
     printf("  please input minute:\n\r");
-    while(0xFF == tmp_mm){
+    while (0xFF == tmp_mm){    
         tmp_mm = usart_input_threshold(59);
         rtc_initpara.minute = tmp_mm;
     }
     printf("  %0.2x\n\r", tmp_mm);
 
     printf("  please input second:\n\r");
-    while(0xFF == tmp_ss){
+    while (0xFF == tmp_ss){
         tmp_ss = usart_input_threshold(59);
         rtc_initpara.second = tmp_ss;
     }
@@ -203,17 +202,17 @@ uint8_t usart_input_threshold(uint32_t value)
     uint32_t index = 0;
     uint32_t tmp[2] = {0, 0};
 
-    while(index < 2){
-        while(RESET == usart_flag_get(EVAL_COM0, USART_FLAG_RBNE));
+    while (index < 2){
+        while (RESET == usart_flag_get(EVAL_COM0, USART_FLAG_RBNE));
         tmp[index++] = usart_data_receive(EVAL_COM0);
-        if((tmp[index - 1] < 0x30) || (tmp[index - 1] > 0x39)){
+        if ((tmp[index - 1] < 0x30) || (tmp[index - 1] > 0x39)){
             printf("\n\r please input a valid number between 0 and 9 \n\r");
             index--;
         }
     }
 
     index = (tmp[1] - 0x30) + ((tmp[0] - 0x30) * 10);
-    if(index > value){
+    if (index > value){
         printf("\n\r please input a valid number between 0 and %d \n\r", value);
         return 0xFF;
     }

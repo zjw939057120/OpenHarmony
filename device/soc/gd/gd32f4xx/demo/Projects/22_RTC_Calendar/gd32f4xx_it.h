@@ -1,6 +1,6 @@
 /*!
-    \file  gd32f4xx_it.h
-    \brief the header file of the ISR
+    \file    gd32f4xx_it.h
+    \brief   the header file of the ISR
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
@@ -30,8 +30,7 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
 OF SUCH DAMAGE.
-*/ 
-
+*/
 
 #ifndef GD32F4XX_IT_H
 #define GD32F4XX_IT_H

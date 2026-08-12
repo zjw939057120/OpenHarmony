@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -44,4 +44,4 @@ void delay_1ms(uint32_t count);
 /* delay decrement */
 void delay_decrement(void);
 
-#endif /* SYS_TICK_H */
+#endif /* SYSTICK_H */

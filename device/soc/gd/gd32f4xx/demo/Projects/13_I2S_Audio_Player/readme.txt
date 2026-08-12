@@ -31,9 +31,10 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
 OF SUCH DAMAGE.
 */
-
-  This demo is based on the GD32470Z-EVAL-V1.0 board, this demo is an audio player.
+ 
+  This demo is based on the GD32470I-EVAL-V1.0 board, this demo is an audio player.
 Audio file is wave format,I2S configuration parameter is parsing from headertab
 of the audio file. Insert headphone, you will listen to audio file.
+  You should jump JP18 to I2S.
 
 

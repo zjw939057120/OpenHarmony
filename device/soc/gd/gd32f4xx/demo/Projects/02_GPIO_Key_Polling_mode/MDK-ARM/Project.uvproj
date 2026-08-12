@@ -7,12 +7,12 @@
 
   <Targets>
     <Target>
-      <TargetName>GD32470Z_EVAL</TargetName>
+      <TargetName>GD32470I_EVAL</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
         <TargetCommonOption>
-          <Device>GD32F470ZK</Device>
+          <Device>GD32F470IK</Device>
           <Vendor>GigaDevice</Vendor>
           <Cpu>IRAM(0x20000000-0x2002FFFF) IRAM2(0x10000000-0x1000FFFF) IROM(0x08000000-0x082FFFFF) CLOCK(16000000) CPUTYPE("Cortex-M4") FPU2</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -45,7 +45,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\output\</OutputDirectory>
-          <OutputName>GD32450Z_EVAL</OutputName>
+          <OutputName>Project</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -139,7 +139,7 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
-            <RestoreTracepoints>1</RestoreTracepoints>
+            <RestoreTracepoints>0</RestoreTracepoints>
             <RestoreSysVw>1</RestoreSysVw>
             <UsePdscDebugDescription>0</UsePdscDebugDescription>
           </Target>
@@ -344,7 +344,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>0</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -360,9 +360,9 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,GD32F470</Define>
+              <Define>GD32F470</Define>
               <Undefine></Undefine>
-              <IncludePath>..\;..\..\..\Utilities;..\..\..\..\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Include;..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Include</IncludePath>
+              <IncludePath>..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Include;..\..\..\..\GD32F4xx_Firmware_Library\CMSIS;..\..\..\..\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Include;..\..\..\Utilities;..\</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -406,14 +406,14 @@
           <GroupName>Application</GroupName>
           <Files>
             <File>
-              <FileName>gd32f4xx_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gd32f4xx_it.c</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gd32f4xx_it.c</FilePath>
             </File>
             <File>
               <FileName>systick.c</FileName>
@@ -586,9 +586,9 @@
           <GroupName>GD32F4xx_EVAL</GroupName>
           <Files>
             <File>
-              <FileName>gd32f470z_eval.c</FileName>
+              <FileName>gd32f470i_eval.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Utilities\gd32f470z_eval.c</FilePath>
+              <FilePath>..\..\..\Utilities\gd32f470i_eval.c</FilePath>
             </File>
           </Files>
         </Group>

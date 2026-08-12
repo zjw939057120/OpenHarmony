@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -33,8 +33,9 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx.h"
-#include "gd32f470z_eval.h"
+#include "gd32f470i_eval.h"
 #include "systick.h"
+#include <stdio.h>
 
 #define BUFFER_SIZE   (COUNTOF(tx_buffer))
 #define COUNTOF(a)   (sizeof(a)/sizeof(*(a)))
@@ -59,7 +60,7 @@ uint8_t tx_buffer[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x0
 uint8_t rx_buffer[BUFFER_SIZE];
 __IO uint16_t tx_counter = 0, rx_counter = 0;
 uint32_t nbr_data_to_read = BUFFER_SIZE, nbr_data_to_send = BUFFER_SIZE;
-volatile ErrStatus transfer_status = ERROR;
+__IO ErrStatus transfer_status = ERROR; 
 
 void led_init(void);
 void led_flash(int times);
@@ -158,7 +159,7 @@ void led_flash(int times)
         gd_eval_led_on(LED1);
         gd_eval_led_on(LED2);
         gd_eval_led_on(LED3);
-
+        
         /* delay 400 ms */
         delay_1ms(400);
 

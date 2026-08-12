@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -151,7 +151,7 @@ void SysTick_Handler(void)
 }
 
 /*!
-    \brief      this function handles EXTI interrupt
+    \brief      this function handles external lines 10 to 15 interrupt request
     \param[in]  none
     \param[out] none
     \retval     none

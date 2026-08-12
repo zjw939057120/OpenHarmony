@@ -60,7 +60,7 @@
 							<option id="com.gigadevice.mbs.arm.option.targetProcessor.allOptions.1194612191" name="All options" superClass="com.gigadevice.mbs.arm.option.targetProcessor.allOptions" value="-mcpu=cortex-m4 -mthumb" valueType="string"/>
 							<option id="com.gigadevice.mbs.arm.option.toolChain.buildToolPath.1371827236" name="%option.base.toolChain.buildToolPath" superClass="com.gigadevice.mbs.arm.option.toolChain.buildToolPath" value="Tools/BuildTools/2.10-20180103-1919/bin" valueType="string"/>
 							<option id="com.gigadevice.mbs.arm.option.toolChain.path.1940585578" name="%option.base.toolChain.path" superClass="com.gigadevice.mbs.arm.option.toolChain.path" value="Tools/ARMEmbeddedGCC/bin" valueType="string"/>
-							<option id="com.gigadevice.mbs.arm.option.targetMcu.partNo.1330863324" superClass="com.gigadevice.mbs.arm.option.targetMcu.partNo" value="GD32F470ZKT6" valueType="string"/>
+							<option id="com.gigadevice.mbs.arm.option.targetMcu.partNo.1330863324" superClass="com.gigadevice.mbs.arm.option.targetMcu.partNo" value="GD32F470IKH6" valueType="string"/>
 							<option id="com.gigadevice.mbs.arm.option.optimization.allOptions.1501325879" name="All options" superClass="com.gigadevice.mbs.arm.option.optimization.allOptions" value="-Os -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections" valueType="string"/>
 							<option id="com.gigadevice.mbs.arm.option.debugging.allOptions.289610734" name="All options" superClass="com.gigadevice.mbs.arm.option.debugging.allOptions" value=" -g" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.gigadevice.mbs.arm.targetPlatform.551024215" isAbstract="false" osList="all" superClass="com.gigadevice.mbs.arm.targetPlatform"/>
@@ -82,7 +82,7 @@
 							<tool id="com.gigadevice.mbs.arm.tool.linker.822045925" name="GD ARM MCU Linker" superClass="com.gigadevice.mbs.arm.tool.linker">
 								<option id="com.gigadevice.mbs.arm.option.linker.general.gcsections.2127114502" name="Remove unused sections (-Xlinker --gc-sections)" superClass="com.gigadevice.mbs.arm.option.linker.general.gcsections" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.gigadevice.mbs.arm.option.linker.general.scriptFile.878657726" name="Linker script (-T)" superClass="com.gigadevice.mbs.arm.option.linker.general.scriptFile" valueType="stringList">
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../../GD32F4xx_Firmware_Library/CMSIS/GD/GD32F4xx/Source/GCC/Ld/gd32f470xK_flash.ld&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../../../GD32F4xx_Firmware_Library/CMSIS/GD/GD32F4xx/Source/GCC/Ld/gd32f470xI_flash.ld&quot;"/>
 								</option>
 								<inputType id="com.gigadevice.mbs.arm.inputType.linker.1769935645" superClass="com.gigadevice.mbs.arm.inputType.linker">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

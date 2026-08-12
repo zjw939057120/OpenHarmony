@@ -168,6 +168,7 @@
         <debug>1</debug>
         <option>
           <name>CCDefines</name>
+          <state>USE_STDPERIPH_DRIVER</state>
           <state>GD32F470</state>
         </option>
         <option>
@@ -716,7 +717,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$TOOLKIT_DIR$\config\linker\GD\GD32F470xK.icf</state>
+          <state>$TOOLKIT_DIR$\config\linker\GD\GD32F450xK.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1917,7 +1918,7 @@
   <group>
     <name>GD32F4xx_EVAL</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470z_eval.c</name>
+      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470i_eval.c</name>
     </file>
   </group>
   <group>

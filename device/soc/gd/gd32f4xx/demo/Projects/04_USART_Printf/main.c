@@ -6,7 +6,7 @@
 */
 
 /*
-    Copyright (c) 2024, GigaDevice Semiconductor Inc
+    Copyright (c) 2026, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -33,9 +33,9 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx.h"
-#include "gd32f470z_eval.h"
-#include "systick.h"
+#include "gd32f470i_eval.h"
 #include <stdio.h>
+#include "systick.h"
 
 void led_init(void);
 void led_flash(int times);
@@ -54,8 +54,8 @@ int main(void)
     /* configure systick */
     systick_config();
     
-    /* flash the LEDs for 1 time */
-    led_flash(1);
+    /* flash the LEDs for 2 times */
+    led_flash(2);
     
     /* configure EVAL_COM0 */
     gd_eval_com_init(EVAL_COM0);
@@ -67,7 +67,7 @@ int main(void)
     printf("\r\n USART printf example: please press the Tamper key \r\n");
     
     /* wait for completion of USART transmission */
-    while(RESET == usart_flag_get(EVAL_COM0 ,USART_FLAG_TC)){
+    while(RESET == usart_flag_get(EVAL_COM0, USART_FLAG_TC)){
     }
     while(1){
         /* check if the tamper key is pressed */
@@ -76,24 +76,24 @@ int main(void)
             if(RESET == gd_eval_key_state_get(KEY_TAMPER)){
                 delay_1ms(50);
                 if(RESET == gd_eval_key_state_get(KEY_TAMPER)){
-                    /* turn on LED1 */
-                    gd_eval_led_on(LED1);
+                    /* turn on LED3 */
+                    gd_eval_led_on(LED3);
                     /* output a message on hyperterminal using printf function */
                     printf("\r\n USART printf example \r\n");
                     /* wait for completion of USART transmission */
                     while(RESET == usart_flag_get(EVAL_COM0, USART_FLAG_TC)){
                     }
                 }else{
-                    /* turn off LED1 */
-                    gd_eval_led_off(LED1);
+                    /* turn off LED3 */
+                    gd_eval_led_off(LED3);
                 }
             }else{
-                /* turn off LED1 */
-                gd_eval_led_off(LED1);
+                /* turn off LED3 */
+                gd_eval_led_off(LED3);
             }
         }else{
-            /* turn off LED1 */
-            gd_eval_led_off(LED1);
+            /* turn off LED3 */
+            gd_eval_led_off(LED3);
         }
     }
 }

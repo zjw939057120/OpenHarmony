@@ -1,6 +1,6 @@
 /*!
-    \file    at24cxx.h
-    \brief   the header file of AT24Cxx
+    \file  at24cxx.h
+    \brief the header file of AT24Cxx
     
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */

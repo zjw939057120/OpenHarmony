@@ -1,7 +1,7 @@
 /*!
     \file  readme.txt
     \brief description of ADC0 ADC1 Follow_up_mode example
-
+    
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
@@ -32,7 +32,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-  This demo is based on the GD32470Z-EVAL-V1.0 board, it shows how to use ADC0 and ADC1 routine_follow-up 
+  This demo is based on the GD32470I-EVAL-V1.0 board, it shows how to use ADC0 and ADC1 routine_follow-up 
 mode convert function.PC3 and PC5 are configured as AN mode.PC5 pin connect to the external voltage 
 input.PC3 is the output voltage of the slide rheostat VR1 on board.
   TIMER1_CH1 is the trigger source of ADC0.ADC1 external trigger is disabled.When the rising edge of

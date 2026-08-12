@@ -168,7 +168,6 @@
         <debug>1</debug>
         <option>
           <name>CCDefines</name>
-          <state>USE_STDPERIPH_DRIVER</state>
           <state>GD32F470</state>
         </option>
         <option>
@@ -230,7 +229,7 @@
         <option>
           <name>CCAllowList</name>
           <version>1</version>
-          <state>11111110</state>
+          <state>00000000</state>
         </option>
         <option>
           <name>CCDebugInfo</name>
@@ -299,8 +298,8 @@
         <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..</state>
-          <state>$PROJ_DIR$\..\..\..\Library\Utilities</state>
           <state>$PROJ_DIR$\..\Soft_Drive</state>
+          <state>$PROJ_DIR$\..\..\..\Utilities</state>
           <state>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Include</state>
           <state>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\CMSIS</state>
           <state>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Include</state>
@@ -323,7 +322,7 @@
         </option>
         <option>
           <name>CCOptLevel</name>
-          <state>3</state>
+          <state>1</state>
         </option>
         <option>
           <name>CCOptStrategy</name>
@@ -332,7 +331,7 @@
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>3</state>
+          <state>1</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -599,7 +598,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>GD32450Z_EVAL.srec</state>
+          <state>GD32470I_EVAL.srec</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -1914,9 +1913,9 @@
     </file>
   </group>
   <group>
-    <name>GD32F4xx_EVAL</name>
+    <name>GD32F470i_EVAL</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470z_eval.c</name>
+      <name>$PROJ_DIR$\..\..\..\Utilities\gd32f470i_eval.c</name>
     </file>
   </group>
   <group>

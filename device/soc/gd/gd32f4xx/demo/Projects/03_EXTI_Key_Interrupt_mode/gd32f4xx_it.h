@@ -1,6 +1,6 @@
 /*!
-    \file  gd32f4xx_it.h
-    \brief the header file of the ISR
+    \file    gd32f4xx_it.h
+    \brief   the header file of the ISR
 
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
@@ -56,7 +56,7 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 /* this function handles SysTick exception */
 void SysTick_Handler(void);
-/* this function handles external lines 10 to 15 interrupt exception */
+/* this function handles external lines 10 to 15 interrupt request */
 void EXTI10_15_IRQHandler(void);
 
 #endif /* GD32F4XX_IT_H */

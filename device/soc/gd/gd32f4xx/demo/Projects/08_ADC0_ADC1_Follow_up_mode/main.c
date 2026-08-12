@@ -1,7 +1,7 @@
 /*!
     \file  main.c
     \brief ADC0 ADC1 Follow up mode
-
+    
     \version 2026-02-12, V3.3.3, demo for GD32F4xx
 */
 
@@ -33,7 +33,7 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx.h"
-#include "gd32f470z_eval.h"
+#include "gd32f470i_eval.h"
 #include "systick.h"
 #include <stdio.h>
 
