@@ -42,6 +42,7 @@ kernel_module(module_name) {
         "periph_spi_flash.c",
         "periph_spi_adc.c",
         "periph_ethernet.c",
+        "gd32f4xx_enet_eval.c",
         "message_queue.c",
         "modbus_rtu_task.c",
         "modbus_rtu.c",
