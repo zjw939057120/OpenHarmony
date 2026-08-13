@@ -1,0 +1,22 @@
+{
+  "product_name": "gd32f470zi",
+  "type": "mini",
+  "version": "3.0",
+  "target_cpu": "arm",
+  "device_company": "yukon",
+  "device_build_path": "device/board/yukon/gd32f470zi",
+  "board": "gd32f470zi",
+  "kernel_type": "liteos_m",
+  "kernel_version": "3.0.0",
+  "subsystems": [ 
+	{
+        "subsystem": "kernel",
+        "components": [
+          { "component": "liteos_m", "features":[] }
+        ]
+    }
+  ],
+  "product_adapter_dir": "",
+  "third_party_dir": "//third_party"
+}
+

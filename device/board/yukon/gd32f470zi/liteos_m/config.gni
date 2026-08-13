@@ -1,0 +1,105 @@
+# Kernel type, e.g. "linux", "liteos_a", "liteos_m".
+kernel_type = "liteos_m"
+
+# Kernel version.
+kernel_version = "3.0.0"
+
+# Board CPU type, e.g. "cortex-a7", "riscv32".
+board_cpu = "cortex-m4"
+
+# Board arch, e.g.  "armv7-a", "rv32imac".
+board_arch = ""
+
+# Toolchain name used for system compiling.
+# E.g. gcc-arm-none-eabi, arm-linux-harmonyeabi-gcc, ohos-clang,  riscv32-unknown-elf.
+# Note: The default toolchain is "ohos-clang". It's not mandatory if you use the default toolchain.
+board_toolchain = "arm-none-eabi-gcc"
+
+use_board_toolchain = true
+
+# The toolchain path installed, it's not mandatory if you have added toolchain path to your ~/.bashrc.
+board_toolchain_path = ""
+
+# Compiler prefix.
+board_toolchain_prefix = "arm-none-eabi-"
+
+# Compiler type, "gcc" or "clang".
+board_toolchain_type = "gcc"
+
+# sysroot
+gcc_sysroot = "/home/tools/gcc-arm-none-eabi-10.3-2021.10/bin/../arm-none-eabi"
+
+#Debug compiler optimization level options
+board_opt_flags = [
+    "-g",
+    "-O1",
+    "-mcpu=cortex-m4",
+    "-mthumb",
+    "-mfpu=fpv4-sp-d16",
+    "-mfloat-abi=hard",
+    "-fno-stack-protector",
+    "-mno-unaligned-access",
+]
+
+# Board related common compile flags.
+board_cflags = [
+    "--sysroot=" + gcc_sysroot,
+    "-Wall",
+    "-MD",
+    "-fdata-sections",
+    "-ffunction-sections",
+    "-DGD32F470",
+    "-DHXTAL_VALUE=8000000",
+]
+board_cflags += board_opt_flags
+
+board_asmflags = [
+    "-Wall",
+    "-MD",
+    "-fdata-sections",
+    "-ffunction-sections",
+]
+board_asmflags += board_opt_flags
+
+board_cxx_flags = board_cflags
+
+board_ld_flags = [
+    "-static",
+    "-Wl,--gc-sections",
+    "-Wl,-Map=OHOS_Image.map",
+    "-Wl,-T" + rebase_path("liteos.ld"),
+    "-u_printf_float",
+    "-Wl,--wrap=_calloc_r",
+    "-Wl,--wrap=_malloc_r",
+    "-Wl,--wrap=_realloc_r",
+    "-Wl,--wrap=_reallocf_r",
+    "-Wl,--wrap=_free_r",
+    "-Wl,--wrap=_memalign_r",
+    "-Wl,--wrap=_malloc_usable_size_r",
+    "-Wl,--wrap=printf",
+]
+board_ld_flags += board_opt_flags
+
+# Board related headfiles search path.
+board_include_dirs = [ 
+    "//device/soc/gd/gd32f4xx/sdk/Drivers/CMSIS",
+    "//device/soc/gd/gd32f4xx/sdk/Drivers/CMSIS/GD/GD32F4xx/Include",
+    "//device/soc/gd/gd32f4xx/sdk/Drivers/GD32F4xx_standard_peripheral/Include",
+    "//device/board/yukon/gd32f470zi/liteos_m",
+    "//device/board/yukon/gd32f470zi/liteos_m/include",
+    "//device/board/yukon/gd32f470zi/liteos_m/common",
+    "//device/board/yukon/gd32f470zi/liteos_m/driver",
+    "//device/board/yukon/gd32f470zi/liteos_m/libc",
+    "//device/board/mht/gd32f470ziaigateway/liteos_m/kernel",
+    "//device/board/yukon/gd32f470zi/liteos_m/app",
+    "//device/board/yukon/gd32f470zi/liteos_m/kernel",
+    "//device/board/yukon/gd32f470zi/liteos_m/third_party/shell",
+]
+
+# Board adapter dir for OHOS components.
+board_adapter_dir = ""
+
+declare_args() {
+  precise_branch = ""
+}
+

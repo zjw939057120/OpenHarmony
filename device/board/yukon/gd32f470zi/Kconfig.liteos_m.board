@@ -1,0 +1,3 @@
+menuconfig BOARD_GD32F470
+    bool "select board gd32f470zi"
+    depends on SOC_GD32F470

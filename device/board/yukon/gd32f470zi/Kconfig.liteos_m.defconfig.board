@@ -1,0 +1,6 @@
+if BOARD_GD32F470
+config BOARD
+    string
+    default "gd32f470zi"
+
+endif #BOARD_GD32F470

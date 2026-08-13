@@ -39,6 +39,9 @@ kernel_module(module_name) {
   visibility += [ "//device/board/yukon/gd32f470:*" ]
   visibility += [ "//device/board/yukon/gd32f470/liteos_m:*" ]
   visibility += [ "//device/board/yukon/gd32f470/liteos_m/board:*" ]
+  visibility += [ "//device/board/yukon/gd32f470zi:*" ]
+  visibility += [ "//device/board/yukon/gd32f470zi/liteos_m:*" ]
+  visibility += [ "//device/board/yukon/gd32f470zi/liteos_m/board:*" ]
 }
 
 #指定全局头文件搜索路径

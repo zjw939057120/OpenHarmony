@@ -1,0 +1,10 @@
+{
+  "subsystem": "product_gd32f470zi",
+  "parts": {
+    "product_gd32f470zi": {
+      "module_list": [
+        "//vendor/yukon/gd32f470zi:gd32f470zi"
+      ]   
+    }   
+  }
+}

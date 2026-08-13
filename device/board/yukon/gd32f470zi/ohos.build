@@ -1,0 +1,10 @@
+{
+  "subsystem": "device_gd32f470zi",
+  "parts": {
+    "device_gd32f470zi": {
+      "module_list": [
+        "//device/board/yukon/gd32f470zi/liteos_m:gd32f470zi"
+      ]
+    }
+  }
+}

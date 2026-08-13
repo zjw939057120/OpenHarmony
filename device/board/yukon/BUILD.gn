@@ -2,8 +2,14 @@ if (ohos_kernel_type == "liteos_m") {
   import("//kernel/liteos_m/liteos.gni")
   module_name = get_path_info(rebase_path("."), "name")
   module_group(module_name) {
-    modules = [
-      "gd32f470",
-    ]
+    if (board_name == "gd32f470") {
+      modules = [
+        "gd32f470",
+      ]
+    } else if (board_name == "gd32f470zi")  {
+      modules = [
+        "gd32f470zi",
+      ]
+    }
   }
 }
