@@ -109,9 +109,9 @@ static void enet_mac_dma_config(void)
     }
 
 #ifdef CHECKSUM_BY_HARDWARE
-    enet_init_status = enet_init(ENET_AUTO_NEGOTIATION, ENET_AUTOCHECKSUM_DROP_FAILFRAMES, ENET_BROADCAST_FRAMES_PASS);
+    enet_init_status = enet_init(ENET_10M_HALFDUPLEX, ENET_AUTOCHECKSUM_DROP_FAILFRAMES, ENET_BROADCAST_FRAMES_PASS);
 #else
-    enet_init_status = enet_init(ENET_AUTO_NEGOTIATION, ENET_NO_AUTOCHECKSUM, ENET_BROADCAST_FRAMES_PASS);
+    enet_init_status = enet_init(ENET_10M_HALFDUPLEX, ENET_NO_AUTOCHECKSUM, ENET_BROADCAST_FRAMES_PASS);
 #endif /* CHECKSUM_BY_HARDWARE */
 
 }
@@ -145,9 +145,9 @@ static void enet_gpio_config(void)
     rcu_periph_clock_enable(RCU_GPIOH);
     rcu_periph_clock_enable(RCU_GPIOI);
 
-    gpio_af_set(GPIOA, GPIO_AF_0, GPIO_PIN_8);
-    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_8);
-    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, GPIO_PIN_8);
+    // gpio_af_set(GPIOA, GPIO_AF_0, GPIO_PIN_8);
+    // gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_8);
+    // gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_MAX, GPIO_PIN_8);
 
     /* enable SYSCFG clock */
     rcu_periph_clock_enable(RCU_SYSCFG);
@@ -156,14 +156,14 @@ static void enet_gpio_config(void)
 
 #ifdef PHY_CLOCK_MCO
     /* output HXTAL clock (25MHz) on CKOUT0 pin(PA8) to clock the PHY */
-    rcu_ckout0_config(RCU_CKOUT0SRC_HXTAL, RCU_CKOUT0_DIV1);
+    // rcu_ckout0_config(RCU_CKOUT0SRC_HXTAL, RCU_CKOUT0_DIV1);
 #endif /* PHY_CLOCK_MCO */
 
     syscfg_enet_phy_interface_config(SYSCFG_ENET_PHY_MII);
 
 #elif defined RMII_MODE
     /* choose DIV2 to get 50MHz from 200MHz on CKOUT0 pin (PA8) to clock the PHY */
-    rcu_ckout0_config(RCU_CKOUT0SRC_PLLP, RCU_CKOUT0_DIV4);
+    // rcu_ckout0_config(RCU_CKOUT0SRC_PLLP, RCU_CKOUT0_DIV4);
     syscfg_enet_phy_interface_config(SYSCFG_ENET_PHY_RMII);
 
 #endif /* MII_MODE */

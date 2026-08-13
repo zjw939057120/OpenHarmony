@@ -16,9 +16,11 @@
 #include "los_task.h"
 #include "gd32f4xx.h"
 #include "main_task.h"
+#include "gd32f4xx_enet_eval.h"
 
 static void *thread_main_task(unsigned int arg)
 {
+	enet_system_setup();
 	while(1) {
 		SEGGER_RTT_WriteString(0, "Hello, World!\n");
         LOS_TaskDelay(1000);

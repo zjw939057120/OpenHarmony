@@ -34,6 +34,7 @@ OF SUCH DAMAGE.
 
 #include "gd32f4xx_enet.h"
 #include "gd32f4xx_enet_eval.h"
+#include "gd32f4xx_it.h"
 #include "main.h"
 
 static __IO uint32_t enet_init_status = 0;
@@ -107,6 +108,10 @@ static void enet_mac_dma_config(void)
 */
 static void nvic_configuration(void)
 {
+    UINT32 ret = LOS_HwiCreate(ENET_IRQn, 2U, 0, ENET_IRQHandler, NULL);
+    if (ret != LOS_OK) {
+        printf("%s failed! ret = 0x%x\r\n", __func__, ret);
+    }
     nvic_irq_enable(ENET_IRQn, 2, 0);
 }
 

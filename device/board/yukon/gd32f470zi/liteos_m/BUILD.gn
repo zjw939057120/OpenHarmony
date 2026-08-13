@@ -12,13 +12,15 @@ kernel_module(module_name) {
         "driver/system_gd32f4xx.c",
         "driver/systick.c",
  
-        #RTT
+        # RTT
         "third_party/RTT/SEGGER_RTT_printf.c",
         "third_party/RTT/SEGGER_RTT.c",
 
-        #SRC
+        # SRC
         "main.c",
         "main_task.c",
+        "gd32f4xx_enet_eval.c",
+        "gd32f4xx_it.c",
     ]
     deps = [
         "//device/soc/gd/gd32f4xx/sdk:gd32f4xx_sdk",
