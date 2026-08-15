@@ -1,0 +1,84 @@
+# Copyright (C) 2020 Hisilicon (Shanghai) Technologies Co., Ltd. All rights reserved.
+
+# 选择内核类型, e.g. "linux", "liteos_a", "liteos_m".
+kernel_type = "liteos_m"
+
+# 内核版本，留空即可.
+kernel_version = ""
+
+# 芯片架构, e.g. "cortex-a7", "riscv32".
+board_cpu = "cortex-m4"
+
+# 这里一般不用谢, e.g.  "armv7-a", "rv32imac".
+board_arch = ""
+
+# Toolchain name used for system compiling.
+# E.g. gcc-arm-none-eabi, arm-linux-harmonyeabi-gcc, ohos-clang,  riscv32-unknown-elf.
+# Note: The default toolchain is "ohos-clang". It's not mandatory if you use the default toolchain.
+# 交叉编译器名称
+board_toolchain = "arm-none-eabi-gcc"
+
+# The toolchain path installed, it's not mandatory if you have added toolchain path to your ~/.bashrc.
+# 这里一般可以不写
+board_toolchain_path = ""
+
+# 交叉编译器Compiler prefix.
+board_toolchain_prefix = "arm-none-eabi-"
+
+# 编译器类型 Compiler type, "gcc" or "clang".
+board_toolchain_type = "gcc"
+
+# 编译选项Board related common compile flags.
+board_cflags = [
+    "-mcpu=cortex-m4",
+    "-mthumb",
+    "-mfpu=fpv4-sp-d16",
+    "-mfloat-abi=hard",
+    "-Wall",
+    "-fdata-sections",
+    "-ffunction-sections",
+
+    "-Wl,--wrap=printf", 
+    "-Wl,--wrap=sprintf",
+    "-Wl,--wrap=snprintf",
+    "-Wl,--wrap=vsnprintf",
+    "-Wl,--wrap=vprintf",
+    "-Og",
+    "-Wall",
+    "-DGD32F470",
+    "-DGD32F470VI",
+]
+
+board_cxx_flags = board_cflags
+
+board_ld_flags = [
+  "-T${ohos_root_path}device/board/GigaDevice/components/lds/gd32f470vi.ld"
+]
+
+
+# 头文件路径，一般需要soc相关 Board related headfiles search path.
+board_include_dirs = [
+  "${ohos_root_path}device/board/GigaDevice/gd32f470vi/sdk",
+
+  "${ohos_root_path}device/soc/gd32f4/CMSIS",
+  "${ohos_root_path}device/soc/gd32f4/CMSIS/GD/GD32F4XX/Include",
+  "${ohos_root_path}device/soc/gd32f4/gd32f4xx/GD32F4XX_Driver/Inc",
+  "${ohos_root_path}device/soc/gd32f4/gd32f4xx",
+  "${ohos_root_path}device/soc/gd32f4/gd32f4xx/liteos_m",
+
+  "${ohos_root_path}utils/native/lite/include",
+  "${ohos_root_path}kernel/liteos_m/components/cpup",
+  "${ohos_root_path}kernel/liteos_m/components/exchook",
+
+  # 适配XTS需要
+  "${ohos_root_path}commonlibrary/utils_lite/include", # ohos_types.h
+]
+
+# 适配XTS的路径
+board_adapter_dir = "${ohos_root_path}device/board/GigaDevice/components/xts_adapter/"
+
+# Sysroot path.
+board_configed_sysroot = ""
+
+# Board storage type, it used for file system generation.
+storage_type = ""

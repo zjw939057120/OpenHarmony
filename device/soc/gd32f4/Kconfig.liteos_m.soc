@@ -1,0 +1,57 @@
+# Copyright (c) 2022 PandaBoard.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+config SOC_COMPANY_GD32
+    bool
+
+if SOC_COMPANY_GD32
+config SOC_COMPANY
+    default "gd32f4"  # 指定了要编译的soc名称
+
+rsource "*/Kconfig.liteos_m.soc"
+endif # SOC_COMPANY_GD32
+
+
+menu "GD32F470VI  adapter Enable"
+depends on SOC_GD32F470VI
+
+config ETHERNET_ENABLE
+    bool "Enable etnernet"
+    default n
+    help
+      Enable the Ethernet feature
+
+config FILE_SYSTEM_TEST
+    bool "Enable file systel test"
+    default n
+    help
+      Add a filesystem test function to the main function
+
+endmenu
+
+menu "GD32F407VE adapter Enable"
+depends on SOC_GD32F407VE
+
+config ETHERNET_ENABLE
+    bool "Enable etnernet"
+    default n
+    help
+      Enable the Ethernet feature
+      
+config FILE_SYSTEM_TEST
+    bool "Enable file systel test"
+    default n
+    help
+      Add a filesystem test function to the main function
+
+endmenu

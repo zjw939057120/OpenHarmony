@@ -1,0 +1,9 @@
+{
+  "parts": {
+    "product_gd32f470vi": {
+      "module_list": [
+      ]
+    }
+  },
+  "subsystem": "product_gd32f470vi"
+}

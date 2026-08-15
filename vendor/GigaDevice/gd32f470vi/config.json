@@ -1,0 +1,68 @@
+{
+  "product_name": "gd32f470vi",
+  "type": "mini",
+  "version": "3.0",
+  "device_company": "GigaDevice",
+  "board": "gd32f470vi",
+  "kernel_type": "liteos_m",
+  "kernel_version": "", 
+  "subsystems": [
+    {
+      "subsystem": "kernel",
+      "components": [
+        { 
+          "component": "liteos_m",
+          "features":[ "ohos_kernel_liteos_m_lwip_path = \"//device/board/GigaDevice/components/drivers/ethernet\""]
+        }
+      ]
+    },
+    {
+      "subsystem": "startup",
+      "components": [
+        { "component": "bootstrap_lite", "features":[] },
+        {
+          "component": "init",
+          "features": [
+            "enable_ohos_startup_init_feature_begetctl_liteos = true",
+            "enable_ohos_startup_init_lite_use_posix_file_api = true",
+            "config_ohos_startup_init_lite_data_path = \"/data/\"",
+            "config_ohos_startup_syspara_lite_data_path = \"/data/\""
+          ]
+        }
+      ]
+    },
+    {
+      "subsystem": "systemabilitymgr",
+      "components": [
+        {
+          "component": "samgr_lite",
+          "features": [
+            "config_ohos_systemabilitymgr_samgr_lite_shared_task_size = 4096"
+          ]
+        }
+      ]
+    },
+    {
+      "subsystem": "hiviewdfx",
+      "components": [
+        {
+          "component": "hilog_lite",
+          "optional": "true",
+          "features": [
+            "ohos_hiviewdfx_hiview_lite_output_option = 0",
+            "ohos_hiviewdfx_hiview_lite_dir = \"/data/\"",
+            "ohos_hiviewdfx_log_static_cache_size = 4096",
+            "ohos_hiviewdfx_hiview_hilog_file_buf_size = 2048"
+          ]
+        },
+        {
+          "component":"hievent_lite",
+          "optional":"true"
+        }
+      ]
+    }
+  ],
+  "third_party_dir": "",
+  "product_adapter_dir": "",
+  "vendor_adapter_dir": ""
+}

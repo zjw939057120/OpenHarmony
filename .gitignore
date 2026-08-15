@@ -1,0 +1,10 @@
+# 1. 忽略所有文件
+*
+
+# 2. 必须放行 .gitignore 自身，否则规则会失效
+!.gitignore
+
+# 3. 放行指定的文件或目录
+!device/board/GigaDevice/
+!device/soc/gd32f4/
+!vendor/GigaDevice/
