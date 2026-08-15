@@ -4,7 +4,7 @@ ENTRY(Reset_Handler)
 /* Highest address of the user mode stack */
 _estack = ORIGIN(RAM) + LENGTH(RAM);    /* end of RAM */ /* 栈顶使用 */
 
-HEAP_SIZE = 640K;
+HEAP_SIZE = 100K;
 
 /* Specify the memory areas */
 MEMORY

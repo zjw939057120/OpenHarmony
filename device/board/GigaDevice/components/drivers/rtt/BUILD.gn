@@ -12,24 +12,17 @@
 # limitations under the License.
 
 import("//kernel/liteos_m/liteos.gni")
-module_name = get_path_info(rebase_path("."), "name")
-module_group(module_name) {
-  if (defined(LOSCFG_BOARD_GD32F470VI)){
-    modules = [
-      "uart",
-      "littlefs_sfud",
-      "sys_led",
-      "rtt",
-      ""
-    ]
-  }
 
-  if (defined(LOSCFG_BOARD_GD32F470ZI)){
-    modules = [
-      "uart",
-      "littlefs_sfud",
-      "sys_led",
-      "rtt",
+module_name = get_path_info(rebase_path("."), "name")
+kernel_module(module_name) {
+  sources = [
+    "SEGGER_RTT_printf.c",
+    "SEGGER_RTT.c",
+  ]
+}
+
+config("public") {
+    include_dirs =  [     
+      ".",
     ]
-  }
 }

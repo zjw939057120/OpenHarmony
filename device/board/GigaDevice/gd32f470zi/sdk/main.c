@@ -6,6 +6,7 @@
 
 #include "uart.h"
 #include "sys_led.h"
+#include "SEGGER_RTT.h"
 
 #if defined(LOSCFG_SUPPORT_LITTLEFS)
 #include "lfs_adapter.h"
@@ -21,7 +22,12 @@
 
 int main(void)
 {
+	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_TRIM);
+    SEGGER_RTT_printf(0, "SEGGER Real-Time-Terminal Sample\r\n");
+
 	UINT32 ret;   
+	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_TRIM);
+    SEGGER_RTT_printf(0, "SEGGER Real-Time-Terminal Sample\r\n");
     systick_config(); 
 	uart_init();       
     system_led_init();
@@ -46,8 +52,8 @@ int main(void)
     OHOS_SystemInit();
 
 #if (LOSCFG_ETHERNET_ENABLE == 1)
-    // ethernet_init();
-    // start_dhcp_handler();
+    ethernet_init();
+    start_dhcp_handler();
 #endif
 
 #if (LOSCFG_USE_SHELL == 1)
