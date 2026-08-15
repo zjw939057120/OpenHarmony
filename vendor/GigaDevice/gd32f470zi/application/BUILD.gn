@@ -17,7 +17,7 @@ module_name = get_path_info(rebase_path("."), "name")
 module_group(module_name) {
   modules = [
     # "001_helloworld",
-    # "002_led",
+    "002_led",
     # "003_blink",
     # "004_filesystem",
     # "005_os_thread",

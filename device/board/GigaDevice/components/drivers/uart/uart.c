@@ -125,5 +125,25 @@ void uart_init(void)
     usart_receive_config(UART_NUMBER, USART_RECEIVE_ENABLE);
     usart_transmit_config(UART_NUMBER, USART_TRANSMIT_ENABLE);
     usart_enable(UART_NUMBER);
+
+    uart_en_init();
 }
+
+void uart_en_init(void)
+{
+    //使能 UART_EN
+    rcu_periph_clock_enable(UART_EN_RCU);
+    gpio_mode_set(UART_EN_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, UART_EN_PIN);
+    gpio_output_options_set(UART_EN_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, UART_EN_PIN);
+    //接收数据时，使能 UART_EN 输出
+    gpio_bit_set(UART_EN_PORT, UART_EN_PIN);
+
+    //使能 UART_LED
+    rcu_periph_clock_enable(UART_LED_RCU);
+    gpio_mode_set(UART_LED_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, UART_LED_PIN);
+    gpio_output_options_set(UART_LED_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, UART_LED_PIN);
+    //默认关闭 LED
+    gpio_bit_set(UART_LED_PORT, UART_LED_PIN);
+}
+
 

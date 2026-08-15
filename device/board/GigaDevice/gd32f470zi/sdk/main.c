@@ -35,10 +35,10 @@ int main(void)
     uart_irq_register();
 
 #if defined(LOSCFG_SUPPORT_LITTLEFS)
-    lfs_init();
+    // lfs_init();
 #endif
 #if (LOSCFG_FILE_SYSTEM_TEST == 1) && defined(LOSCFG_SUPPORT_LITTLEFS)
-    file_system_test();
+    // file_system_test();
 #endif
     printf("Open Harmony 4.1.1 start ...\r\n\r\n");
 
@@ -46,8 +46,8 @@ int main(void)
     OHOS_SystemInit();
 
 #if (LOSCFG_ETHERNET_ENABLE == 1)
-    ethernet_init();
-    start_dhcp_handler();
+    // ethernet_init();
+    // start_dhcp_handler();
 #endif
 
 #if (LOSCFG_USE_SHELL == 1)

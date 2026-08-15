@@ -27,7 +27,7 @@ extern "C" {
 
 /* LED 定义 指示灯引脚 */
 #if (defined GD32F470VI) || (defined GD32F470ZI)
-#define LED_PIN                         GPIO_PIN_8
+#define LED_PIN                         GPIO_PIN_9
 #define LED_PORT                        GPIOA
 #define LED_CLK                         RCU_GPIOA
 #endif

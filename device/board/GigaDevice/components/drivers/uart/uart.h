@@ -28,20 +28,28 @@
 extern "C" {
 #endif
 
-#define UART_NUMBER                     USART0
-#define UART_RCU                        RCU_USART0
-#define UART_IRQ                        USART0_IRQn
-#define UART_BAUD                       (115200U)
+#define UART_NUMBER                     USART5
+#define UART_RCU                        RCU_USART5
+#define UART_IRQ                        USART5_IRQn
+#define UART_BAUD                       (9600U)
 
-#define GPIO_RXD_RCU                    RCU_GPIOA
-#define GPIO_RXD_PORT                   GPIOA
-#define GPIO_RXD_PIN                    GPIO_PIN_10
-#define GPIO_RXD_AF                     GPIO_AF_7
+#define GPIO_RXD_RCU                    RCU_GPIOC
+#define GPIO_RXD_PORT                   GPIOC
+#define GPIO_RXD_PIN                    GPIO_PIN_7
+#define GPIO_RXD_AF                     GPIO_AF_8
 
-#define GPIO_TXD_RCU                    RCU_GPIOA
-#define GPIO_TXD_PORT                   GPIOA
-#define GPIO_TXD_PIN                    GPIO_PIN_9
-#define GPIO_TXD_AF                     GPIO_AF_7
+#define GPIO_TXD_RCU                    RCU_GPIOC
+#define GPIO_TXD_PORT                   GPIOC
+#define GPIO_TXD_PIN                    GPIO_PIN_6
+#define GPIO_TXD_AF                     GPIO_AF_8
+
+#define UART_EN_RCU                     RCU_GPIOD
+#define UART_EN_PORT                    GPIOD
+#define UART_EN_PIN                     GPIO_PIN_7
+
+#define UART_LED_RCU                    RCU_GPIOA
+#define UART_LED_PORT                   GPIOA
+#define UART_LED_PIN                    GPIO_PIN_11
 
 void uart_init(void);
 void uart_irq_register(void);
@@ -50,6 +58,8 @@ void uart0_send_data(uint8_t *data, int len);
 
 extern INT32 UartGetc(VOID);
 extern EVENT_CB_S g_shellInputEvent;
+
+void uart_en_init(void);
 
 #ifdef __cplusplus
 }
