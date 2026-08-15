@@ -17,7 +17,7 @@ choice
 config SOC_GD32F470VI
     bool "SoC GD32F470VI"
 
-config SOC_GD32F407VE
-    bool "SoC GD32F407VE"
+config SOC_GD32F470ZI
+    bool "SoC GD32F470ZI"
 
 endchoice

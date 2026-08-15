@@ -39,8 +39,8 @@ config FILE_SYSTEM_TEST
 
 endmenu
 
-menu "GD32F407VE adapter Enable"
-depends on SOC_GD32F407VE
+menu "GD32F470ZI adapter Enable"
+depends on SOC_GD32F470ZI
 
 config ETHERNET_ENABLE
     bool "Enable etnernet"

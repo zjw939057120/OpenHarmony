@@ -1,7 +1,7 @@
 {
-    "subsystem": "device_gd32f407ve",
+    "subsystem": "device_gd32f470zi",
     "parts": {
-        "device_gd32f407ve": {
+        "device_gd32f470zi": {
             "module_list": [
                 "//device/board/GigaDevice/components/xts_adapter:xts_adapter"
             ]

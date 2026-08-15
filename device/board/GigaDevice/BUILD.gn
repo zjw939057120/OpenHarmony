@@ -20,9 +20,9 @@ module_group(module_name) {
     modules += ["components/drivers"]
     modules += ["gd32f470vi"]
   }
-  if (defined(LOSCFG_BOARD_GD32F407VE)){
+  if (defined(LOSCFG_BOARD_GD32F470ZI)){
     modules += ["components/drivers"]
-    modules += ["gd32f407ve"]
+    modules += ["gd32f470zi"]
   }
 
   modules += [

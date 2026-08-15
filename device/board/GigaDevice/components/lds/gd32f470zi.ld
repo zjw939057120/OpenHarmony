@@ -4,14 +4,14 @@ ENTRY(Reset_Handler)
 /* Highest address of the user mode stack */
 _estack = ORIGIN(RAM) + LENGTH(RAM);    /* end of RAM */ /* 栈顶使用 */
 
-HEAP_SIZE = 100K;
+HEAP_SIZE = 640K;
 
 /* Specify the memory areas */
 MEMORY
 {
-  RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
+  RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 704K
   CCMRAM (xrw)   : ORIGIN = 0x10000000, LENGTH = 64K
-  FLASH (rx)     : ORIGIN = 0x8000000,  LENGTH = 512K
+  FLASH (rx)     : ORIGIN = 0x8000000,  LENGTH = 2048K
 }
 
 /* Define output sections */

@@ -11,7 +11,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-config BOARD_GD32F407VE
-    bool "select board gd32f407ve"
-    depends on SOC_GD32F407VE
+config BOARD_GD32F470ZI
+    bool "open the macro LOSCFG_BOARD_GD32F470ZI in the board"
+    depends on SOC_GD32F470ZI

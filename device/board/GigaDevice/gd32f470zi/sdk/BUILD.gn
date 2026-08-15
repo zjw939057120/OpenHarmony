@@ -19,7 +19,7 @@ kernel_module(module_name) {
     "main.c",
     "systick.c",
     "gd32f4xx_it.c",
-    "//device/board/GigaDevice/components/startup/startup_gd32f407_427.S",
+    "//device/board/GigaDevice/components/startup/startup_gd32f450_470.S",
     "${ohos_root_path}device/soc/gd32f4/CMSIS/GD/GD32F4XX/Source/system_gd32f4xx.c",
   ]
 }

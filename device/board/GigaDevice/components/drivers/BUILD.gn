@@ -22,7 +22,7 @@ module_group(module_name) {
     ]
   }
 
-  if (defined(LOSCFG_BOARD_GD32F407VE)){
+  if (defined(LOSCFG_BOARD_GD32F470ZI)){
     modules = [
       "uart",
       "littlefs_sfud",

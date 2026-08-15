@@ -1,9 +1,9 @@
 {
-  "product_name": "gd32f407ve",
+  "product_name": "gd32f470zi",
   "type": "mini",
   "version": "3.0",
   "device_company": "GigaDevice",
-  "board": "gd32f407ve",
+  "board": "gd32f470zi",
   "kernel_type": "liteos_m",
   "kernel_version": "", 
   "subsystems": [

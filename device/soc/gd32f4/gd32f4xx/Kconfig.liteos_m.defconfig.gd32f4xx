@@ -17,5 +17,5 @@ config SOC
 
 config SOC
     string
-    default "gd32f407ve"
-    depends on SOC_GD32F407VE
+    default "gd32f470zi"
+    depends on SOC_GD32F470ZI
