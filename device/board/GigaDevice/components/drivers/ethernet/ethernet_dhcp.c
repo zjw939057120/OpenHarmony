@@ -129,7 +129,7 @@ void dhcp_task(void *pvParameters)
     stTask.usTaskPrio = 6;
     
     while (1) {
-        if(get_ip101gr_status() == ETH_LINK_UP && link_status == ETH_LINK_DOWN)
+        if(get_phy_link_status() == ETH_LINK_UP && link_status == ETH_LINK_DOWN)
         {
             printf("ethernet link-up\n");
             link_status = ETH_LINK_UP;
@@ -143,7 +143,7 @@ void dhcp_task(void *pvParameters)
             }
         }
 
-        if(get_ip101gr_status() == ETH_LINK_DOWN && link_status == ETH_LINK_UP)
+        if(get_phy_link_status() == ETH_LINK_DOWN && link_status == ETH_LINK_UP)
         {
             printf("ethernet link-down\n");
             link_status = ETH_LINK_DOWN;    

@@ -22,12 +22,9 @@
 
 int main(void)
 {
-	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_TRIM);
-    SEGGER_RTT_printf(0, "SEGGER Real-Time-Terminal Sample\r\n");
-
 	UINT32 ret;   
 	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_TRIM);
-    SEGGER_RTT_printf(0, "SEGGER Real-Time-Terminal Sample\r\n");
+    SEGGER_RTT_printf(0, "SEGGER Real-Time-Terminal Sample %s %s\r\n",__TIME__,__DATE__);
     systick_config(); 
 	uart_init();       
     system_led_init();

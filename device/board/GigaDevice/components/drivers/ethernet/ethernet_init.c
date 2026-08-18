@@ -69,10 +69,13 @@ unsigned char ethernet_mac_mda_config(void)
     enet_deinit();  /* AHB总线重启以太网 */  
     enet_software_reset(); /* 软件重启网络 */
 	
-    /* 改为自动、强制模式切换 */
-    /* 通过硬件计算和验证 IP、UDP、TCP 和 ICMP 校验和 */
-    ErrStatus enet_init_status = enet_init(ENET_10M_FULLDUPLEX, ENET_AUTOCHECKSUM_ACCEPT_FAILFRAMES, ENET_BROADCAST_FRAMES_DROP);
-   
+#ifdef CHECKSUM_BY_HARDWARE
+    printf("CHECKSUM_BY_HARDWARE\n");
+    ErrStatus enet_init_status = enet_init(ENET_10M_HALFDUPLEX, ENET_AUTOCHECKSUM_DROP_FAILFRAMES, ENET_BROADCAST_FRAMES_PASS);
+#else
+    ErrStatus enet_init_status = enet_init(ENET_10M_HALFDUPLEX, ENET_NO_AUTOCHECKSUM, ENET_BROADCAST_FRAMES_PASS);
+#endif /* CHECKSUM_BY_HARDWARE */
+
     if(SUCCESS == enet_init_status)   
     {   
         enet_interrupt_enable(ENET_DMA_INT_NIE);

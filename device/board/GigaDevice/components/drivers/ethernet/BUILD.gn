@@ -22,7 +22,7 @@ kernel_module(module_name) {
     [ "$LWIPDIR/api/sockets.c" ] + 
     [
       "ethernet_init.c",
-      "ethernet_ip101gr.c",
+      "ethernet_jl5104.c",
       "ethernetif.c",
       "ethernet_dhcp.c",
     ] + LWIPERFFILES

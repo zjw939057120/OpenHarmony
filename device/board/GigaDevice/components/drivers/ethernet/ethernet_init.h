@@ -45,7 +45,7 @@ typedef enum {
 
 extern __lwip_dev lwipdev;
 
-eth_link_t get_ip101gr_status(void);
+eth_link_t get_phy_link_status(void);
 
 /* 初始化以太网 */
 unsigned char ethernet_init(void);

@@ -49,7 +49,7 @@ Some MCUs allow computing and verifying the IP, UDP, TCP and ICMP checksums by h
  - To disable it and process by CPU comment the  the checksum.
 */
 
-#define CHECKSUM_BY_HARDWARE 1
+// #define CHECKSUM_BY_HARDWARE 1
 #if CHECKSUM_BY_HARDWARE
   /* CHECKSUM_GEN_IP==0: Generate checksums by hardware for outgoing IP packets.*/
   #define CHECKSUM_GEN_IP                 0

@@ -68,16 +68,14 @@ OF SUCH DAMAGE.
 
 #ifndef _PHY_H_
 #define DP83848                          0
-#define IP101                            1
-#define RTL8201                          2
-#define LAN8700                          3
-#define PHY_TYPE                         IP101
+#define LAN8700                          1
+#define PHY_TYPE                         DP83848
 
-#define PHY_ADDRESS                      ((uint16_t)0U)                         /*!< phy address determined by the hardware */
+#define PHY_ADDRESS                      ((uint16_t)1U)                         /*!< phy address determined by the hardware */
 
 /* PHY read write timeouts */ 
-#define PHY_READ_TO                      ((uint32_t)0x004FFFFFU)                /*!< PHY read timeout */
-#define PHY_WRITE_TO                     ((uint32_t)0x004FFFFFU)                /*!< PHY write timeout */
+#define PHY_READ_TO                      ((uint32_t)0x0004FFFFU)                /*!< PHY read timeout */
+#define PHY_WRITE_TO                     ((uint32_t)0x0004FFFFU)                /*!< PHY write timeout */
 
 /* PHY delay */
 #define PHY_RESETDELAY                   ((uint32_t)0x008FFFFFU)                /*!< PHY reset delay */
@@ -105,22 +103,13 @@ OF SUCH DAMAGE.
 #define PHY_JABBER_DETECTION             ((uint16_t)0x0002)                     /*!< jabber condition detected */
 
 #if(PHY_TYPE == LAN8700) 
-#define PHY_SR                           ((uint16_t)0x1F)                       /*!< tranceiver status register */
+#define PHY_SR                           31U                                    /*!< tranceiver status register */
 #define PHY_SPEED_STATUS                 ((uint16_t)0x0004)                     /*!< configured information of speed: 10Mbit/s */
 #define PHY_DUPLEX_STATUS                ((uint16_t)0x0010)                     /*!< configured information of duplex: full-duplex */
 #elif(PHY_TYPE == DP83848)
 #define PHY_SR                           16U                                    /*!< tranceiver status register */
 #define PHY_SPEED_STATUS                 ((uint16_t)0x0002)                     /*!< configured information of speed: 10Mbit/s */
 #define PHY_DUPLEX_STATUS                ((uint16_t)0x0004)                     /*!< configured information of duplex: full-duplex */
-#elif(PHY_TYPE == IP101)
-#define PHY_SR				             30U                                    /*!< tranceiver status register */
-#define PHY_SPEED_STATUS	             ((uint16_t)0x0001)                     /*!< configured information of speed: 10Mbit/s */
-#define PHY_DUPLEX_STATUS                ((uint16_t)0x0004)                     /*!< configured information of duplex: full-duplex */
-#elif(PHY_TYPE == RTL8201)
-#define PHY_SR                           1U                                     /*!< tranceiver status register */
-#define PHY_SPEED_STATUS                 ((uint16_t)0x0100)                     /*!< configured information of speed: 10Mbit/s */
-#define PHY_DUPLEX_STATUS                ((uint16_t)0x2000)                     /*!< configured information of duplex: full-duplex */
-
 #endif /* PHY_TYPE */
 
 #endif /* _PHY_H_ */
@@ -135,7 +124,7 @@ OF SUCH DAMAGE.
 #define ENET_MAC_HLH                     REG32((ENET) + 0x0008U)                  /*!< ethernet MAC hash list high register */
 #define ENET_MAC_HLL                     REG32((ENET) + 0x000CU)                  /*!< ethernet MAC hash list low register */
 #define ENET_MAC_PHY_CTL                 REG32((ENET) + 0x0010U)                  /*!< ethernet MAC PHY control register */
-#define ENET_MAC_PHY_DATA                REG32((ENET) + 0x0014U)                  /*!< ethernet MAC PHY data register */
+#define ENET_MAC_PHY_DATA                REG32((ENET) + 0x0014U)                  /*!< ethernet MAC MII data register */
 #define ENET_MAC_FCTL                    REG32((ENET) + 0x0018U)                  /*!< ethernet MAC flow control register */
 #define ENET_MAC_VLT                     REG32((ENET) + 0x001CU)                  /*!< ethernet MAC VLAN tag register */
 #define ENET_MAC_RWFF                    REG32((ENET) + 0x0028U)                  /*!< ethernet MAC remote wakeup frame filter register */
@@ -1124,7 +1113,7 @@ typedef struct
 #define ENET_MDC_HCLK_DIV62                       MAC_PHY_CTL_CLR(1)                            /*!< HCLK:100-150 MHz; MDC clock= HCLK/62 */
 #define ENET_MDC_HCLK_DIV16                       MAC_PHY_CTL_CLR(2)                            /*!< HCLK:20-35 MHz; MDC clock= HCLK/16 */
 #define ENET_MDC_HCLK_DIV26                       MAC_PHY_CTL_CLR(3)                            /*!< HCLK:35-60 MHz; MDC clock= HCLK/26 */
-#define ENET_MDC_HCLK_DIV102                      MAC_PHY_CTL_CLR(4)                            /*!< HCLK:150-240 MHz; MDC clock= HCLK/102 */
+#define ENET_MDC_HCLK_DIV102                      MAC_PHY_CTL_CLR(4)                            /*!< HCLK:150-200 MHz; MDC clock= HCLK/102 */
 
 #define MAC_PHY_CTL_PR(regval)                    (BITS(6,10) & ((uint32_t)(regval) << 6))      /*!< write value to ENET_MAC_PHY_CTL_PR bit field */
 
@@ -1465,7 +1454,7 @@ typedef struct
 #define ENET_MAX_FRAME_SIZE                       1524U                                         /*!< header + frame_extra + payload + CRC */    
 
 /* ENET delay timeout */
-#define ENET_DELAY_TO                             ((uint32_t)0x004FFFFFU)                       /*!< ENET delay timeout */
+#define ENET_DELAY_TO                             ((uint32_t)0x0004FFFFU)                       /*!< ENET delay timeout */
 #define ENET_RESET_TO                             ((uint32_t)0x000004FFU)                       /*!< ENET reset timeout */
 
 
