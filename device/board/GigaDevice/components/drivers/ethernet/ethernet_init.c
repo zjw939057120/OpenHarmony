@@ -172,35 +172,35 @@ static void lwip_comm_default_ip_set(__lwip_dev *lwipx)
     uint32_t sn0;
     sn0 = *(__IO uint32_t *)(0x1FFF7A10); /* 获取 GD32 的唯一ID的前24位作为MAC地址后三字节 (stm32 0x1FFFF7F0) */
     
-    /* 默认远端IP为:192.168.1.134 */
-    lwipx->remoteip[0] = 192;
+    /* 默认远端IP为:172.168.16.134 */
+    lwipx->remoteip[0] = 172;
     lwipx->remoteip[1] = 168;
-    lwipx->remoteip[2] = 1;
-    lwipx->remoteip[3] = 27;
+    lwipx->remoteip[2] = 16;
+    lwipx->remoteip[3] = 134;
     
     /* MAC地址设置(高2字节固定为:30,d0,低4字节用 GD32 唯一ID) */
     lwipx->mac[0] = 0x30;
     lwipx->mac[1] = 0xd0;
     lwipx->mac[2] = (sn0 >> 24) & 0XFF; /* 低4字节用 GD32 的唯一ID */
     lwipx->mac[3] = (sn0 >> 16) & 0XFF;
-    lwipx->mac[4] = (sn0 >> 8) & 0XFFF;;
+    lwipx->mac[4] = (sn0 >> 8) & 0XFF;
     lwipx->mac[5] = sn0 & 0XFF;
 
-    /* 默认本地IP为:192.168.1.30 */
-    lwipx->ip[0] = 192;
+    /* 默认本地IP为:172.168.16.11 */
+    lwipx->ip[0] = 172;
     lwipx->ip[1] = 168;
-    lwipx->ip[2] = 0;
-    lwipx->ip[3] = 132;
+    lwipx->ip[2] = 16;
+    lwipx->ip[3] = 11;
     /* 默认子网掩码:255.255.255.0 */
     lwipx->netmask[0] = 255;
     lwipx->netmask[1] = 255;
     lwipx->netmask[2] = 255;
     lwipx->netmask[3] = 0;
     
-    /* 默认网关:192.168.1.1 */
-    lwipx->gateway[0] = 192;
+    /* 默认网关:172.168.16.1 */
+    lwipx->gateway[0] = 172;
     lwipx->gateway[1] = 168;
-    lwipx->gateway[2] = 0;
+    lwipx->gateway[2] = 16;
     lwipx->gateway[3] = 1;
     lwipx->dhcpstatus = 0; /* 没有DHCP */
 }

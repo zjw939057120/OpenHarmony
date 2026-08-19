@@ -139,7 +139,7 @@ void dhcp_task(void *pvParameters)
             lwip_netif.gw.addr = 0;
             uwRet = LOS_TaskCreate(&dhcp2_handle, &stTask);     /* 创建新的线程来处理 DHCP 过程 */
             if (uwRet != LOS_OK) {
-                printf("sample_task create failed\r\n");
+                printf("dhcp_task_handler create failed, ret: %d\r\n",uwRet);
             }
         }
 
@@ -180,7 +180,7 @@ void start_dhcp_handler()
     stTask.usTaskPrio = 6;
     uwRet = LOS_TaskCreate(&dhcp1_handle, &stTask);
     if (uwRet != LOS_OK) {
-        printf("sample_task create failed\r\n");
+        printf("dhcp_task create failed, ret: %d\r\n",uwRet);
     }
 }
 #endif

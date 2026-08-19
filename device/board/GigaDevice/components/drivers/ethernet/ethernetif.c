@@ -100,11 +100,16 @@ static void low_level_init(struct netif *netif)
     LOS_BinarySemCreate(0, &g_semId);
 
     /* 创建处理ETH_MAC的任务 */
-    sys_thread_new("eth_thread",
-                   ethernetif_input,        /* 任务入口函数 */
-                   netif,                   /* 任务入口函数参数 */
-                   NETIF_IN_TASK_STACK_SIZE,/* 任务栈大小 */
-                   NETIF_IN_TASK_PRIORITY); /* 任务的优先级 */
+	UINT32 taskID;
+	TSK_INIT_PARAM_S stTask = {
+		.pfnTaskEntry = ethernetif_input,
+		.uwStackSize = NETIF_IN_TASK_STACK_SIZE,
+		.pcName = "eth_thread",
+		.usTaskPrio = NETIF_IN_TASK_PRIORITY,
+	};
+	if (LOS_TaskCreate(&taskID, &stTask) != LOS_OK) {
+		printf("eth_thread create failed\r\n");
+	}
 
     /* initialize descriptors list: chain/ring mode */
 #ifdef SELECT_DESCRIPTORS_ENHANCED_MODE
