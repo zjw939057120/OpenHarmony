@@ -1,4 +1,4 @@
-# Copyright (c) 2022 PandaBoard.
+# Copyright (c) 2022 Shenzhen Kaihong Digital Industry Development Co., Ltd.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -15,26 +15,17 @@ import("//kernel/liteos_m/liteos.gni")
 import("$LITEOSTHIRDPARTY/lwip/lwip.gni")
 import("$LITEOSTOPDIR/components/net/lwip-2.1/lwip_porting.gni")
 
-module_switch = defined(LOSCFG_NET_LWIP_SACK)
-module_name = get_path_info(rebase_path("."), "name")
+module_switch = defined(LOSCFG_NET_LWIP)
+module_name = "lwip"
 kernel_module(module_name) {
-  sources = LWIP_PORTING_FILES + LWIPNOAPPSFILES -
-    [ "$LWIPDIR/api/sockets.c" ] + 
-    [
-      "ethernet_init.c",
-      "ethernet_jl5104.c",
-      "ethernetif.c",
-      "ethernet_dhcp.c",
-    ] + LWIPERFFILES
-
-  visibility += [
-    "*",
+  sources = LWIP_PORTING_FILES + LWIPNOAPPSFILES - [ "$LWIPDIR/api/sockets.c" ]
+  sources += [
+    "src/ethernetif.c",
+    "src/gd32f4xx_enet_eval.c",
+    "src/lwip_adapter.c",
   ]
-
 }
-  
+
 config("public") {
-    include_dirs =  [   
-      ".",
-    ] + LWIP_PORTING_INCLUDE_DIRS + LWIP_INCLUDE_DIRS
+  include_dirs = [ "include" ] + LWIP_PORTING_INCLUDE_DIRS + LWIP_INCLUDE_DIRS
 }

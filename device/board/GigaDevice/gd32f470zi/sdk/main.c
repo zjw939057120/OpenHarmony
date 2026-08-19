@@ -17,7 +17,7 @@
 #endif
 
 #if (LOSCFG_ETHERNET_ENABLE == 1)
-#include "ethernet_init.h"
+#include "lwip_adapter.h"
 #endif
 
 int main(void)
@@ -49,8 +49,7 @@ int main(void)
     OHOS_SystemInit();
 
 #if (LOSCFG_ETHERNET_ENABLE == 1)
-    ethernet_init();
-    start_dhcp_handler();
+    enet_adapter_init(NULL);;
 #endif
 
 #if (LOSCFG_USE_SHELL == 1)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 PandaBoard.
+ * Copyright (c) 2022 Shenzhen Kaihong Digital Industry Development Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,15 +13,14 @@
  * limitations under the License.
  */
 
-#ifndef __ETHERNETIF_H__
-#define __ETHERNETIF_H__
-#include "lwip/err.h"
-#include "lwip/netif.h"
+#ifndef GD_PORT_LWIPOPTS_H
+#define GD_PORT_LWIPOPTS_H
 
-/* 网卡初始化函数 */
-err_t ethernetif_init(struct netif *netif);
-/* 数据包输入函数 */
-void ethernetif_input(void *pParams);
+#include_next "lwip/lwipopts.h"
 
-#endif
+#undef ETH_PAD_SIZE
+#define ETH_PAD_SIZE 0
 
+#define LWIP_SOCKET_SELECT_FUNC 1
+
+#endif /* GD_PORT_LWIPOPTS_H */

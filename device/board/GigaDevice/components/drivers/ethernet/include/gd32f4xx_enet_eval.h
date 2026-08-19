@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 PandaBoard.
+ * Copyright (c) 2022 Shenzhen Kaihong Digital Industry Development Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,20 +13,9 @@
  * limitations under the License.
  */
 
-#include "gd32f4xx.h"
-#include "gd32f4xx_enet.h"
-#include "ethernet_init.h"
-#include <stdio.h>
+#ifndef GD32F4XX_ENET_EVAL_H
+#define GD32F4XX_ENET_EVAL_H
 
-/* 获取当前的PHY的连接状态以确认网络的硬件连接，决定是否重新初始化网络 */
-eth_link_t get_phy_link_status(void)
-{
-    ErrStatus reval_state = ERROR;
-    uint16_t phy_value = 0U;
-    reval_state = enet_phy_write_read(ENET_PHY_READ, PHY_ADDRESS, PHY_REG_BSR, &phy_value);
-    if(phy_value & PHY_LINKED_STATUS) {
-        return ETH_LINK_UP;
-    }else {
-        return ETH_LINK_DOWN;
-    }
-}
+void lwip_stack_init(void);
+
+#endif
