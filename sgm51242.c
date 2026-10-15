@@ -20,8 +20,42 @@
 #define SW_RESET_WORD       0x7DAC      /* 软件复位指令 */
 
 //外部参考电压
-#define VREF_EXT 4.6f
+#define VREF_EXT 4.066f
 #define SPI_DEVICE "/dev/spidev4.0"
+
+// ===== 0-10V 输入分压校准 =====
+// 硬件: V_in(0-10V) --[R1]-- INx --[R2]-- GND
+#define DIVIDER_R1     220.0f   // 串联电阻 (KΩ)
+#define DIVIDER_R2     150.0f   // 并联电阻 (KΩ)
+#define V_INPUT_FSR    10.0f    // 输入电压满量程 (V)
+// 理论分压比 = R2 / (R1 + R2)
+#define DIVIDER_RATIO_THEORY  (DIVIDER_R2 / (DIVIDER_R1 + DIVIDER_R2))
+
+// 两点校准结构（生产时实测填入，精度高于单点校准）
+typedef struct {
+    float v_adc_at_0v;    // 输入 0V 时的 ADC 读数（去掉 ADC offset）
+    float v_adc_at_10v;   // 输入 10V 时的 ADC 读数（确定分压比 + gain）
+} divider_calib_t;
+
+// 8 通道独立校准数据（先用占位值，测完后填实际值）
+static const divider_calib_t g_divider_calib[8] = {
+    [0] = {.v_adc_at_0v = 0.000f, .v_adc_at_10v = 4.000f},  // IN0 待测
+    [1] = {.v_adc_at_0v = 0.000f, .v_adc_at_10v = 4.000f},  // IN1 待测
+    [2] = {.v_adc_at_0v = 0.000f, .v_adc_at_10v = 4.000f},  // IN2 待测
+    [3] = {.v_adc_at_0v = 0.000f, .v_adc_at_10v = 4.000f},  // IN3 待测
+    [4] = {.v_adc_at_0v = 0.000f, .v_adc_at_10v = 4.000f},  // IN4 待测
+    [5] = {.v_adc_at_0v = 0.000f, .v_adc_at_10v = 4.000f},  // IN5 待测
+    [6] = {.v_adc_at_0v = 0.000f, .v_adc_at_10v = 4.000f},  // IN6 待测
+    [7] = {.v_adc_at_0v = 0.000f, .v_adc_at_10v = 4.000f},  // IN7 待测
+};
+
+// V_adc → V_in(0-10V) 两点校准（精度高, 消掉电阻精度 + ADC offset）
+// 温度补偿在应用层做, 这里只输出原始校准后的 V_in
+static inline float adc_to_input_calib(float v_adc, const divider_calib_t* cal) {
+    float span = cal->v_adc_at_10v - cal->v_adc_at_0v;
+    if (span < 1e-6f) return 0.0f;  // 防止除零
+    return (v_adc - cal->v_adc_at_0v) / span * V_INPUT_FSR;
+}
 
 int spi_fd = -1;
 uint32_t spi_speed = 100000;
@@ -41,63 +75,28 @@ int gpio_group_count = 7;
 // GPIO数量
 int gpio_count = 3;
 
+/**
+ * @brief 设置GPIO组模式
+ * 
+ * @param group GPIO组指针
+ * 模式1：DI开关信号输入，GPIO配置：011，短接输入：电压为0V，断开输入：电压为：4.13V
+ * 模式2：AI电流信号输入，GPIO配置：101，0mA输入：电压为0V，10mA输入：电压为2.7V，20mA输入：电压为：4.13V
+ * 模式3：UI电压信号输入，GPIO配置：110，0V输入：电压为0V，5V输入：电压为2.7V，10V输入：电压为：4.13V
+ * @param mode 模式，1：输入，2：输出，3：高电平输出
+ * @return int 0：成功，-1：失败
+ */
 int gpio_group_mode(int *group,int mode){
     printf("GPIO=[%d,%d,%d],mode=[%d]\n", group[0], group[1] ,group[2],mode);
     char gpio_cmd[128] = {0};
-    switch (mode) {
-    case 0:{
-        //模式0：全部高电平输出
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[0]);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", mode == 1 ? 0 : 1, group[0]);
         system(gpio_cmd);
         usleep(1000*10);
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[1]);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", mode == 2 ? 0 : 1, group[1]);
         system(gpio_cmd);
         usleep(1000*10);
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[2]);
+        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", mode == 3 ? 0 : 1, group[2]);
         system(gpio_cmd);
         usleep(1000*10);
-    }
-    break;
-    case 1:{
-        //模式1：DI开关信号输入，GPIO配置：011，短接输入：电压为0V，断开输入：电压为：4.13V
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 0, group[0]);
-        system(gpio_cmd);
-        usleep(1000*10);
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[1]);
-        system(gpio_cmd);
-        usleep(1000*10);
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[2]);
-        system(gpio_cmd);
-        usleep(1000*10);
-    }
-    break;
-    case 2:{
-        //模式2：AI电流信号输入，GPIO配置：101，0mA输入：电压为0V，10mA输入：电压为2.7V，20mA输入：电压为：4.13V
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[0]);
-        system(gpio_cmd);
-        usleep(1000*10);
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 0, group[1]);
-        system(gpio_cmd);
-        usleep(1000*10);
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[2]);
-        system(gpio_cmd);
-        usleep(1000*10);
-    }
-    break;
-    case 3:{
-        //模式3：UI电压信号输入，GPIO配置：110，0V输入：电压为0V，5V输入：电压为2.7V，10V输入：电压为：4.13V
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[0]);
-        system(gpio_cmd);
-        usleep(1000*10);
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 1, group[1]);
-        system(gpio_cmd);
-        usleep(1000*10);
-        snprintf(gpio_cmd, sizeof(gpio_cmd), "echo %d > /sys/class/gpio/gpio%d/value", 0, group[2]);
-        system(gpio_cmd);
-        usleep(1000*10);
-    }
-    break;
-    }
     return 0;
 }
 
@@ -115,15 +114,12 @@ int gpio_init(void) {
         system(gpio_cmd);
         usleep(1000*10);
         }
+        //模式1：DI开关信号输入
+        //模式2：AI电流信号输入
+        //模式3：UI电压信号输入
         // 设置GPIO高电平输出
-        gpio_group_mode(gpio_group[i],0);
+        gpio_group_mode(gpio_group[i],3);
     }
-
-    //模式1：DI开关信号输入
-    //模式2：AI电流信号输入
-    //模式3：UI电压信号输入
-    //AI8模式1
-    gpio_group_mode(gpio_group[3],1);
     return 0;
 }
 
@@ -229,31 +225,33 @@ uint16_t adc_read_avg(int samples) {
 
 uint16_t adc_read_one() {
   adc_read();   // 读取一次，避免初始值影响
-  usleep(5000); // 5ms间隔
+  usleep(50000); // 50ms间隔
   return adc_read();
 }
 
 int main(int argc, char *argv[]) {
     if (gpio_init() < 0) return -1;
     if (spi_init() < 0) return -1;
+
     if (argc == 1) {
         // 无参数：扫描全部8通道
         printf("\n============================================\n");
-        printf("  通道   ADC值      电压(V)    状态\n");
+        printf("  通道   ADC值      电压(V)    V_in(0-10V)   状态\n");
         printf("============================================\n");
         while (1) {
-        for (int ch = 0; ch < 8; ch++) {
+        for (int ch = 0; ch < 7; ch++) {
             if (sgm51242_init() < 0) return -1;
             adc_switch_channel(ch);
             uint16_t val = adc_read_one();
             float v = (float)val / 4095.0f * VREF_EXT;
+            float v_in = adc_to_input_calib(v, &g_divider_calib[ch]);
             const char *status = (val < 10) ? "接地/低电平" :
                                  (val > 4085) ? "接近VREF_EXT" : "正常";
-            printf("  IN%d    %4d       %.3f      %s\n", ch, val, v, status);
+            printf("  IN%d    %4d       %.3f       %.3f        %s\n", ch, val, v, v_in, status);
             fflush(stdout);
-            usleep(1000*500);// 500ms间隔
         }
         printf("============================================\n");
+        usleep(1000000);  // 暂停1秒后继续循环
         }
     } else if (argc == 2) {
         if (sgm51242_init() < 0) return -1;
@@ -268,7 +266,8 @@ int main(int argc, char *argv[]) {
         while (1) {
             uint16_t val = adc_read_one();
             float v = (float)val / 4095.0f * VREF_EXT;
-            printf("IN%d: ADC=%4d  电压=%.3fV   \n", ch, val, v);
+            float v_in = adc_to_input_calib(v, &g_divider_calib[ch]);
+            printf("IN%d: ADC=%4d  电压=%.3fV  V_in=%.3fV   \n", ch, val, v, v_in);
             fflush(stdout);
             usleep(200000);
         }
@@ -281,12 +280,12 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < 10; i++) {
             uint16_t val = adc_read();
             float v = (float)val / 4095.0f * VREF_EXT;
-            printf("  RAW=0x%04X  ADC=%4d  V=%.3fV\n", val, val, v);
+            float v_in = adc_to_input_calib(v, &g_divider_calib[ch]);
+            printf("  RAW=0x%04X  ADC=%4d  V=%.3fV  V_in=%.3fV\n", val, val, v, v_in);
             fflush(stdout);
             usleep(100000);
         }
     }
-
     close(spi_fd);
     return 0;
 }
